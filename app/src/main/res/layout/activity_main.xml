@@ -18,7 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#ffbf00"/>
+        android:background="#ffbf00"
+        android:onClick="mapInfoActivityOperation"/>
 
     <TableLayout
         android:layout_width="match_parent"
@@ -36,14 +37,14 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="aInfoActivityOpration"
+                android:onClick="aInfoActivityOperation"
                 android:background="#dfdf11"/>
             <!--행사안내-->
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="bInfoActivityOpration"
+                android:onClick="bInfoActivityOperation"
                 android:background="#34c634"/>
         </TableRow>
 
@@ -56,7 +57,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#0000FF"
-                android:onClick="cInfoActivityOpration"/>
+                android:onClick="cInfoActivityOperation"/>
             
             <!--강의 출석 및 현황-->
             <ImageView
@@ -76,7 +77,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#6200ff"
-                android:onClick="eInfoActivityOpration"/>
+                android:onClick="eInfoActivityOperation"/>
 
             <!--부스위치안내-->
             <ImageView

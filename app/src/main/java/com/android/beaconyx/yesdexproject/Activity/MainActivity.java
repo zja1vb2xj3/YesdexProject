@@ -16,14 +16,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void aInfoActivityOpration(View view){
+    public void mapInfoActivityOperation(View view) {
+        Intent intent = new Intent(this, MapInfoActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        startActivity(intent);
+
+    }
+
+    public void aInfoActivityOperation(View view){
         Intent intent = new Intent(this, AInfoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         startActivity(intent);
     }
 
-    public void bInfoActivityOpration(View view){
+    public void bInfoActivityOperation(View view){
         Intent intent = new Intent(this, BInfoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -32,17 +40,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void cInfoActivityOpration(View view) {
+    public void cInfoActivityOperation(View view) {
         Intent intent = new Intent(this, CInfoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         startActivity(intent);
     }
 
-    public void eInfoActivityOpration(View view) {
+    public void eInfoActivityOperation(View view) {
         Intent intent = new Intent(this, EInfoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         startActivity(intent);
     }
+
 }

@@ -21,7 +21,8 @@
         <activity android:name=".Activity.BInfoActivity" />
         <activity android:name=".Activity.CInfoActivity" />
         <activity android:name=".Activity.DInfoActivity" />
-        <activity android:name=".Activity.EInfoActivity"></activity>
+        <activity android:name=".Activity.EInfoActivity" />
+        <activity android:name=".Activity.MapInfoActivity"></activity>
     </application>
 
 </manifest>
