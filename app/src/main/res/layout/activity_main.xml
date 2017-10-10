@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10"
+    tools:context="com.android.beaconyx.yesdexproject.Activity.MainActivity">
+    <!--메인이미지-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:background="#FF0000"/>
+
+    <!--행사장 지도-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#ffbf00"/>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:weightSum="3">
+
+        <TableRow
+            android:layout_weight="1"
+            android:weightSum="2">
+
+            <!--Yesdex 2017-->
+            <ImageView
+                android:id="@+id/aimage"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="aInfoActivityOpration"
+                android:background="#dfdf11"/>
+            <!--행사안내-->
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="bInfoActivityOpration"
+                android:background="#34c634"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_weight="1"
+            android:weightSum="2">
+            <!--종합학술대회-->
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#0000FF"
+                android:onClick="cInfoActivityOpration"/>
+            
+            <!--강의 출석 및 현황-->
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#51c1ae"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_weight="1"
+            android:weightSum="2">
+            <!--교통 숙박 관광-->
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#6200ff"
+                android:onClick="eInfoActivityOpration"/>
+
+            <!--부스위치안내-->
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#b625aa"/>
+
+        </TableRow>
+
+    </TableLayout>
+
+
+</LinearLayout>
