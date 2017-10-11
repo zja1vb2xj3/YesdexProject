@@ -3,7 +3,7 @@ package com.android.beaconyx.yesdexproject.Activity;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 
 import com.android.beaconyx.yesdexproject.Adapter.PagerAdapter;
 import com.android.beaconyx.yesdexproject.CustomView.CustomViewPager;
@@ -12,7 +12,7 @@ import com.android.beaconyx.yesdexproject.R;
 
 import java.util.ArrayList;
 
-public class CInfoActivity extends AppCompatActivity {
+public class CInfoActivity extends FragmentActivity {
 
     private TabLayout mTabLayout;
 

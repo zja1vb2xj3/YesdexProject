@@ -1,13 +1,13 @@
 package com.android.beaconyx.yesdexproject.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.android.beaconyx.yesdexproject.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +47,17 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void dInfoActivityOperation(View view) {
+        Intent intent = new Intent(this, DInfoActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        startActivity(intent);
+    }
+
     public void eInfoActivityOperation(View view) {
         Intent intent = new Intent(this, EInfoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         startActivity(intent);
     }
-
 }

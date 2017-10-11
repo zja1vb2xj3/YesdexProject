@@ -10,14 +10,14 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_weight="3.5"
         android:background="#FF0000"/>
 
     <!--행사장 지도-->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:background="#ffbf00"
         android:onClick="mapInfoActivityOperation"/>
 
@@ -38,7 +38,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:onClick="aInfoActivityOperation"
-                android:background="#dfdf11"/>
+                android:background="#dfdf11"
+                />
             <!--행사안내-->
             <ImageView
                 android:layout_width="0dp"
@@ -64,7 +65,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#51c1ae"/>
+                android:background="#51c1ae"
+                android:onClick="dInfoActivityOperation"/>
 
         </TableRow>
 

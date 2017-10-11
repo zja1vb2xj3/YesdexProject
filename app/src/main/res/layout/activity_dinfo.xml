@@ -1,9 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.android.beaconyx.yesdexproject.Activity.DInfoActivity">
+    tools:context="com.android.beaconyx.yesdexproject.Activity.DInfoActivity"
+    android:weightSum="10">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text=
+            "제 52회 대한치과의사협회-YESDEX 2017 종합학술대회\n2017.11.10.(금) ~ 2017.11.12.(일) BEXCO"
+        android:textAlignment="center"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textSize="12dp"
+        android:text="성명과 의사면허번호를 입력하신 후 강의 출석 및 현황 확인이 가능합니다."
+        android:textAlignment="center"
+        android:gravity="center"
+        />
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#000000"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:hint="성명"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:hint="면허번호"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#000000"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:text="인증하기"
+        android:textSize="25dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        android:text="사전 등록을 하셨다면 바로 인증이 가능합니다."
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        android:text="사전 등록을 하지 않으셨다면 현장 등록 후 인증하시면 됩니다."
+        android:textAlignment="center"
+        android:gravity="center"
+        />
+
+</LinearLayout>
