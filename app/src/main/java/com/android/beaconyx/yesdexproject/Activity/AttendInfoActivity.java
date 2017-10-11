@@ -1,7 +1,7 @@
 package com.android.beaconyx.yesdexproject.Activity;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.android.beaconyx.yesdexproject.Adapter.HeaderListViewAdapter;
 import com.android.beaconyx.yesdexproject.Model.HeaderListViewModel;
@@ -9,7 +9,7 @@ import com.android.beaconyx.yesdexproject.R;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-public class AttendInfoActivity extends AppCompatActivity {
+public class AttendInfoActivity extends Activity {
 
     private StickyListHeadersListView mLectureInfoListView;
     private HeaderListViewAdapter mHeaderListViewAdapter;

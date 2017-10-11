@@ -1,23 +1,14 @@
 package com.android.beaconyx.yesdexproject.Activity;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
+import android.app.Activity;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
 import com.android.beaconyx.yesdexproject.CustomView.CustomMapView;
 import com.android.beaconyx.yesdexproject.R;
 
-public class MapInfoActivity extends AppCompatActivity {
+public class MapInfoActivity extends Activity {
 
     private Point mDrawScreenPosition;
     private CustomMapView mMapImageView;

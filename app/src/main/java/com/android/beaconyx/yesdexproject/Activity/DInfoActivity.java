@@ -1,11 +1,11 @@
 package com.android.beaconyx.yesdexproject.Activity;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 
 import com.android.beaconyx.yesdexproject.R;
 
-public class DInfoActivity extends AppCompatActivity {
+public class DInfoActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
