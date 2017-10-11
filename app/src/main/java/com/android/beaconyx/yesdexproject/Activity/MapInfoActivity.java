@@ -3,6 +3,7 @@ package com.android.beaconyx.yesdexproject.Activity;
 import android.app.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.android.beaconyx.yesdexproject.CustomView.CustomMapView;
@@ -25,6 +26,8 @@ public class MapInfoActivity extends Activity {
         int width = mMapImageView.getMeasuredWidth();
         int height = mMapImageView.getMeasuredHeight();
 
+        Log.i("width", String.valueOf(width));
+        Log.i("height", String.valueOf(height));
 
     }
 

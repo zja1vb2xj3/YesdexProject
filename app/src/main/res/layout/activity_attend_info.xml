@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.android.beaconyx.yesdexproject.Activity.AttendInfoActivity">
+    tools:context="com.android.beaconyx.yesdexproject.Activity.AttendInfoActivity"
+    android:id="@+id/attend_info_layout">
 
     <se.emilsjolander.stickylistheaders.StickyListHeadersListView
         android:scrollbars="none"

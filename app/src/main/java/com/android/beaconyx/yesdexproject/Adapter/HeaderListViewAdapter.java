@@ -39,7 +39,7 @@ public class HeaderListViewAdapter extends BaseAdapter implements StickyListHead
         if (convertView == null) {
             holder = new HeaderViewHolder();
 
-            convertView = mInflater.inflate(R.layout.header, parent, false);
+            convertView = mInflater.inflate(R.layout.headerlistview_header, parent, false);
 
             holder.sectionText = (TextView) convertView.findViewById(R.id.header);
 
@@ -72,7 +72,7 @@ public class HeaderListViewAdapter extends BaseAdapter implements StickyListHead
 
         if (convertView == null) {
 
-            convertView = mInflater.inflate(R.layout.listview_row, parent, false);
+            convertView = mInflater.inflate(R.layout.headerlistview_row, parent, false);
             holder = new ListViewHolder();
 
             holder.attendStateImageView = (ImageView) convertView.findViewById(R.id.attend_state_image);

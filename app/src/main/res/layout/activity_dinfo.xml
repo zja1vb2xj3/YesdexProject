@@ -37,13 +37,15 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:hint="성명"/>
+        android:hint="성명"
+        android:layout_margin="20dp"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:hint="면허번호"/>
+        android:hint="면허번호"
+        android:layout_margin="20dp"/>
 
     <View
         android:layout_width="match_parent"
@@ -56,7 +58,9 @@
         android:layout_height="0dp"
         android:layout_weight="1.5"
         android:text="인증하기"
-        android:textSize="25dp"/>
+        android:textSize="25dp"
+        android:onClick="authenticationOperation"
+        />
 
     <TextView
         android:layout_width="match_parent"
