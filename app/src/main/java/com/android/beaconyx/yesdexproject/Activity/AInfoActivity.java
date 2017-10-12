@@ -37,9 +37,9 @@ public class AInfoActivity extends FragmentActivity {
     private ArrayList<Fragment> getFragment(){
         ArrayList<Fragment> fragments = new ArrayList<>();
 
-        fragments.add(PageFragment.newInstance(R.drawable.aimage));
+        fragments.add(PageFragment.newInstance("인사말"));
 
-        fragments.add(PageFragment.newInstance(R.drawable.bimage));
+        fragments.add(PageFragment.newInstance("행사개요"));
 
         return fragments;
     }

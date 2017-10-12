@@ -38,9 +38,9 @@ public class CInfoActivity extends FragmentActivity {
     private ArrayList<Fragment> getFragment(){
         ArrayList<Fragment> fragments = new ArrayList<>();
 
-        fragments.add(PageFragment.newInstance(R.drawable.aimage));
-        fragments.add(PageFragment.newInstance(R.drawable.bimage));
-        fragments.add(PageFragment.newInstance(R.drawable.cimage));
+        fragments.add(PageFragment.newInstance("학술프로그램 소개"));
+        fragments.add(PageFragment.newInstance("강연장 안내"));
+        fragments.add(PageFragment.newInstance("강연자 소개"));
 
         return fragments;
     }

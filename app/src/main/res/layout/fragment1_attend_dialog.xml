@@ -3,7 +3,7 @@
     android:id="@+id/beacon_reaction_popup"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e6d929"
+    android:background="#ecbe17"
     android:gravity="center"
     android:orientation="vertical"
     android:weightSum="10">
@@ -11,120 +11,161 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:gravity="center"
+        android:layout_weight="7"
         android:orientation="horizontal"
-        android:weightSum="2">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="11월 12일(일)"
-            android:textAlignment="center" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:text="11:00~12:00" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="특별 강의장"
-            android:textAlignment="center" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:text="(제1전시장(본관) 2층)" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="1">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="장비 구매 없이 적극적으로\n디지털 활용하기"
-            android:textAlignment="center"
-            android:textSize="26dp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        android:layout_margin="10dp">
 
         <ImageView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#FFFFFF" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:gravity="bottom|left"
-            android:text="보스톤스마일치과\n김종엽 원장\nJongyub Kim\nDDS, MS, CAGS, Ph.D" />
+            android:background="@drawable/dialog_img1"/>
 
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
-        android:gravity="center"
         android:orientation="horizontal"
-        android:weightSum="3">
+        android:gravity="center"
+        android:weightSum="2"
+        android:layout_margin="10dp">
 
-        <ImageButton
+        <Button
             android:id="@+id/in_button"
             android:layout_width="0dp"
-            android:layout_height="100dp"
             android:layout_weight="1"
-            android:background="#00FF00"
-            />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="1dp"
+            android:background="@drawable/in_button_img"/>
 
-        <ImageButton
+        <Button
             android:id="@+id/out_button"
             android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:background="#FF0000" />
-
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="1dp"
+            android:background="@drawable/out_button_img"/>
     </LinearLayout>
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="0.5"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:weightSum="2">-->
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="11월 12일(일)"-->
+            <!--android:textAlignment="center" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="left"-->
+            <!--android:text="11:00~12:00" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="0.5"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:weightSum="2">-->
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="특별 강의장"-->
+            <!--android:textAlignment="center" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="left"-->
+            <!--android:text="(제1전시장(본관) 2층)" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="2"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:weightSum="1">-->
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:text="장비 구매 없이 적극적으로\n디지털 활용하기"-->
+            <!--android:textAlignment="center"-->
+            <!--android:textSize="26dp"-->
+            <!--android:textStyle="bold" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="3"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:weightSum="3">-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="#FFFFFF" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="bottom|left"-->
+            <!--android:text="보스톤스마일치과\n김종엽 원장\nJongyub Kim\nDDS, MS, CAGS, Ph.D" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="3"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:weightSum="3">-->
+
+        <!--<ImageButton-->
+            <!--android:id="@+id/in_button"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="#00FF00"-->
+            <!--/>-->
+
+        <!--<ImageButton-->
+            <!--android:id="@+id/out_button"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="#FF0000" />-->
+
+    <!--</LinearLayout>-->
 
 
 

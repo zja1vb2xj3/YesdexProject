@@ -3,10 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <Button
         android:id="@+id/pagerimg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#dfdfdf"
+        android:textAlignment="center"
         />
 
 </LinearLayout>

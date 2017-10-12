@@ -39,10 +39,10 @@ public class EInfoActivity extends FragmentActivity {
     private ArrayList<Fragment> getFragment(){
         ArrayList<Fragment> fragments = new ArrayList<>();
 
-        fragments.add(PageFragment.newInstance(R.drawable.aimage));
-        fragments.add(PageFragment.newInstance(R.drawable.bimage));
-        fragments.add(PageFragment.newInstance(R.drawable.cimage));
-        fragments.add(PageFragment.newInstance(R.drawable.dimage));
+        fragments.add(PageFragment.newInstance("교통 안내"));
+        fragments.add(PageFragment.newInstance("숙박 안내"));
+        fragments.add(PageFragment.newInstance("관광 안내"));
+        fragments.add(PageFragment.newInstance("주변 안내"));
 
         return fragments;
     }

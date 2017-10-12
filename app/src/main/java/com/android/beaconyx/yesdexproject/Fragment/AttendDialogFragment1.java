@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -53,8 +53,8 @@ public class AttendDialogFragment1 extends DialogFragment {
         layout.setMinimumWidth((int) minWidth);
         layout.setMinimumHeight((int) minHeight);
 
-        ImageButton inButton = (ImageButton) dialogView.findViewById(R.id.in_button);
-        ImageButton outButton = (ImageButton) dialogView.findViewById(R.id.out_button);
+        Button inButton = (Button) dialogView.findViewById(R.id.in_button);
+        Button outButton = (Button) dialogView.findViewById(R.id.out_button);
 
         inButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -39,10 +39,10 @@ public class BInfoActivity extends FragmentActivity {
     private ArrayList<Fragment> getFragment(){
         ArrayList<Fragment> fragments = new ArrayList<>();
 
-        fragments.add(PageFragment.newInstance(R.drawable.aimage));
-        fragments.add(PageFragment.newInstance(R.drawable.bimage));
-        fragments.add(PageFragment.newInstance(R.drawable.cimage));
-        fragments.add(PageFragment.newInstance(R.drawable.dimage));
+        fragments.add(PageFragment.newInstance("개막식 / 환영리셉션"));
+        fragments.add(PageFragment.newInstance("버스킹 공연"));
+        fragments.add(PageFragment.newInstance("중식 안내"));
+        fragments.add(PageFragment.newInstance("경품 행사 안내"));
 
         return fragments;
     }

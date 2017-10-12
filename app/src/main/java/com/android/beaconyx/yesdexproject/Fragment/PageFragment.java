@@ -3,14 +3,13 @@ package com.android.beaconyx.yesdexproject.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
 
 import com.android.beaconyx.yesdexproject.R;
-
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by beaconyx on 2017-10-09.
@@ -19,11 +18,12 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 public class PageFragment extends Fragment {
 
 
-    private ImageView mPagerImage;
+    private Button pageFragmentViewItem;
     private int mResId;
+    private String contents;
 
-    public static final PageFragment newInstance(int resId){
-        PageFragment pageFragment = new PageFragment(resId);
+    public static final PageFragment newInstance(String data){
+        PageFragment pageFragment = new PageFragment(data);
 
         return pageFragment;
     }
@@ -32,20 +32,26 @@ public class PageFragment extends Fragment {
         mResId = resId;
     }
 
+    public PageFragment(String data){
+        contents = data;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.pager_fragment, container, false);
-        mPagerImage = (ImageView) view.findViewById(R.id.pagerimg);
-        mPagerImage.setImageResource(mResId);
+        View view = inflater.inflate(R.layout.page_fragment, container, false);
+        pageFragmentViewItem = (Button) view.findViewById(R.id.pagerimg);
+        pageFragmentViewItem.setGravity(Gravity.CENTER);
+        pageFragmentViewItem.setTextSize(30);
+        pageFragmentViewItem.setText(contents);
 
-        try {
-            PhotoViewAttacher attacher = new PhotoViewAttacher(mPagerImage);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+//        try {
+//            PhotoViewAttacher attacher = new PhotoViewAttacher(pageFragmentViewItem);
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
         return view;
     }
 

@@ -4,17 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.android.beaconyx.yesdexproject.Activity.BInfoActivity">
+    tools:context="com.android.beaconyx.yesdexproject.Activity.BInfoActivity"
+    android:weightSum="10">
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
         style="@style/MyCustomTabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <com.android.beaconyx.yesdexproject.CustomView.CustomViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="9"/>
 
 </LinearLayout>
