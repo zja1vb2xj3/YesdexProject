@@ -19,14 +19,19 @@ import com.android.beaconyx.yesdexproject.R;
  * Created by beaconyx on 2017-10-12.
  */
 
-public class AttendDialogFragment1 extends DialogFragment {
+public class AttendDialogFragment2 extends DialogFragment {
+
     private Context context;
     private Point point;
 
-    public static AttendDialogFragment1 newInstance() {
-        AttendDialogFragment1 dialogFragment1 = new AttendDialogFragment1();
+    public static AttendDialogFragment2 newInstance(Point point) {
+        AttendDialogFragment2 dialogFragment2 = new AttendDialogFragment2(point);
 
-        return dialogFragment1;
+        return dialogFragment2;
+    }
+
+    public AttendDialogFragment2(Point point) {
+        this.point = point;
     }
 
 
@@ -39,15 +44,13 @@ public class AttendDialogFragment1 extends DialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        View dialogView = inflater.inflate(R.layout.fragment1_attend_dialog, null, false);
+        View dialogView = inflater.inflate(R.layout.fragment2_attend_dialog, null, false);
         builder.setView(dialogView);
-
-        point = OnMeasureDisplay.onMeasure();
 
         double minWidth = point.x / 1.2;
         double minHeight = point.y / 1.2;
 
-        LinearLayout layout = (LinearLayout) dialogView.findViewById(R.id.beacon_reaction_popup);
+        LinearLayout layout = (LinearLayout) dialogView.findViewById(R.id.beacon_reaction_popup2);
 
         layout.setMinimumWidth((int) minWidth);
         layout.setMinimumHeight((int) minHeight);
@@ -70,21 +73,6 @@ public class AttendDialogFragment1 extends DialogFragment {
         });
 
         return builder.create();
-    }
-
-
-    public AttendDialogFragment1() {
-
-    }
-
-    OnMeasureDisplay OnMeasureDisplay;
-
-    public void setOnMeasureDisplay(OnMeasureDisplay onMeasureDisplay) {
-        this.OnMeasureDisplay = onMeasureDisplay;
-    }
-
-    public interface OnMeasureDisplay{
-        Point onMeasure();
     }
 
 

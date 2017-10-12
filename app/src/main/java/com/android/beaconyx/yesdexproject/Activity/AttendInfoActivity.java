@@ -19,11 +19,6 @@ public class AttendInfoActivity extends FragmentActivity {
     private StickyListHeadersListView mLectureInfoListView;
     private HeaderListViewAdapter mHeaderListViewAdapter;
 
-//    private PopupWindow mPopupWindow;
-//
-//    private int mLayoutWidth;
-//    private int mLayoutHeight;
-
     private AttendDialogFragment1 dialogFragment1;
 
     @Override
@@ -98,27 +93,6 @@ public class AttendInfoActivity extends FragmentActivity {
         }//end onItemClick
     };
 
-//    private void createPopupView() {
-//        View popupView = getLayoutInflater().inflate(R.layout.fragment1_attend_dialog, null);
-//
-//        mPopupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//
-//        mPopupWindow.setFocusable(true);
-//
-//        mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-//        LinearLayout layout = (LinearLayout) popupView.findViewById(R.id.beacon_reaction_popup);
-//
-//        double layoutWidth = mLayoutWidth / 1.2;
-//        double layoutheight = mLayoutHeight / 1.2;
-//
-//        Log.i("double", String.valueOf((int) layoutWidth));
-//        Log.i("double", String.valueOf((int) layoutheight));
-//
-//
-//        layout.setMinimumWidth((int) layoutWidth);
-//        layout.setMinimumHeight((int) layoutheight);
-//
-//    }
 
     private void callDialogFragment1() {
         dialogFragment1.show(getFragmentManager(), "dd");
