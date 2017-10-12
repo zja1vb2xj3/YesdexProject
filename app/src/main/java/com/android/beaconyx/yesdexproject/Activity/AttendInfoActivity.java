@@ -3,15 +3,12 @@ package com.android.beaconyx.yesdexproject.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 
 import com.android.beaconyx.yesdexproject.Adapter.HeaderListViewAdapter;
+import com.android.beaconyx.yesdexproject.Fragment.AttendDialogFragment1;
 import com.android.beaconyx.yesdexproject.Model.HeaderListViewModel;
 import com.android.beaconyx.yesdexproject.R;
 
@@ -22,10 +19,12 @@ public class AttendInfoActivity extends FragmentActivity {
     private StickyListHeadersListView mLectureInfoListView;
     private HeaderListViewAdapter mHeaderListViewAdapter;
 
-    private PopupWindow mPopupWindow;
+//    private PopupWindow mPopupWindow;
+//
+//    private int mLayoutWidth;
+//    private int mLayoutHeight;
 
-    private int mLayoutWidth;
-    private int mLayoutHeight;
+    private AttendDialogFragment1 dialogFragment1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +64,8 @@ public class AttendInfoActivity extends FragmentActivity {
 
         mLectureInfoListView.setOnItemClickListener(onItemClickListener);
 
+        dialogFragment1 = AttendDialogFragment1.newInstance();
+
     }//end onCreate
 
     @Override
@@ -73,63 +74,56 @@ public class AttendInfoActivity extends FragmentActivity {
         measureDisplay();
     }
 
+    Point mSize = new Point();
+
     private void measureDisplay() {
 
         Display display = getWindowManager().getDefaultDisplay();
 
-        Point size = new Point();
-        display.getSize(size);
+        display.getSize(mSize);
 
-        mLayoutWidth = size.x;
-        mLayoutHeight = size.y;
+        dialogFragment1.setOnMeasureDisplay(new AttendDialogFragment1.OnMeasureDisplay() {
+            @Override
+            public Point onMeasure() {
+                return mSize;
+            }
+        });
 
     }
 
     AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            createPopupView();
+            callDialogFragment1();
         }//end onItemClick
     };
 
-    private void createPopupView() {
-        View popupView = getLayoutInflater().inflate(R.layout.activity_in_out_beacon_reaction, null);
-
-        mPopupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-        mPopupWindow.setFocusable(true);
-
-        mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-        LinearLayout layout = (LinearLayout) popupView.findViewById(R.id.beacon_reaction_popup);
-
-        double layoutWidth = mLayoutWidth / 1.2;
-        double layoutheight = mLayoutHeight / 1.2;
-
-        Log.i("double", String.valueOf((int) layoutWidth));
-        Log.i("double", String.valueOf((int) layoutheight));
-
-
-        layout.setMinimumWidth((int) layoutWidth);
-        layout.setMinimumHeight((int) layoutheight);
-
-//        ImageView in = (ImageView) popupView.findViewById(R.id.in_button);
+//    private void createPopupView() {
+//        View popupView = getLayoutInflater().inflate(R.layout.fragment1_attend_dialog, null);
 //
-//        in.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mPopupWindow.dismiss();
-//            }
-//        });
+//        mPopupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 //
-//        ImageView out = (ImageView) popupView.findViewById(R.id.out_button);
+//        mPopupWindow.setFocusable(true);
 //
-//        out.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mPopupWindow.dismiss();
-//            }
-//        });
+//        mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+//        LinearLayout layout = (LinearLayout) popupView.findViewById(R.id.beacon_reaction_popup);
+//
+//        double layoutWidth = mLayoutWidth / 1.2;
+//        double layoutheight = mLayoutHeight / 1.2;
+//
+//        Log.i("double", String.valueOf((int) layoutWidth));
+//        Log.i("double", String.valueOf((int) layoutheight));
+//
+//
+//        layout.setMinimumWidth((int) layoutWidth);
+//        layout.setMinimumHeight((int) layoutheight);
+//
+//    }
+
+    private void callDialogFragment1() {
+        dialogFragment1.show(getFragmentManager(), "dd");
     }
+
 
 
 }

@@ -108,13 +108,15 @@
         android:orientation="horizontal"
         android:weightSum="3">
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/in_button"
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_weight="1"
             android:background="#00FF00" />
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/out_button"
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_marginLeft="10dp"
