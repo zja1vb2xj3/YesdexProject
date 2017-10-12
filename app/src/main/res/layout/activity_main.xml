@@ -7,25 +7,41 @@
     android:weightSum="10"
     tools:context="com.android.beaconyx.yesdexproject.Activity.MainActivity">
     <!--메인이미지-->
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3.5"
-        android:background="@drawable/main_banner"/>
+        android:layout_weight="4"
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <!--행사장 지도-->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.3"
-        android:background="@drawable/main_button_map"
-        android:onClick="mapInfoActivityOperation"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/main_banner" />
+
+    </LinearLayout>
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
-        android:weightSum="3">
+        android:layout_weight="6"
+        android:weightSum="4">
+
+        <TableRow
+            android:layout_weight="1"
+            android:weightSum="1">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="1dp"
+                android:background="@drawable/main_button_map"
+                android:onClick="mapInfoActivityOperation" />
+
+        </TableRow>
 
         <TableRow
             android:layout_weight="1"
@@ -33,22 +49,20 @@
 
             <!--Yesdex 2017-->
             <ImageView
-                android:id="@+id/aimage"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
-                android:onClick="aInfoActivityOperation"
+                android:layout_weight="1"
                 android:background="@drawable/main_button_a"
-                />
+                android:onClick="aInfoActivityOperation" />
             <!--행사안내-->
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
-                android:onClick="bInfoActivityOperation"
-                android:background="@drawable/main_button_b"/>
+                android:layout_weight="1"
+                android:background="@drawable/main_button_b"
+                android:onClick="bInfoActivityOperation" />
         </TableRow>
 
         <TableRow
@@ -58,19 +72,19 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
+                android:layout_weight="1"
                 android:background="@drawable/main_button_c"
-                android:onClick="cInfoActivityOperation"/>
-            
+                android:onClick="cInfoActivityOperation" />
+
             <!--강의 출석 및 현황-->
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
+                android:layout_weight="1"
                 android:background="@drawable/main_button_d"
-                android:onClick="dInfoActivityOperation"/>
+                android:onClick="dInfoActivityOperation" />
 
         </TableRow>
 
@@ -81,19 +95,18 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
+                android:layout_weight="1"
                 android:background="@drawable/main_button_e"
-                android:onClick="eInfoActivityOperation"/>
+                android:onClick="eInfoActivityOperation" />
 
             <!--부스위치안내-->
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
-                android:background="@drawable/main_button_e"
-                />
+                android:layout_weight="1"
+                android:background="@drawable/main_button_e" />
 
         </TableRow>
 

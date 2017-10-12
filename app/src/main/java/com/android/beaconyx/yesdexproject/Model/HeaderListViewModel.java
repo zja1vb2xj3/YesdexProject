@@ -13,6 +13,25 @@ public class HeaderListViewModel {
     private int mHeaderid;
     private String mHeader;
 
+    private int demoEduImage;
+    private int demoStateImage;
+
+    public int getDemoStateImage() {
+        return demoStateImage;
+    }
+
+    public void setDemoStateImage(int demoStateImage) {
+        this.demoStateImage = demoStateImage;
+    }
+
+    public int getDemoEduImage() {
+        return demoEduImage;
+    }
+
+    public void setDemoEduImage(int demoEduImage) {
+        this.demoEduImage = demoEduImage;
+    }
+
     public String getmHeader() {
         return mHeader;
     }

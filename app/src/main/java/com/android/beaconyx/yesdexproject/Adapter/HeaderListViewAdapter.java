@@ -51,6 +51,7 @@ public class HeaderListViewAdapter extends BaseAdapter implements StickyListHead
         String headerText = mHeaderListModels.get(position).getmHeader();
         holder.sectionText.setText(headerText);
 
+
         return convertView;
     }
 
@@ -104,6 +105,19 @@ public class HeaderListViewAdapter extends BaseAdapter implements StickyListHead
             String educatorTitle = model.getmEducatorTitle();
             holder.educatorTitleView.setText(educatorTitle);
         }
+
+        //데모용
+        if(mHeaderListModels.get(position).getDemoEduImage() != 0){
+            int resid = model.getDemoEduImage();
+            holder.educatorImageView.setImageResource(resid);
+        }
+
+        if(mHeaderListModels.get(position).getDemoStateImage() != 0){
+            int resid = model.getDemoStateImage();
+            holder.attendStateImageView.setImageResource(resid);
+        }
+
+
 
         return convertView;
     }
