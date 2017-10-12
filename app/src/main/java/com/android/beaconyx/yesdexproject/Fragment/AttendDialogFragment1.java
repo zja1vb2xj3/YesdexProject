@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -35,7 +36,7 @@ public class AttendDialogFragment1 extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         context = getActivity();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
@@ -58,7 +59,7 @@ public class AttendDialogFragment1 extends DialogFragment {
         inButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "In", Toast.LENGTH_SHORT).show();
+                onDialog1CancelListener.onCancel(getDialog());
             }
         });
 
@@ -72,19 +73,26 @@ public class AttendDialogFragment1 extends DialogFragment {
         return builder.create();
     }
 
+    private DialogInterface.OnCancelListener onDialog1CancelListener;
 
-    public AttendDialogFragment1() {
 
+    public void setOnDialogFragment1CancelListener(DialogInterface.OnCancelListener onCancelListener) {
+        this.onDialog1CancelListener = onCancelListener;
     }
 
-    OnMeasureDisplay OnMeasureDisplay;
+
+    private OnMeasureDisplay OnMeasureDisplay;
 
     public void setOnMeasureDisplay(OnMeasureDisplay onMeasureDisplay) {
         this.OnMeasureDisplay = onMeasureDisplay;
     }
 
-    public interface OnMeasureDisplay{
+    public interface OnMeasureDisplay {
         Point onMeasure();
+    }
+
+    public AttendDialogFragment1() {
+
     }
 
 

@@ -1,5 +1,6 @@
 package com.android.beaconyx.yesdexproject.Activity;
 
+import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -9,6 +10,7 @@ import android.widget.AdapterView;
 
 import com.android.beaconyx.yesdexproject.Adapter.HeaderListViewAdapter;
 import com.android.beaconyx.yesdexproject.Fragment.AttendDialogFragment1;
+import com.android.beaconyx.yesdexproject.Fragment.AttendDialogFragment2;
 import com.android.beaconyx.yesdexproject.Model.HeaderListViewModel;
 import com.android.beaconyx.yesdexproject.R;
 
@@ -19,7 +21,9 @@ public class AttendInfoActivity extends FragmentActivity {
     private StickyListHeadersListView mLectureInfoListView;
     private HeaderListViewAdapter mHeaderListViewAdapter;
 
-    private AttendDialogFragment1 dialogFragment1;
+    private AttendDialogFragment1 mDialogFragment1;
+    private AttendDialogFragment2 mDialogFragment2;
+    Point mSize = new Point();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,8 @@ public class AttendInfoActivity extends FragmentActivity {
 
         mLectureInfoListView.setOnItemClickListener(onItemClickListener);
 
-        dialogFragment1 = AttendDialogFragment1.newInstance();
+        mDialogFragment1 = AttendDialogFragment1.newInstance();
+        mDialogFragment2 = AttendDialogFragment2.newInstance();
 
     }//end onCreate
 
@@ -69,15 +74,13 @@ public class AttendInfoActivity extends FragmentActivity {
         measureDisplay();
     }
 
-    Point mSize = new Point();
-
     private void measureDisplay() {
 
         Display display = getWindowManager().getDefaultDisplay();
 
         display.getSize(mSize);
 
-        dialogFragment1.setOnMeasureDisplay(new AttendDialogFragment1.OnMeasureDisplay() {
+        mDialogFragment1.setOnMeasureDisplay(new AttendDialogFragment1.OnMeasureDisplay() {
             @Override
             public Point onMeasure() {
                 return mSize;
@@ -93,9 +96,28 @@ public class AttendInfoActivity extends FragmentActivity {
         }//end onItemClick
     };
 
-
     private void callDialogFragment1() {
-        dialogFragment1.show(getFragmentManager(), "dd");
+        mDialogFragment1.show(getFragmentManager(), "fragment1");
+
+        mDialogFragment1.setOnDialogFragment1CancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                dialogInterface.cancel();
+                callDialogFragment2();
+            }
+        });
+    }
+
+    private void callDialogFragment2(){
+        mDialogFragment2.setPoint(mSize);
+        mDialogFragment2.show(getFragmentManager(), "fragment2");
+
+        mDialogFragment2.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                dialogInterface.cancel();
+            }
+        });
     }
 
 

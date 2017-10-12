@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,8 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
+import com.android.beaconyx.yesdexproject.Activity.PDFViewerActivity;
 import com.android.beaconyx.yesdexproject.R;
 
 /**
@@ -24,14 +26,17 @@ public class AttendDialogFragment2 extends DialogFragment {
     private Context context;
     private Point point;
 
-    public static AttendDialogFragment2 newInstance(Point point) {
-        AttendDialogFragment2 dialogFragment2 = new AttendDialogFragment2(point);
+    public static AttendDialogFragment2 newInstance() {
+        AttendDialogFragment2 dialogFragment2 = new AttendDialogFragment2();
 
         return dialogFragment2;
     }
 
-    public AttendDialogFragment2(Point point) {
+    public void setPoint(Point point) {
         this.point = point;
+    }
+
+    public AttendDialogFragment2() {
     }
 
 
@@ -40,7 +45,7 @@ public class AttendDialogFragment2 extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         context = getActivity();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
@@ -55,25 +60,28 @@ public class AttendDialogFragment2 extends DialogFragment {
         layout.setMinimumWidth((int) minWidth);
         layout.setMinimumHeight((int) minHeight);
 
-        ImageButton inButton = (ImageButton) dialogView.findViewById(R.id.in_button);
-        ImageButton outButton = (ImageButton) dialogView.findViewById(R.id.out_button);
+        ImageButton pdfViewerButton = (ImageButton) dialogView.findViewById(R.id.pdf_viewer_button);
 
-        inButton.setOnClickListener(new View.OnClickListener() {
+        pdfViewerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "In", Toast.LENGTH_SHORT).show();
-            }
-        });
+                onDialogCancelListener.onCancel(getDialog());
 
-        outButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "Out", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), PDFViewerActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                startActivity(intent);
             }
         });
 
         return builder.create();
     }
 
+    private DialogInterface.OnCancelListener onDialogCancelListener;
+
+
+    public void setOnCancelListener(DialogInterface.OnCancelListener onCancelListener) {
+        this.onDialogCancelListener = onCancelListener;
+    }
 
 }

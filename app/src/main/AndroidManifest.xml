@@ -24,6 +24,7 @@
         <activity android:name=".Activity.EInfoActivity" />
         <activity android:name=".Activity.MapInfoActivity" />
         <activity android:name=".Activity.AttendInfoActivity" />
+        <activity android:name=".Activity.PDFViewerActivity"></activity>
     </application>
 
 </manifest>
