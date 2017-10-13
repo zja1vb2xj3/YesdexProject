@@ -61,20 +61,27 @@ public class AttendInfoActivity extends FragmentActivity implements BootstrapNot
 
     }//end onCreate
 
+    /**
+     * 비콘 설정
+     */
     private void beaconInit() {
 
-        mBeaconManager = BeaconManager.getInstanceForApplication(this);
-        mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
         mRegion = new Region("myRangingUniqueId", Identifier.parse("a0fabefc-b1f5-4836-8328-7c5412fff9c4"), Identifier.parse("51"), null);
+        mBeaconManager = BeaconManager.getInstanceForApplication(this);
 
         mBeaconManager.setAndroidLScanningDisabled(true);
         mBeaconManager.setBackgroundBetweenScanPeriod(1000);
         mBeaconManager.setForegroundBetweenScanPeriod(1000);
+        mBeaconManager = BeaconManager.getInstanceForApplication(this);
+        mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
 
         mBeaconManager.bind(this);
 
     }
 
+    /**
+     * 비콘 Thread Handler
+     */
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -94,6 +101,9 @@ public class AttendInfoActivity extends FragmentActivity implements BootstrapNot
     };
 
 
+    /**
+     * 비콘 Thread
+     */
     @Override
     public void onBeaconServiceConnect() {
         mBeaconManager.setRangeNotifier(new RangeNotifier() {
@@ -128,7 +138,9 @@ public class AttendInfoActivity extends FragmentActivity implements BootstrapNot
 
     }
 
-
+    /**
+     * 비콘 Thread start
+     */
     public void startBeaconMonitor() {
         try {
             mBeaconManager.startRangingBeaconsInRegion(mRegion);
@@ -139,6 +151,9 @@ public class AttendInfoActivity extends FragmentActivity implements BootstrapNot
 
     }
 
+    /**
+     * 비콘 Thread stop
+     */
     public void stopBeaconMonitor() {
         try {
             mBeaconManager.stopRangingBeaconsInRegion(mRegion);
@@ -146,10 +161,6 @@ public class AttendInfoActivity extends FragmentActivity implements BootstrapNot
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-    }
-
-    public void unbind() {
-        mBeaconManager.unbind(this);
     }
 
 
@@ -167,9 +178,10 @@ public class AttendInfoActivity extends FragmentActivity implements BootstrapNot
     public void didDetermineStateForRegion(int i, Region region) {
 
     }
-    //
 
-
+    /**
+     * Title View 초기설정
+     */
     private void titleInit() {
         View topView = findViewById(R.id.top);
 
@@ -186,6 +198,9 @@ public class AttendInfoActivity extends FragmentActivity implements BootstrapNot
         });
     }
 
+    /**
+     * View Item 초기설정
+     */
     private void initView() {
 
         mLectureInfoListView = (StickyListHeadersListView) findViewById(R.id.lecture_info_list);
@@ -247,8 +262,15 @@ public class AttendInfoActivity extends FragmentActivity implements BootstrapNot
     protected void onResume() {
         super.onResume();
         Log.i(ACTIVITY_NAME, "onResume");
-
         measureDisplay();
+        beaconInit();
+        startBeaconThread();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mBeaconManager.unbind(this);
     }
 
 
@@ -256,6 +278,9 @@ public class AttendInfoActivity extends FragmentActivity implements BootstrapNot
     protected void onRestart() {
         super.onRestart();
         Log.i(ACTIVITY_NAME, "onRestart");
+        measureDisplay();
+        beaconInit();
+        startBeaconThread();
     }
 
     private void startBeaconThread() {
@@ -264,8 +289,8 @@ public class AttendInfoActivity extends FragmentActivity implements BootstrapNot
     }
 
     /*
-         * 디바이스 width height 측정
-         */
+     * 디바이스 width height 측정
+     */
     private void measureDisplay() {
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -279,7 +304,6 @@ public class AttendInfoActivity extends FragmentActivity implements BootstrapNot
                 return mSize;
             }
         });
-
     }
 
     /**

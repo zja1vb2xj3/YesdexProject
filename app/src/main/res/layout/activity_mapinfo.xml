@@ -17,8 +17,20 @@
         android:id="@+id/map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        />
+        android:layout_marginTop="50dp" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="left">
+
+        <ImageView
+            android:layout_margin="5dp"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:background="#000000"/>
+
+    </FrameLayout>
 
 </FrameLayout>
