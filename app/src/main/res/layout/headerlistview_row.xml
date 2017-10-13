@@ -6,26 +6,26 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_gravity="right"
-        android:id="@+id/attend_state_image"/>
+        android:layout_gravity="right|top"
+        android:id="@+id/attend_state_image"
+        android:layout_margin="5dp"/>
 
     <LinearLayout
         android:id="@+id/attend_info_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_margin="5dp">
 
         <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="3">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
 
             <ImageView
                 android:id="@+id/educator_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 />
 
         </FrameLayout>
@@ -34,9 +34,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_margin="5dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp">
 
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/educator_name"

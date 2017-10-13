@@ -9,7 +9,7 @@
         android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="sdfsdf"
+        android:text="null"
         android:textStyle="bold"
         android:textSize="17sp"
         android:textColor="#000000"

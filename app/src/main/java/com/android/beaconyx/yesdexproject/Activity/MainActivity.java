@@ -60,4 +60,11 @@ public class MainActivity extends Activity {
 
         startActivity(intent);
     }
+
+    public void fInfoActivityOperation(View view) {
+        Intent intent = new Intent(this, FInfoActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        startActivity(intent);
+    }
 }

@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.android.beaconyx.yesdexproject.R;
 
@@ -60,17 +59,32 @@ public class AttendDialogFragment1 extends DialogFragment {
             @Override
             public void onClick(View view) {
                 onDialog1CancelListener.onCancel(getDialog());
+                callDialogFragment2();
             }
         });
 
         outButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "Out", Toast.LENGTH_SHORT).show();
+                onDialog1CancelListener.onCancel(getDialog());
             }
         });
 
         return builder.create();
+    }
+    private AttendDialogFragment2 mDialogFragment2 = AttendDialogFragment2.newInstance();
+
+    private void callDialogFragment2() {
+
+        mDialogFragment2.setPoint(point);
+        mDialogFragment2.show(getFragmentManager(), "fragment2");
+
+        mDialogFragment2.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                dialogInterface.cancel();
+            }
+        });
     }
 
     private DialogInterface.OnCancelListener onDialog1CancelListener;

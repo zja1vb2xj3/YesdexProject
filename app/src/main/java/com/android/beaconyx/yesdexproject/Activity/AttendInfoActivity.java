@@ -3,42 +3,190 @@ package com.android.beaconyx.yesdexproject.Activity;
 import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.RemoteException;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.beaconyx.yesdexproject.Adapter.HeaderListViewAdapter;
 import com.android.beaconyx.yesdexproject.Fragment.AttendDialogFragment1;
-import com.android.beaconyx.yesdexproject.Fragment.AttendDialogFragment2;
 import com.android.beaconyx.yesdexproject.Model.HeaderListViewModel;
 import com.android.beaconyx.yesdexproject.R;
 
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.BeaconConsumer;
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.Identifier;
+import org.altbeacon.beacon.RangeNotifier;
+import org.altbeacon.beacon.Region;
+import org.altbeacon.beacon.startup.BootstrapNotifier;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-public class AttendInfoActivity extends FragmentActivity {
+public class AttendInfoActivity extends FragmentActivity implements BootstrapNotifier, BeaconConsumer {
 
     private StickyListHeadersListView mLectureInfoListView;
     private HeaderListViewAdapter mHeaderListViewAdapter;
 
-    private AttendDialogFragment1 mDialogFragment1;
-    private AttendDialogFragment2 mDialogFragment2;
-    Point mSize = new Point();
+    private AttendDialogFragment1 mDialogFragment1 = AttendDialogFragment1.newInstance();
+
+    private Point mSize = new Point();
+
+    private BeaconManager mBeaconManager;
+    private Region mRegion;
+    private boolean fragment1CallSign = false;
+
+    private final String ACTIVITY_NAME = "AttendInfoActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attend_info);
 
+        titleInit();
+
         initView();
 
-
-        mDialogFragment1 = AttendDialogFragment1.newInstance();
-        mDialogFragment2 = AttendDialogFragment2.newInstance();
+        beaconInit();
 
     }//end onCreate
 
-    private void initView(){
+    private void beaconInit() {
+
+        mBeaconManager = BeaconManager.getInstanceForApplication(this);
+        mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
+        mRegion = new Region("myRangingUniqueId", Identifier.parse("a0fabefc-b1f5-4836-8328-7c5412fff9c4"), Identifier.parse("51"), null);
+
+        mBeaconManager.setAndroidLScanningDisabled(true);
+        mBeaconManager.setBackgroundBetweenScanPeriod(1000);
+        mBeaconManager.setForegroundBetweenScanPeriod(1000);
+
+        mBeaconManager.bind(this);
+
+    }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            int value = msg.what;
+            switch (value) {
+                case 0:
+                    startBeaconMonitor();
+                    break;
+
+                case 1:
+                    stopBeaconMonitor();
+                    break;
+            }
+
+        }
+    };
+
+
+    @Override
+    public void onBeaconServiceConnect() {
+        mBeaconManager.setRangeNotifier(new RangeNotifier() {
+            @Override
+            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                if (beacons.size() != 0) {
+
+                    Log.i("Beacon Service : ", "find beacon");
+
+                    int beaconSize = beacons.size();
+                    Log.i("BeaconSize", String.valueOf(beaconSize));
+
+                    ArrayList<Beacon> beaconList = new ArrayList<Beacon>(beacons);
+
+                    int rssi = beaconList.get(0).getRssi();
+
+                    Log.i("Rssi", String.valueOf(rssi));
+
+                    if (fragment1CallSign == false) {
+                        handler.sendEmptyMessageDelayed(1, 1000);
+                        callDialogFragment1();
+                        fragment1CallSign = true;
+                    }
+
+                }//end if beacons size != 0
+
+                else
+                    Log.i("Beacon Service : ", "beacon not find");
+
+            }
+        });
+
+    }
+
+
+    public void startBeaconMonitor() {
+        try {
+            mBeaconManager.startRangingBeaconsInRegion(mRegion);
+
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void stopBeaconMonitor() {
+        try {
+            mBeaconManager.stopRangingBeaconsInRegion(mRegion);
+
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void unbind() {
+        mBeaconManager.unbind(this);
+    }
+
+
+    @Override
+    public void didEnterRegion(Region region) {
+
+    }
+
+    @Override
+    public void didExitRegion(Region region) {
+
+    }
+
+    @Override
+    public void didDetermineStateForRegion(int i, Region region) {
+
+    }
+    //
+
+
+    private void titleInit() {
+        View topView = findViewById(R.id.top);
+
+        TextView title = (TextView) topView.findViewById(R.id.title);
+
+        title.setText(getResources().getString(R.string.attend_info_activity_title));
+
+        ImageView back = (ImageView) topView.findViewById(R.id.top_title_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+
+    private void initView() {
 
         mLectureInfoListView = (StickyListHeadersListView) findViewById(R.id.lecture_info_list);
         mHeaderListViewAdapter = new HeaderListViewAdapter(getApplicationContext());
@@ -98,15 +246,33 @@ public class AttendInfoActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i(ACTIVITY_NAME, "onResume");
+
         measureDisplay();
     }
 
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i(ACTIVITY_NAME, "onRestart");
+    }
+
+    private void startBeaconThread() {
+        fragment1CallSign = false;
+        handler.sendEmptyMessageDelayed(0, 2000);
+    }
+
+    /*
+         * 디바이스 width height 측정
+         */
     private void measureDisplay() {
 
         Display display = getWindowManager().getDefaultDisplay();
 
         display.getSize(mSize);
 
+        // 측정된 데이터 Fragment에 전달
         mDialogFragment1.setOnMeasureDisplay(new AttendDialogFragment1.OnMeasureDisplay() {
             @Override
             public Point onMeasure() {
@@ -116,10 +282,13 @@ public class AttendInfoActivity extends FragmentActivity {
 
     }
 
+    /**
+     * mLectureInfoListView onItemClickListener
+     */
     AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            callDialogFragment1();
+
         }//end onItemClick
     };
 
@@ -130,23 +299,10 @@ public class AttendInfoActivity extends FragmentActivity {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
                 dialogInterface.cancel();
-                callDialogFragment2();
+                fragment1CallSign = false;
+                handler.sendEmptyMessageDelayed(0, 2000);
             }
         });
     }
-
-    private void callDialogFragment2(){
-        mDialogFragment2.setPoint(mSize);
-        mDialogFragment2.show(getFragmentManager(), "fragment2");
-
-        mDialogFragment2.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialogInterface) {
-                dialogInterface.cancel();
-            }
-        });
-    }
-
-
 
 }

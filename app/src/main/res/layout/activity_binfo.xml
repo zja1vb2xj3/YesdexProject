@@ -7,6 +7,13 @@
     tools:context="com.android.beaconyx.yesdexproject.Activity.BInfoActivity"
     android:weightSum="10">
 
+    <include
+        android:id="@+id/top"
+        layout="@layout/top_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
         style="@style/MyCustomTabLayout"

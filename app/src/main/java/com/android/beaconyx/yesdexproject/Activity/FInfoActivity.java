@@ -8,22 +8,22 @@ import android.widget.TextView;
 
 import com.android.beaconyx.yesdexproject.R;
 
-public class PDFViewerActivity extends Activity {
+public class FInfoActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pdfviewer);
+        setContentView(R.layout.activity_finfo);
 
         titleInit();
     }
 
-    private void titleInit() {
+    private void titleInit(){
         View topView = findViewById(R.id.top);
 
         TextView title = (TextView) topView.findViewById(R.id.title);
 
-        title.setText(getResources().getString(R.string.pdf_viewer_activity_title));
+        title.setText(getResources().getString(R.string.f_info_activity_title));
 
         ImageView back = (ImageView) topView.findViewById(R.id.top_title_back);
         back.setOnClickListener(new View.OnClickListener() {

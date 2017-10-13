@@ -7,6 +7,13 @@
     tools:context="com.android.beaconyx.yesdexproject.Activity.DInfoActivity"
     android:weightSum="10">
 
+    <include
+        android:id="@+id/top"
+        layout="@layout/top_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"

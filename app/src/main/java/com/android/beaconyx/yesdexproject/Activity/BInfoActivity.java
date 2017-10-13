@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.beaconyx.yesdexproject.Adapter.PagerAdapter;
 import com.android.beaconyx.yesdexproject.CustomView.CustomViewPager;
@@ -21,8 +24,25 @@ public class BInfoActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_binfo);
 
+        titleInit();
         bInfoInit();
     }
+    private void titleInit(){
+        View topView = findViewById(R.id.top);
+
+        TextView title = (TextView) topView.findViewById(R.id.title);
+
+        title.setText(getResources().getString(R.string.b_info_activity_title));
+
+        ImageView back = (ImageView) topView.findViewById(R.id.top_title_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+
 
     private void bInfoInit(){
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);

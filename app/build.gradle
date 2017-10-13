@@ -24,12 +24,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     //image zoom
     //use tabLayout
-
     //Header Listview
-
     //AutofitTextView
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -38,7 +35,9 @@ dependencies {
     compile 'se.emilsjolander:stickylistheaders:2.5.2'
     compile 'me.grantland:autofittextview:0.2.+'
     testCompile 'junit:junit:4.12'
+    compile project(':android-beacon-library-2.3')
 }
+
 
 
 

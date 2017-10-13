@@ -7,6 +7,13 @@
     tools:context="com.android.beaconyx.yesdexproject.Activity.AttendInfoActivity"
     android:id="@+id/attend_info_layout">
 
+    <include
+        android:id="@+id/top"
+        layout="@layout/top_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
     <se.emilsjolander.stickylistheaders.StickyListHeadersListView
         android:scrollbars="none"
         android:id="@+id/lecture_info_list"

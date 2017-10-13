@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.android.beaconyx.yesdexproject.Activity.MapInfoActivity">
 
+    <include
+        android:id="@+id/top"
+        layout="@layout/top_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
     <com.android.beaconyx.yesdexproject.CustomView.CustomMapView
-        android:id="@+id/mapImage"
+        android:id="@+id/map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
         />
 
-</LinearLayout>
+
+</FrameLayout>

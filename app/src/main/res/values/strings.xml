@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">YesdexProject</string>
+
+    <string name="map_info_activity_title">행사장 지도</string>
+
+    <string name="a_info_activity_title">YESDEX 2017</string>
+
+    <string name="b_info_activity_title">행사 안내</string>
+
+    <string name="c_info_activity_title">종합학술대회</string>
+
+    <string name="d_info_activity_title">강의 출석 인증</string>
+
+    <string name="e_info_activity_title">교통숙박</string>
+
+    <string name="f_info_activity_title">부스위치 안내</string>
+
+    <string name="attend_info_activity_title">강의 출석 및 현황</string>
+
+    <string name="pdf_viewer_activity_title">강의 초록 보기</string>
 </resources>
