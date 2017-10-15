@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.beaconyx.yesdexproject.Adapter.HeaderListViewAdapter;
+import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.Fragment.AttendDialogFragment1;
 import com.android.beaconyx.yesdexproject.Model.HeaderListViewModel;
 import com.android.beaconyx.yesdexproject.R;
@@ -22,8 +23,6 @@ import com.android.beaconyx.yesdexproject.R;
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
-import org.altbeacon.beacon.BeaconParser;
-import org.altbeacon.beacon.Identifier;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
@@ -33,7 +32,7 @@ import java.util.Collection;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-public class AttendInfoActivity extends FragmentActivity implements BootstrapNotifier, BeaconConsumer {
+public class AttendInfoActivity extends FragmentActivity {
 
     private StickyListHeadersListView mLectureInfoListView;
     private HeaderListViewAdapter mHeaderListViewAdapter;
@@ -42,14 +41,15 @@ public class AttendInfoActivity extends FragmentActivity implements BootstrapNot
 
     private Point mSize = new Point();
 
-    private BeaconManager mBeaconManager;
-    private Region mRegion;
     private boolean fragment1CallSign = false;
 
     private final String ACTIVITY_NAME = "AttendInfoActivity";
 
+    private ThisApplication mThisApplication = ThisApplication.newInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(ACTIVITY_NAME, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attend_info);
 
@@ -57,126 +57,50 @@ public class AttendInfoActivity extends FragmentActivity implements BootstrapNot
 
         initView();
 
-        beaconInit();
-
     }//end onCreate
 
-    /**
-     * 비콘 설정
-     */
-    private void beaconInit() {
 
-        mRegion = new Region("myRangingUniqueId", Identifier.parse("a0fabefc-b1f5-4836-8328-7c5412fff9c4"), Identifier.parse("51"), null);
-        mBeaconManager = BeaconManager.getInstanceForApplication(this);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(ACTIVITY_NAME, "onResume");
 
-        mBeaconManager.setAndroidLScanningDisabled(true);
-        mBeaconManager.setBackgroundBetweenScanPeriod(1000);
-        mBeaconManager.setForegroundBetweenScanPeriod(1000);
-        mBeaconManager = BeaconManager.getInstanceForApplication(this);
-        mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
+        mThisApplication.isAttendActivityComplete = true;// AttendActivity 실행신호
 
-        mBeaconManager.bind(this);
+
+        if (fragment1CallSign != true) {//fragmentCallSign이 true시만 beaconThread 작동
+            measureDisplay();
+
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(ACTIVITY_NAME, "onPause");
 
     }
 
+
     /**
-     * 비콘 Thread Handler
+     * mLectureInfoListView onItemClickListener
      */
-    Handler handler = new Handler() {
+    AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            int value = msg.what;
-            switch (value) {
-                case 0:
-                    startBeaconMonitor();
-                    break;
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                case 1:
-                    stopBeaconMonitor();
-                    break;
-            }
-
-        }
+        }//end onItemClick
     };
 
+    private void callDialogFragment1() {
+        mDialogFragment1.show(getFragmentManager(), "fragment1");
 
-    /**
-     * 비콘 Thread
-     */
-    @Override
-    public void onBeaconServiceConnect() {
-        mBeaconManager.setRangeNotifier(new RangeNotifier() {
+        mDialogFragment1.setOnDialogFragment1CancelListener(new DialogInterface.OnCancelListener() {
             @Override
-            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-                if (beacons.size() != 0) {
-
-                    Log.i("Beacon Service : ", "find beacon");
-
-                    int beaconSize = beacons.size();
-                    Log.i("BeaconSize", String.valueOf(beaconSize));
-
-                    ArrayList<Beacon> beaconList = new ArrayList<Beacon>(beacons);
-
-                    int rssi = beaconList.get(0).getRssi();
-
-                    Log.i("Rssi", String.valueOf(rssi));
-
-                    if (fragment1CallSign == false) {
-                        handler.sendEmptyMessageDelayed(1, 1000);
-                        callDialogFragment1();
-                        fragment1CallSign = true;
-                    }
-
-                }//end if beacons size != 0
-
-                else
-                    Log.i("Beacon Service : ", "beacon not find");
-
+            public void onCancel(DialogInterface dialogInterface) {
+                dialogInterface.cancel();
             }
         });
-
-    }
-
-    /**
-     * 비콘 Thread start
-     */
-    public void startBeaconMonitor() {
-        try {
-            mBeaconManager.startRangingBeaconsInRegion(mRegion);
-
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    /**
-     * 비콘 Thread stop
-     */
-    public void stopBeaconMonitor() {
-        try {
-            mBeaconManager.stopRangingBeaconsInRegion(mRegion);
-
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    @Override
-    public void didEnterRegion(Region region) {
-
-    }
-
-    @Override
-    public void didExitRegion(Region region) {
-
-    }
-
-    @Override
-    public void didDetermineStateForRegion(int i, Region region) {
-
     }
 
     /**
@@ -256,39 +180,9 @@ public class AttendInfoActivity extends FragmentActivity implements BootstrapNot
 
         mLectureInfoListView.setOnItemClickListener(onItemClickListener);
 
-    }
+    }//end initView
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i(ACTIVITY_NAME, "onResume");
-        measureDisplay();
-        beaconInit();
-        startBeaconThread();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mBeaconManager.unbind(this);
-    }
-
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.i(ACTIVITY_NAME, "onRestart");
-        measureDisplay();
-        beaconInit();
-        startBeaconThread();
-    }
-
-    private void startBeaconThread() {
-        fragment1CallSign = false;
-        handler.sendEmptyMessageDelayed(0, 2000);
-    }
-
-    /*
+    /**
      * 디바이스 width height 측정
      */
     private void measureDisplay() {
@@ -306,27 +200,5 @@ public class AttendInfoActivity extends FragmentActivity implements BootstrapNot
         });
     }
 
-    /**
-     * mLectureInfoListView onItemClickListener
-     */
-    AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        }//end onItemClick
-    };
-
-    private void callDialogFragment1() {
-        mDialogFragment1.show(getFragmentManager(), "fragment1");
-
-        mDialogFragment1.setOnDialogFragment1CancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialogInterface) {
-                dialogInterface.cancel();
-                fragment1CallSign = false;
-                handler.sendEmptyMessageDelayed(0, 2000);
-            }
-        });
-    }
-
-}
+}//end Activity class
