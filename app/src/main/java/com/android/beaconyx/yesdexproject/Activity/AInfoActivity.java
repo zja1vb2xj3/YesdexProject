@@ -14,7 +14,7 @@ import com.android.beaconyx.yesdexproject.Fragment.PageFragment;
 import com.android.beaconyx.yesdexproject.R;
 
 import java.util.ArrayList;
-
+//
 public class AInfoActivity extends FragmentActivity {
 
     private TabLayout mTabLayout ;

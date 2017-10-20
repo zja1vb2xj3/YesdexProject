@@ -3,7 +3,6 @@ package com.android.beaconyx.yesdexproject.Fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -13,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.R;
 
 /**
@@ -20,11 +20,13 @@ import com.android.beaconyx.yesdexproject.R;
  */
 
 public class AttendDialogFragment1 extends DialogFragment {
-    private Context context;
-    private Point point;
+    private static AttendDialogFragment1 dialogFragment1;
+    private Point point = new Point();
+    private ThisApplication mThisApplication;
+    private AlertDialog.Builder builder;
 
     public static AttendDialogFragment1 newInstance() {
-        AttendDialogFragment1 dialogFragment1 = new AttendDialogFragment1();
+        dialogFragment1 = new AttendDialogFragment1();
 
         return dialogFragment1;
     }
@@ -33,16 +35,16 @@ public class AttendDialogFragment1 extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        context = getActivity();
+        mThisApplication = (ThisApplication) getActivity().getApplicationContext();
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         View dialogView = inflater.inflate(R.layout.fragment1_attend_dialog, null, false);
         builder.setView(dialogView);
 
-        point = OnMeasureDisplay.onMeasure();
+        point = mThisApplication.getDisplaySize();
 
         double minWidth = point.x / 1.2;
         double minHeight = point.y / 1.2;
@@ -58,6 +60,7 @@ public class AttendDialogFragment1 extends DialogFragment {
         inButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mThisApplication.setFragmentDialog1Sign(false);
                 onDialog1CancelListener.onCancel(getDialog());
                 callDialogFragment2();
             }
@@ -70,8 +73,22 @@ public class AttendDialogFragment1 extends DialogFragment {
             }
         });
 
+//        builder.setOnKeyListener(onKeyListener);
+
         return builder.create();
     }
+
+//    DialogInterface.OnKeyListener onKeyListener = new DialogInterface.OnKeyListener() {
+//        @Override
+//        public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+//            Toast.makeText(getActivity(), "back버튼 클릭", Toast.LENGTH_SHORT).show();
+//            dialogFragment1.onDialog1CancelListener.onCancel(getDialog());
+//
+//            return true;
+//        }
+//    };
+
+
     private AttendDialogFragment2 mDialogFragment2 = AttendDialogFragment2.newInstance();
 
     private void callDialogFragment2() {

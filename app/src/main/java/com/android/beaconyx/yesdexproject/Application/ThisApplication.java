@@ -1,10 +1,19 @@
 package com.android.beaconyx.yesdexproject.Application;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Point;
 import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Display;
+
+import com.android.beaconyx.yesdexproject.Fragment.AttendDialogFragment1;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -15,42 +24,94 @@ import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by user on 2017-10-15.
  */
 
 public class ThisApplication extends Application implements BeaconConsumer, BootstrapNotifier {
-    private static ThisApplication thisApplication;
     private BeaconManager mBeaconManager;
     private Region mRegion;
+    private AttendDialogFragment1 mDialogFragment1 = AttendDialogFragment1.newInstance();
 
     private final String CLASSNAME = "ThisApplication";
 
-    public static boolean isAttendActivityComplete = false;
+    private Point mDisplaySize;
 
-    public static ThisApplication newInstance() {
-        if (thisApplication == null) {
-            thisApplication = new ThisApplication();
-        }
+    private boolean mIsAttendActivityComplete = false;
+    private boolean mFragmentDialog1Sign = true;
 
-        return thisApplication;
+    private ActivityManager mActivityManager;
+    private FragmentActivity mMotionFragmentActivity = null;
+
+    public ThisApplication() {
+
+    }
+
+    public void setFragmentDialog1Sign(boolean mFragmentDialog1Sign) {
+        this.mFragmentDialog1Sign = mFragmentDialog1Sign;
+    }
+
+    public void setIsAttendActivityComplete(boolean mIsAttendActivityComplete) {
+        this.mIsAttendActivityComplete = mIsAttendActivityComplete;
     }
 
 
+    public void setMotionFragmentActivity(FragmentActivity mMotionActivity) {
+        this.mMotionFragmentActivity = mMotionActivity;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
         beaconInit();
         Log.i(CLASSNAME, "onCreate");
-        Log.i("isAttendActivity", String.valueOf(isAttendActivityComplete));
-
-
+        Log.i("isAttendActivity", String.valueOf(mIsAttendActivityComplete));
+        mActivityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         startBeaconThread();
     }
+
+    private void callDialogFragment1() {
+        if (mMotionFragmentActivity != null) {
+            mMotionFragmentActivity.getFragmentManager().beginTransaction().remove(mDialogFragment1).commit();
+            mDialogFragment1.show(mMotionFragmentActivity.getFragmentManager(), "fragment1");
+        }
+
+
+        mDialogFragment1.setOnDialogFragment1CancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                dialogInterface.cancel();
+            }
+        });
+    }
+
+
+    public Point getDisplaySize() {
+        return mDisplaySize;
+    }
+
+    /**
+     * 디바이스 width height 측정
+     */
+    public void measureDisplay(Activity activity) {
+        if (mMotionFragmentActivity != null) {
+            mDisplaySize = new Point();
+
+            Display display = activity.getWindowManager().getDefaultDisplay();
+
+            display.getSize(mDisplaySize);
+            Log.i("measureDisplay width", String.valueOf(mDisplaySize.x));
+            Log.i("measureDisplay height", String.valueOf(mDisplaySize.y));
+
+
+        } else {
+            Log.i("measureDisplay", "null");
+        }
+    }
+
 
     /**
      * 최초 한번 mBeaconManager 객체, mRegion 객체 생성 및 초기설정
@@ -59,8 +120,8 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
         mRegion = new Region("myRangingUniqueId", Identifier.parse("a0fabefc-b1f5-4836-8328-7c5412fff9c4"), Identifier.parse("51"), null);
         mBeaconManager = BeaconManager.getInstanceForApplication(this);
         mBeaconManager.setAndroidLScanningDisabled(true);
-        mBeaconManager.setBackgroundBetweenScanPeriod(1000);
-        mBeaconManager.setForegroundBetweenScanPeriod(1000);
+        mBeaconManager.setBackgroundBetweenScanPeriod(4000);
+        mBeaconManager.setForegroundBetweenScanPeriod(4000);
         mBeaconManager = BeaconManager.getInstanceForApplication(this);
         mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
 
@@ -77,32 +138,40 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
         mBeaconManager.setRangeNotifier(new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-                if (beacons.size() != 0) {
 
-                    if(isAttendActivityComplete == true){//AttendActivity가 실행됫을시
-                        Log.i("Beacon Service : ", "find beacon");
+                List<ActivityManager.RunningTaskInfo> mActivityList = mActivityManager.getRunningTasks(1);
 
-                        int beaconSize = beacons.size();
-                        Log.i("BeaconSize", String.valueOf(beaconSize));
+                String motionActivityName = mActivityList.get(0).topActivity.toString();
+                Log.i("activityName", String.valueOf(motionActivityName));
 
-                        ArrayList<Beacon> beaconList = new ArrayList<Beacon>(beacons);
-
-                        int rssi = beaconList.get(0).getRssi();
-
-                        Log.i("Rssi", String.valueOf(rssi));
+                if (mIsAttendActivityComplete == true) {//AttendActivity가 실행됫을시
+                    if (mFragmentDialog1Sign == true) {
+                        callDialogFragment1();
                     }
+                }
+
+//                if (beacons.size() != 0) {
+//
+//                    Log.i("Beacon Service : ", "find beacon");
+//
+//                    int beaconSize = beacons.size();
+//                    Log.i("BeaconSize", String.valueOf(beaconSize));
+//
+//                    ArrayList<Beacon> beaconList = new ArrayList<Beacon>(beacons);
+//
+//                    int rssi = beaconList.get(0).getRssi();
+//
+//                    Log.i("Rssi", String.valueOf(rssi));
+//
+//                    Log.i("AttendActivityState", String.valueOf(mIsAttendActivityComplete));
+//
+//                    Log.i("FragmentDialog1Sign", String.valueOf(mFragmentDialog1Sign));
 
 
-//                    if (fragment1CallSign == false) {
-//                        handler.sendEmptyMessageDelayed(1, 1000);
-//                        callDialogFragment1();
-//                        fragment1CallSign = true;
-//                    }
+//                }//end if beacons size != 0
 
-                }//end if beacons size != 0
-
-                else
-                    Log.i("Beacon Service : ", "beacon not find");
+//                else
+//                    Log.i("Beacon Service : ", "beacon not find");
 
             }//end didRangeBeaconsInRegion
         });//setRangeNotifier

@@ -1,34 +1,19 @@
 package com.android.beaconyx.yesdexproject.Activity;
 
-import android.content.DialogInterface;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.os.RemoteException;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.Display;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.beaconyx.yesdexproject.Adapter.HeaderListViewAdapter;
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
-import com.android.beaconyx.yesdexproject.Fragment.AttendDialogFragment1;
 import com.android.beaconyx.yesdexproject.Model.HeaderListViewModel;
 import com.android.beaconyx.yesdexproject.R;
-
-import org.altbeacon.beacon.Beacon;
-import org.altbeacon.beacon.BeaconConsumer;
-import org.altbeacon.beacon.BeaconManager;
-import org.altbeacon.beacon.RangeNotifier;
-import org.altbeacon.beacon.Region;
-import org.altbeacon.beacon.startup.BootstrapNotifier;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -37,15 +22,9 @@ public class AttendInfoActivity extends FragmentActivity {
     private StickyListHeadersListView mLectureInfoListView;
     private HeaderListViewAdapter mHeaderListViewAdapter;
 
-    private AttendDialogFragment1 mDialogFragment1 = AttendDialogFragment1.newInstance();
-
-    private Point mSize = new Point();
-
-    private boolean fragment1CallSign = false;
-
     private final String ACTIVITY_NAME = "AttendInfoActivity";
 
-    private ThisApplication mThisApplication = ThisApplication.newInstance();
+    private ThisApplication mThisApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,30 +36,45 @@ public class AttendInfoActivity extends FragmentActivity {
 
         initView();
 
+        mThisApplication = (ThisApplication) this.getApplicationContext();
+
+
     }//end onCreate
 
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                Toast.makeText(getApplicationContext(), "backKey인식", Toast.LENGTH_SHORT).show();
+
+                break;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.i(ACTIVITY_NAME, "onResume");
-
-        mThisApplication.isAttendActivityComplete = true;// AttendActivity 실행신호
-
-
-        if (fragment1CallSign != true) {//fragmentCallSign이 true시만 beaconThread 작동
-            measureDisplay();
-
-        }
+        mThisApplication.setIsAttendActivityComplete(true); // AttendActivity 실행신호
+        mThisApplication.setMotionFragmentActivity(this);
+        mThisApplication.measureDisplay(this);
+        mThisApplication.setFragmentDialog1Sign(true);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Log.i(ACTIVITY_NAME, "onPause");
-
+        mThisApplication.setIsAttendActivityComplete(false);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mThisApplication.setIsAttendActivityComplete(false);
+    }
 
     /**
      * mLectureInfoListView onItemClickListener
@@ -92,16 +86,6 @@ public class AttendInfoActivity extends FragmentActivity {
         }//end onItemClick
     };
 
-    private void callDialogFragment1() {
-        mDialogFragment1.show(getFragmentManager(), "fragment1");
-
-        mDialogFragment1.setOnDialogFragment1CancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialogInterface) {
-                dialogInterface.cancel();
-            }
-        });
-    }
 
     /**
      * Title View 초기설정
@@ -181,24 +165,6 @@ public class AttendInfoActivity extends FragmentActivity {
         mLectureInfoListView.setOnItemClickListener(onItemClickListener);
 
     }//end initView
-
-    /**
-     * 디바이스 width height 측정
-     */
-    private void measureDisplay() {
-
-        Display display = getWindowManager().getDefaultDisplay();
-
-        display.getSize(mSize);
-
-        // 측정된 데이터 Fragment에 전달
-        mDialogFragment1.setOnMeasureDisplay(new AttendDialogFragment1.OnMeasureDisplay() {
-            @Override
-            public Point onMeasure() {
-                return mSize;
-            }
-        });
-    }
 
 
 }//end Activity class

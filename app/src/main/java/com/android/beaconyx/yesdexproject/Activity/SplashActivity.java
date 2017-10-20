@@ -9,6 +9,7 @@ import com.android.beaconyx.yesdexproject.R;
 
 public class SplashActivity extends Activity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +27,7 @@ public class SplashActivity extends Activity {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
             }
-        },500);
+        }, 500);
     }
 
 

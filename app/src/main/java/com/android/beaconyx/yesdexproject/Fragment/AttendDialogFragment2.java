@@ -9,12 +9,15 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.android.beaconyx.yesdexproject.Activity.PDFViewerActivity;
+import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.R;
 
 /**
@@ -23,11 +26,13 @@ import com.android.beaconyx.yesdexproject.R;
 
 public class AttendDialogFragment2 extends DialogFragment {
 
+    private static AttendDialogFragment2 dialogFragment2;
     private Context context;
-    private Point point;
+    private Point point = new Point();
+    private ThisApplication mThisApplication;
 
     public static AttendDialogFragment2 newInstance() {
-        AttendDialogFragment2 dialogFragment2 = new AttendDialogFragment2();
+        dialogFragment2 = new AttendDialogFragment2();
 
         return dialogFragment2;
     }
@@ -44,6 +49,8 @@ public class AttendDialogFragment2 extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         context = getActivity();
+
+        mThisApplication = (ThisApplication) getActivity().getApplicationContext();
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
@@ -65,7 +72,7 @@ public class AttendDialogFragment2 extends DialogFragment {
         pdfViewerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onDialogCancelListener.onCancel(getDialog());
+                onDialog2CancelListener.onCancel(getDialog());
 
                 Intent intent = new Intent(getActivity(), PDFViewerActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -74,14 +81,27 @@ public class AttendDialogFragment2 extends DialogFragment {
             }
         });
 
-        return builder.create();
-    }
+        builder.setOnKeyListener(onKeyListener);
 
-    private DialogInterface.OnCancelListener onDialogCancelListener;
+        return builder.create();
+    }//end onCreateDialog
+
+    DialogInterface.OnKeyListener onKeyListener = new DialogInterface.OnKeyListener() {
+        @Override
+        public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+            Toast.makeText(getActivity(), "back버튼 클릭", Toast.LENGTH_SHORT).show();
+            dialogFragment2.onDialog2CancelListener.onCancel(getDialog());
+            mThisApplication.setFragmentDialog1Sign(true);
+
+            return true;
+        }
+    };
+
+    private DialogInterface.OnCancelListener onDialog2CancelListener;
 
 
     public void setOnCancelListener(DialogInterface.OnCancelListener onCancelListener) {
-        this.onDialogCancelListener = onCancelListener;
+        this.onDialog2CancelListener = onCancelListener;
     }
 
 }
