@@ -10,8 +10,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
 import android.support.v4.app.FragmentActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 
 import com.android.beaconyx.yesdexproject.Fragment.AttendDialogFragment1;
 
@@ -46,22 +46,7 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
     private ActivityManager mActivityManager;
     private FragmentActivity mMotionFragmentActivity = null;
 
-    public ThisApplication() {
-
-    }
-
-    public void setFragmentDialog1Sign(boolean mFragmentDialog1Sign) {
-        this.mFragmentDialog1Sign = mFragmentDialog1Sign;
-    }
-
-    public void setIsAttendActivityComplete(boolean mIsAttendActivityComplete) {
-        this.mIsAttendActivityComplete = mIsAttendActivityComplete;
-    }
-
-
-    public void setMotionFragmentActivity(FragmentActivity mMotionActivity) {
-        this.mMotionFragmentActivity = mMotionActivity;
-    }
+    private boolean mIsMapInfoActivityComplete = false;
 
     @Override
     public void onCreate() {
@@ -99,9 +84,13 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
     public Point measureDisplay(Activity activity) {
         if (activity != null) {
 
-            Display display = activity.getWindowManager().getDefaultDisplay();
+            DisplayMetrics metrics = new DisplayMetrics();
+            activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-            display.getSize(mDisplaySize);
+            int width = metrics.widthPixels;
+            int height = metrics.heightPixels;
+
+            mDisplaySize.set(width, height);
             Log.i("measureDisplay width", String.valueOf(mDisplaySize.x));
             Log.i("measureDisplay height", String.valueOf(mDisplaySize.y));
 
@@ -236,5 +225,21 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
     @Override
     public void didDetermineStateForRegion(int i, Region region) {
 
+    }
+
+    public void setIsMapInfoActivity(boolean mIsMapInfoActivity) {
+        this.mIsMapInfoActivityComplete = mIsMapInfoActivity;
+    }
+
+    public void setFragmentDialog1Sign(boolean mFragmentDialog1Sign) {
+        this.mFragmentDialog1Sign = mFragmentDialog1Sign;
+    }
+
+    public void setIsAttendActivityComplete(boolean mIsAttendActivityComplete) {
+        this.mIsAttendActivityComplete = mIsAttendActivityComplete;
+    }
+
+    public void setMotionFragmentActivity(FragmentActivity mMotionActivity) {
+        this.mMotionFragmentActivity = mMotionActivity;
     }
 }

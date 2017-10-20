@@ -6,10 +6,12 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.R;
@@ -57,22 +59,50 @@ public class MapInfoActivity extends Activity {
         zoomView.setLayoutParams(layoutParams);
         zoomView.addView(mapView);
         zoomView.setMaxZoom(4f);
-
+        zoomView.setOnTouchListener(onTouchListener);
         LinearLayout container = (LinearLayout) findViewById(R.id.container);
         container.addView(zoomView);
 
     }
 
+    //    mMapPinList = new ArrayList();
+//
+//        mMapPinList.add(new MapPin(mMapWidth / 2, mMapHeight / 2, 1));
+//
+//        mMapView.setPins(mMapPinList);
+    private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            Toast.makeText(getApplicationContext(), String.valueOf(motionEvent.getAction()), Toast.LENGTH_SHORT).show();
+
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+
+                    break;
+
+                case MotionEvent.ACTION_UP:
+                    Log.i("motionEvent", "up");
+                    break;
+            }
+
+            return false;
+        }
+    };
 
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.i(ACTIVITY_NAME, "onResume");
-//        mThisApplication.setIsAttendActivityComplete(true); // AttendActivity 실행신호
-
+        mThisApplication.setIsMapInfoActivity(true); // AttendActivity 실행신호
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(ACTIVITY_NAME, "onPause");
+        mThisApplication.setIsMapInfoActivity(false); // AttendActivity 실행신호
+    }
 
     private void mapViewInit(View view) {
         mMapView = (MapView) view.findViewById(R.id.mapview);
@@ -81,9 +111,9 @@ public class MapInfoActivity extends Activity {
 
         mMapPinList = new ArrayList();
 
-        mMapPinList.add(new MapPin(mMapWidth / 2, mMapHeight / 2, 1));
-
-        mMapView.setPins(mMapPinList);
+//        mMapPinList.add(new DtoPin(mMapWidth / 2, mMapHeight / 2, 1));
+//
+//        mMapView.setPins(mMapPinList);
 
 
     }
@@ -100,6 +130,15 @@ public class MapInfoActivity extends Activity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+    }
+
+    private void drawAllMarker(final ArrayList<DtoPin> pins){
+        runOnUiThread(new Runnable(){
+            @Override
+            public void run() {
+
             }
         });
     }

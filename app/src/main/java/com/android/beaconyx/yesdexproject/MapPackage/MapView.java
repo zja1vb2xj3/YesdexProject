@@ -6,16 +6,17 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
-import com.android.beaconyx.yesdexproject.R;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by beaconyx on 2017-10-13.
@@ -23,12 +24,16 @@ import java.util.ArrayList;
 
 public class MapView extends SubsamplingScaleImageView {
 
-    private PointF sPin;
+    private ArrayList<DtoPin> mDtoPinList = new ArrayList<>();
+    private HashMap<String, DtoPin> mDtoPinHashMap = new HashMap<>();
+    private ArrayList<Bitmap> mPinIconList = new ArrayList<>();
+    private int mOriginImageWidth = 0;
+    private int mOriginImageHeight = 0;
+    private HashMap<String, Rect> mRectList = new HashMap<String, Rect>();
 
-    ArrayList<MapPin> mapPins;
-    ArrayList<DrawPin> drawnPins;
-    Context mContext;
+    private Context mContext;
     String tag = getClass().getSimpleName();
+
 
     public MapView(Context context) {
         this(context, null);
@@ -38,25 +43,39 @@ public class MapView extends SubsamplingScaleImageView {
     public MapView(Context context, AttributeSet attr) {
         super(context, attr);
         this.mContext = context;
-        init();
+
     }
 
-    public void setPins(ArrayList<MapPin> mapPins) {
-        this.mapPins = mapPins;
+    private void initialise() {
+        if (mDtoPinList != null) {
+            for (int i = 0; i < mDtoPinList.size(); i++) {
+                if (mDtoPinList.get(i).getNotifyNoResID() != 0 && mDtoPinList.get(i).getNotifyYesResID() != 0) {
 
-        invalidate();
+                    float density = getResources().getDisplayMetrics().densityDpi;
+                    Bitmap bitmap = null;
+                    if (mDtoPinList.get(i).getNotify() == true) {
+                        bitmap = BitmapFactory.decodeResource(this.getResources(), mDtoPinList.get(i).getNotifyYesResID());
+                    } else {
+                        bitmap = BitmapFactory.decodeResource(this.getResources(), mDtoPinList.get(i).getNotifyNoResID());
+                    }
+
+                    float w = (density / 420f) * bitmap.getWidth();
+                    float h = (density / 420f) * bitmap.getHeight();
+                    if (w < 50) {
+                        w = 50;
+                    }
+                    if (h < 50) {
+                        h = 50;
+                    }
+                    bitmap = Bitmap.createScaledBitmap(bitmap, (int) w, (int) h, true);
+                    mPinIconList.add(bitmap);
+                }
+            }
+        }
     }
 
-    public void setPin(PointF pin) {
-        this.sPin = pin;
-    }
 
-    public PointF getPin() {
-        return sPin;
-    }
 
-    private void init() {
-    }
 
     @Override
     public void setOnTouchListener(OnTouchListener l) {
@@ -68,60 +87,57 @@ public class MapView extends SubsamplingScaleImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
+        Log.i("MapView", "onDraw");
         // Don't draw pin before image is ready so it doesn't move around during       setup.
         if (!isReady()) {
             return;
         }
 
-        drawnPins = new ArrayList<>();
 
         Paint paint = new Paint();
         paint.setAntiAlias(true);
-        float density = getResources().getDisplayMetrics().densityDpi;
+
+        if (mPinIconList != null && mDtoPinList != null) {
+            for (int i = 0; i < mPinIconList.size(); i++) {
+                if (mDtoPinList.get(i).getPointF() != null) {
+
+                    int pinViewWidth = this.getSWidth();
+                    int pinViewHeight = this.getSHeight();
+
+                    Log.d("TEST11", "swidth : " + pinViewWidth + ",  sheight : " + pinViewHeight);
+
+                    double rescaleWidth = pinViewWidth / (double) mOriginImageWidth;
+                    double rescaleHeight = pinViewHeight / (double) mOriginImageHeight;
+
+                    PointF pointf = mDtoPinList.get(i).getPointF();
+                    float xx = (float) (pointf.x * rescaleWidth);
+                    float yy = (float) (pointf.y * rescaleHeight);
 
 
-        for (int i = 0; i < mapPins.size(); i++) {
-            MapPin mPin = mapPins.get(i);
-            //Bitmap bmpPin = Utils.getBitmapFromAsset(context, mPin.getPinImgSrc());
-            Bitmap bmpPin = BitmapFactory.decodeResource(this.getResources(), R.drawable.off_img);
-
-            float w = (density / 600) * bmpPin.getWidth();
-            float h = (density / 600) * bmpPin.getHeight();
-            bmpPin = Bitmap.createScaledBitmap(bmpPin, (int) w, (int) h, true);
-
-            PointF vPin = sourceToViewCoord(mPin.getPoint());
-            //in my case value of point are at center point of pin image, so we need to adjust it here
-
-            float vX = vPin.x - (bmpPin.getWidth() / 2);
-            float vY = vPin.y - bmpPin.getHeight();
+                    PointF vPin = sourceToViewCoord(new PointF(xx, yy));
 
 
-            canvas.drawBitmap(bmpPin, vX, vY, paint);
+                    float vX = (vPin.x - (mPinIconList.get(i).getWidth() / 2));
+                    float vY = (vPin.y - mPinIconList.get(i).getHeight());
 
-            //add added pin to an Array list to get touched pin
-            DrawPin dPin = new DrawPin();
-            dPin.setStartX(mPin.getX() - w / 2);
-            dPin.setEndX(mPin.getX() + w / 2);
-            dPin.setStartY(mPin.getY() - h / 2);
-            dPin.setEndY(mPin.getY() + h / 2);
-            dPin.setId(mPin.getId());
-            drawnPins.add(dPin);
-        }
-    }
+                    Rect rect = new Rect();
 
-    public int getPinIdByPoint(PointF point) {
+                    //좀더 빡빡하지 않게
+                    rect.set(
+                            (int) (vX - (mPinIconList.get(i).getWidth() / 1.2)),
+                            (int) (vY - (mPinIconList.get(i).getHeight() / 1.2)),
+                            (int) (vX + (mPinIconList.get(i).getWidth() / 1.2)),
+                            (int) (vY + (mPinIconList.get(i).getHeight() / 1.2))
+                    );
 
-        for (int i = drawnPins.size() - 1; i >= 0; i--) {
-            DrawPin dPin = drawnPins.get(i);
-            if (point.x >= dPin.getStartX() && point.x <= dPin.getEndX()) {
-                if (point.y >= dPin.getStartY() && point.y <= dPin.getEndY()) {
-                    return dPin.getId();
+                    mRectList.put(mDtoPinList.get(i).getMajor() + "-" + mDtoPinList.get(i).getMinor(), rect);
+                    canvas.drawBitmap(mPinIconList.get(i), vX, vY, paint);
+
                 }
             }
         }
-        return -1; //negative no means no pin selected
     }
+
 
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent event) {
@@ -131,6 +147,7 @@ public class MapView extends SubsamplingScaleImageView {
 
         return false;
     }
+
 
 
 }
