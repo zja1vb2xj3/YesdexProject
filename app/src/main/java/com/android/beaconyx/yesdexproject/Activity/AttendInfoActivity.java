@@ -59,7 +59,6 @@ public class AttendInfoActivity extends FragmentActivity {
         Log.i(ACTIVITY_NAME, "onResume");
         mThisApplication.setIsAttendActivityComplete(true); // AttendActivity 실행신호
         mThisApplication.setMotionFragmentActivity(this);
-        mThisApplication.measureDisplay(this);
         mThisApplication.setFragmentDialog1Sign(true);
     }
 

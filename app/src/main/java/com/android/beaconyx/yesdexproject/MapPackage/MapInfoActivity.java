@@ -1,46 +1,94 @@
 package com.android.beaconyx.yesdexproject.MapPackage;
 
 import android.app.Activity;
-import android.graphics.BitmapFactory;
+import android.content.Context;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.R;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 
 import java.util.ArrayList;
 
+import pl.polidea.view.ZoomView;
+
 public class MapInfoActivity extends Activity {
 
     private MapView mMapView;
-    private ArrayList mapPinList;
+    private ArrayList mMapPinList;
+
+    private final String ACTIVITY_NAME = "MapInfoActivity";
+    private ThisApplication mThisApplication;
+
+    private Point mDisplaySize;
+
+    private int mMapWidth;
+    private int mMapHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapinfo);
 
-        mapInit();
+        mThisApplication = (ThisApplication) this.getApplicationContext();
+
+        mMapWidth = (int) (mThisApplication.getDisplaySize().x / 1.1);
+        mMapHeight = (int) (mThisApplication.getDisplaySize().y / 1.1);
+
         titleInit();
+
+        View mapView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.map, null, false);
+
+        Log.i("mMapWidth", String.valueOf(mMapWidth));
+        Log.i("mMapHeight", String.valueOf(mMapHeight));
+
+        mapViewInit(mapView);
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(mMapWidth, mMapHeight);
+
+        ZoomView zoomView = new ZoomView(this);
+        zoomView.setLayoutParams(layoutParams);
+        zoomView.addView(mapView);
+        zoomView.setMaxZoom(4f);
+
+        LinearLayout container = (LinearLayout) findViewById(R.id.container);
+        container.addView(zoomView);
+
     }
 
-    private void mapInit(){
-        mMapView = (MapView) findViewById(R.id.map_view);
 
-        mMapView.setImage(ImageSource.bitmap(BitmapFactory.decodeResource(getResources(), R.drawable.map_sample_img)));
 
-        mapPinList = new ArrayList();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(ACTIVITY_NAME, "onResume");
+//        mThisApplication.setIsAttendActivityComplete(true); // AttendActivity 실행신호
 
-        mapPinList.add(new MapPin(200, 600, 1));
-        mapPinList.add(new MapPin(300, 600, 2));
-        mapPinList.add(new MapPin(400, 600, 3));
-
-        mMapView.setPins(mapPinList);
     }
 
-    private void titleInit(){
+
+    private void mapViewInit(View view) {
+        mMapView = (MapView) view.findViewById(R.id.mapview);
+
+        mMapView.setImage(ImageSource.resource(R.drawable.map_sample_img));
+
+        mMapPinList = new ArrayList();
+
+        mMapPinList.add(new MapPin(mMapWidth / 2, mMapHeight / 2, 1));
+
+        mMapView.setPins(mMapPinList);
+
+
+    }
+
+    private void titleInit() {
         View topView = findViewById(R.id.top);
 
         TextView title = (TextView) topView.findViewById(R.id.title);
@@ -55,8 +103,6 @@ public class MapInfoActivity extends Activity {
             }
         });
     }
-
-
 
 
 }

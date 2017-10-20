@@ -38,7 +38,7 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
 
     private final String CLASSNAME = "ThisApplication";
 
-    private Point mDisplaySize;
+    private Point mDisplaySize = new Point();
 
     private boolean mIsAttendActivityComplete = false;
     private boolean mFragmentDialog1Sign = true;
@@ -96,9 +96,8 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
     /**
      * 디바이스 width height 측정
      */
-    public void measureDisplay(Activity activity) {
-        if (mMotionFragmentActivity != null) {
-            mDisplaySize = new Point();
+    public Point measureDisplay(Activity activity) {
+        if (activity != null) {
 
             Display display = activity.getWindowManager().getDefaultDisplay();
 
@@ -110,6 +109,8 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
         } else {
             Log.i("measureDisplay", "null");
         }
+
+        return mDisplaySize;
     }
 
 

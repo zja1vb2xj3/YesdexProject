@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 import com.android.beaconyx.yesdexproject.R;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
@@ -26,23 +27,23 @@ public class MapView extends SubsamplingScaleImageView {
 
     ArrayList<MapPin> mapPins;
     ArrayList<DrawPin> drawnPins;
-    Context context;
+    Context mContext;
     String tag = getClass().getSimpleName();
 
     public MapView(Context context) {
         this(context, null);
-        this.context = context;
+        this.mContext = context;
     }
 
     public MapView(Context context, AttributeSet attr) {
         super(context, attr);
-        this.context = context;
-        initialise();
+        this.mContext = context;
+        init();
     }
 
     public void setPins(ArrayList<MapPin> mapPins) {
         this.mapPins = mapPins;
-        initialise();
+
         invalidate();
     }
 
@@ -54,8 +55,14 @@ public class MapView extends SubsamplingScaleImageView {
         return sPin;
     }
 
-    private void initialise() {
+    private void init() {
+    }
 
+    @Override
+    public void setOnTouchListener(OnTouchListener l) {
+
+        Toast.makeText(mContext, "hi", Toast.LENGTH_SHORT).show();
+        super.setOnTouchListener(l);
     }
 
     @Override
@@ -124,4 +131,6 @@ public class MapView extends SubsamplingScaleImageView {
 
         return false;
     }
+
+
 }

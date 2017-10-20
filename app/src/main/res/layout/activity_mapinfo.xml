@@ -3,32 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="#FFFFFF"
     tools:context="com.android.beaconyx.yesdexproject.MapPackage.MapInfoActivity">
 
-    <include
-        android:id="@+id/top"
-        layout="@layout/top_title_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
-
-    <com.android.beaconyx.yesdexproject.MapPackage.MapView
-        android:id="@+id/map_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/container"
+        android:gravity="center">
+
+        <include
+            android:id="@+id/top"
+            layout="@layout/top_title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true" />
+
+
+    </LinearLayout>
+
+    <!--rating 들어가는 영역-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="left">
 
-        <ImageView
-            android:layout_margin="5dp"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_gravity="bottom"
-            android:background="#000000"/>
 
     </FrameLayout>
 

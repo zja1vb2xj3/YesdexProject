@@ -31,7 +31,7 @@
         <activity android:name=".Activity.EInfoActivity" />
         <activity android:name=".MapPackage.MapInfoActivity" />
         <activity android:name=".Activity.AttendInfoActivity" />
-        <activity android:name=".Activity.PDFViewerActivity" />
+        <activity android:name=".Activity.PdfViewerActivity" />
         <activity android:name=".Activity.FInfoActivity"></activity>
     </application>
 

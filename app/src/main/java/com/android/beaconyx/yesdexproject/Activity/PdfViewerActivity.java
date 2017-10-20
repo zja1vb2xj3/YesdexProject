@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.R;
 
-public class PDFViewerActivity extends Activity {
+public class PdfViewerActivity extends Activity {
     private ThisApplication mThisApplication;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
