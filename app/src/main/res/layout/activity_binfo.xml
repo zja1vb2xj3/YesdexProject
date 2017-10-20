@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.android.beaconyx.yesdexproject.Activity.BInfoActivity"
     android:weightSum="10">
@@ -19,7 +20,11 @@
         style="@style/MyCustomTabLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
+        app:tabMode="fixed"
+        app:tabGravity="center"
+        />
 
     <com.android.beaconyx.yesdexproject.CustomView.CustomViewPager
         android:id="@+id/viewPager"
