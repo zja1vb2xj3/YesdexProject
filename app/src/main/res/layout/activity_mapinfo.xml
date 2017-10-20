@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.android.beaconyx.yesdexproject.Activity.MapInfoActivity">
+    tools:context="com.android.beaconyx.yesdexproject.MapPackage.MapInfoActivity">
 
     <include
         android:id="@+id/top"
@@ -13,11 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
-    <com.android.beaconyx.yesdexproject.CustomView.CustomMapView
+    <com.android.beaconyx.yesdexproject.MapPackage.MapView
         android:id="@+id/map_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp" />
+        android:layout_height="match_parent" />
 
     <FrameLayout
         android:layout_width="match_parent"

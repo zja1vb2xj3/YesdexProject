@@ -1,36 +1,43 @@
-package com.android.beaconyx.yesdexproject.Activity;
+package com.android.beaconyx.yesdexproject.MapPackage;
 
 import android.app.Activity;
-import android.graphics.Point;
-import android.graphics.drawable.Drawable;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.beaconyx.yesdexproject.CustomView.CustomMapView;
 import com.android.beaconyx.yesdexproject.R;
+import com.davemorrissey.labs.subscaleview.ImageSource;
 
-import uk.co.senab.photoview.PhotoViewAttacher;
+import java.util.ArrayList;
 
 public class MapInfoActivity extends Activity {
 
-    private Point mDrawScreenPosition;
-    private CustomMapView mCustomMapView;
-    private PhotoViewAttacher mAttacher;
+    private MapView mMapView;
+    private ArrayList mapPinList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapinfo);
 
-        mCustomMapView = (CustomMapView) findViewById(R.id.map_view);
-
-        Drawable drawable = getResources().getDrawable(R.drawable.map_sample_img);
-        mCustomMapView.setImageDrawable(drawable);
-
-        mAttacher = new PhotoViewAttacher(mCustomMapView);
-
+        mapInit();
         titleInit();
+    }
+
+    private void mapInit(){
+        mMapView = (MapView) findViewById(R.id.map_view);
+
+        mMapView.setImage(ImageSource.bitmap(BitmapFactory.decodeResource(getResources(), R.drawable.map_sample_img)));
+
+        mapPinList = new ArrayList();
+
+        mapPinList.add(new MapPin(200, 600, 1));
+        mapPinList.add(new MapPin(300, 600, 2));
+        mapPinList.add(new MapPin(400, 600, 3));
+
+        mMapView.setPins(mapPinList);
     }
 
     private void titleInit(){
