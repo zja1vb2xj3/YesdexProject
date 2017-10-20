@@ -2,8 +2,6 @@ package com.android.beaconyx.yesdexproject.CustomView;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -38,9 +36,7 @@ public class CustomMapView extends ImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Paint paint = new Paint();
-        paint.setColor(Color.parseColor("#FF0000"));
-        canvas.drawCircle(mMapWidth/2, mMapHeight/2, 100, paint);
+
     }
 
 
