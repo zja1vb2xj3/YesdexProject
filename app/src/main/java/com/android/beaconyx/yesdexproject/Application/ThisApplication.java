@@ -171,6 +171,7 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
 
                 else {
                     Log.i("Beacon Service : ", "beacon not find");
+                    setBeaconMinor(0);
                 }//비콘 반응이 없을때
             }//end didRangeBeaconsInRegion
         });//setRangeNotifier

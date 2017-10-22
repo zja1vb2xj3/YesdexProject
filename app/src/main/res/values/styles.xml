@@ -19,8 +19,10 @@
     </style>
 
     <style name="MyTabLayoutTextAppearance" parent="@android:style/TextAppearance.Widget.TabWidget">
-        <item name="android:textSize">9.5sp</item>
+        <item name="android:textSize">10sp</item>
         <item name="android:textAllCaps">true</item>
+        <item name="tabSelectedTextColor">@color/tab_text_act</item>
+        <item name="android:textColor">@color/tab_text</item>
     </style>
 
 </resources>

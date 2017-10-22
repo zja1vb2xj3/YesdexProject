@@ -163,7 +163,7 @@ public class MapInfoActivity extends Activity {
             while (!runSign) {
                 try {
 
-                    this.sleep(1000);
+                    this.sleep(4000);
 
                     int beaconMinor = mThisApplication.getBeaconMinor();
 
@@ -189,6 +189,7 @@ public class MapInfoActivity extends Activity {
                     Canvas canvas = new Canvas();
 
                     mMapView.draw(canvas);
+
                 }
             });
         }

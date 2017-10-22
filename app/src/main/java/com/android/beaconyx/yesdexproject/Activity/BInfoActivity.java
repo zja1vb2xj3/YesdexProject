@@ -46,7 +46,7 @@ public class BInfoActivity extends FragmentActivity {
 
     private void bInfoInit(){
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        mTabLayout.addTab(mTabLayout.newTab().setText("개막식 / 환영리셉션"));//.setText("개막식 / 환영리셉션")
+        mTabLayout.addTab(mTabLayout.newTab().setText("개막식/환영리셉션"));//.setText("개막식 / 환영리셉션")
         mTabLayout.addTab(mTabLayout.newTab().setText("버스킹 공연"));
         mTabLayout.addTab(mTabLayout.newTab().setText("중식 안내"));
         mTabLayout.addTab(mTabLayout.newTab().setText("경품 행사 안내"));
