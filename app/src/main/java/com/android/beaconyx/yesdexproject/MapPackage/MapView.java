@@ -38,14 +38,12 @@ public class MapView extends SubsamplingScaleImageView {
     private Context mContext;
     String tag = getClass().getSimpleName();
 
-    public MapView(Context context) {
-        this(context, null);
-        this.mContext = context;
-    }
+    private ThisApplication mThisApplication;
 
     public MapView(Context context, AttributeSet attr) {
         super(context, attr);
         this.mContext = context;
+        mThisApplication = (ThisApplication) mContext.getApplicationContext();
     }
 
 
@@ -98,18 +96,27 @@ public class MapView extends SubsamplingScaleImageView {
         Bitmap resizeOnBitmap = Bitmap.createScaledBitmap(onImage, markerWidth, markerHeight, true);
         Bitmap resizeOffBitmap = Bitmap.createScaledBitmap(offImage, markerWidth, markerHeight, true);
 
-        canvas.drawBitmap(resizeOffBitmap, centerX - 100, centerY, paint);
-        canvas.drawBitmap(resizeOffBitmap, centerX, centerY, paint);
-        canvas.drawBitmap(resizeOffBitmap, centerX + 100, centerY, paint);
 
-}
+        if (mThisApplication.getBeaconMinor() == 1){
+            Log.i(tag, "minor = 1");
+            canvas.drawBitmap(resizeOffBitmap, centerX - 100, centerY, paint);
+            canvas.drawBitmap(resizeOnBitmap, centerX, centerY, paint);
+            canvas.drawBitmap(resizeOffBitmap, centerX + 100, centerY, paint);
+        }
+        else{
+            Log.i(tag, "minor != 1");
+            canvas.drawBitmap(resizeOffBitmap, centerX - 100, centerY, paint);
+            canvas.drawBitmap(resizeOffBitmap, centerX, centerY, paint);
+            canvas.drawBitmap(resizeOffBitmap, centerX + 100, centerY, paint);
+        }
+    }
 
     private OnMarkerTouch mMarkerTouch;
 
-public interface OnMarkerTouch {
-    void onMarkerTouch(DtoPin dto);
+    public interface OnMarkerTouch {
+        void onMarkerTouch(DtoPin dto);
 
-}
+    }
 
     public void setOnMarkerTouchListener(OnMarkerTouch markerTouch) {
         mMarkerTouch = markerTouch;

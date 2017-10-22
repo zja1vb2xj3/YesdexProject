@@ -2,6 +2,7 @@ package com.android.beaconyx.yesdexproject.MapPackage;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,12 +13,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Handler;
 
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.R;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import pl.polidea.view.ZoomView;
 
@@ -33,6 +36,8 @@ public class MapInfoActivity extends Activity {
 
     private int mMapWidth;
     private int mMapHeight;
+
+    private MapViewThread mMapViewThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +94,9 @@ public class MapInfoActivity extends Activity {
         super.onResume();
         Log.i(ACTIVITY_NAME, "onResume");
         mThisApplication.setIsMapInfoActivity(true); // AttendActivity 실행신호
+
+        mMapViewThread = new MapViewThread();
+        mMapViewThread.start();
     }
 
     @Override
@@ -96,6 +104,9 @@ public class MapInfoActivity extends Activity {
         super.onPause();
         Log.i(ACTIVITY_NAME, "onPause");
         mThisApplication.setIsMapInfoActivity(false); // AttendActivity 실행신호
+
+        mMapViewThread.stopThread();
+        mMapViewThread = null;
     }
 
     private void mapViewInit(View view) {
@@ -105,8 +116,8 @@ public class MapInfoActivity extends Activity {
 
         mMapPinList = new ArrayList<>();
 
-        for(int i=1; i<=3; i++)
-        mMapPinList.add(new DtoPin(i));
+        for (int i = 1; i <= 3; i++)
+            mMapPinList.add(new DtoPin(i));
 
         mMapView.setPin(mMapPinList);
 
@@ -128,8 +139,8 @@ public class MapInfoActivity extends Activity {
         });
     }
 
-    private void drawAllMarker(final ArrayList<DtoPin> pins){
-        runOnUiThread(new Runnable(){
+    private void drawAllMarker(final ArrayList<DtoPin> pins) {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
@@ -137,5 +148,50 @@ public class MapInfoActivity extends Activity {
         });
     }
 
+    class MapViewThread extends Thread {
+        private Handler handler;
+        private boolean runSign = false;
+
+        MapViewThread() {
+            handler = new Handler();
+        }
+
+        @Override
+        public void run() {
+            super.run();
+
+            while (!runSign) {
+                try {
+
+                    this.sleep(1000);
+
+                    int beaconMinor = mThisApplication.getBeaconMinor();
+
+                    Log.i("Minor", String.valueOf(beaconMinor));
+
+                    uiHandler();
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    this.currentThread().interrupt();
+                }
+            }
+        }
+
+        private void stopThread() {
+            runSign = true;
+        }
+
+        private void uiHandler() {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Canvas canvas = new Canvas();
+
+                    mMapView.draw(canvas);
+                }
+            });
+        }
+    }//end inner Class
 
 }

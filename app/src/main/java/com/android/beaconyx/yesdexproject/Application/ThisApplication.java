@@ -54,6 +54,7 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
 
     private boolean mIsMapInfoActivityComplete = false;
 
+    private int mBeaconMinor;
 
     @Override
     public void onCreate() {
@@ -150,26 +151,27 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
                     int measuredRssi = beaconList.get(0).getRssi();
 
 
-                    if(measuredRssi > mIgnore_Rssi){// 측정된 rssi가 크다면
+                    if (measuredRssi > mIgnore_Rssi) {
                         String beaconId1 = beaconList.get(0).getId1().toString();
                         String beaconId2 = beaconList.get(0).getId2().toString(); // major
-                        String beaconId3 = beaconList.get(0).getId3().toString(); // minor
+                        int beaconMinor = beaconList.get(0).getId3().toInt(); // minor
 
-                        Log.i("beaconid3", beaconId3);
-                    }
+                        setBeaconMinor(beaconMinor);
 
-                    if (mIsAttendActivityComplete == true) {//AttendActivity가 실행됫을시
-                        if (mFragmentDialog1Sign == true) {
-                            callDialogFragment1();
+
+                        if (mIsAttendActivityComplete == true) {//AttendActivity가 실행됫을시
+                            if (mFragmentDialog1Sign == true) {
+                                callDialogFragment1();
+                            }
                         }
-                    }
+                    }// 측정된 rssi가 크다면
+
+
                 }// 비콘이 잡혓을때
 
                 else {
                     Log.i("Beacon Service : ", "beacon not find");
                 }//비콘 반응이 없을때
-
-
             }//end didRangeBeaconsInRegion
         });//setRangeNotifier
     }//onBeaconServiceConnect
@@ -219,6 +221,16 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
         }
     };
 
+    private OnBeaconCallback mOnBeaconCallback;
+
+    public void setOnBeaconCallback(ThisApplication.OnBeaconCallback mOnBeaconCallback) {
+        this.mOnBeaconCallback = mOnBeaconCallback;
+    }
+
+    public interface OnBeaconCallback {
+        void onBeacon(int minor);
+    }
+
     @Override
     public void didEnterRegion(Region region) {
 
@@ -234,7 +246,7 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
 
     }
 
-    static class NoDescCompare implements Comparator<Beacon> {
+    private static class NoDescCompare implements Comparator<Beacon> {
 
         /**
          * 내림차순(DESC)
@@ -242,7 +254,7 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
         @Override
         public int compare(Beacon arg0, Beacon arg1) {
             // TODO Auto-generated method stub
-            return arg0.getRssi() > arg1.getRssi() ? -1 : arg0.getRssi() < arg1.getRssi() ? 1:0;
+            return arg0.getRssi() > arg1.getRssi() ? -1 : arg0.getRssi() < arg1.getRssi() ? 1 : 0;
         }
 
     }
@@ -261,5 +273,13 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
 
     public void setMotionFragmentActivity(FragmentActivity mMotionActivity) {
         this.mMotionFragmentActivity = mMotionActivity;
+    }
+
+    public int getBeaconMinor() {
+        return mBeaconMinor;
+    }
+
+    private void setBeaconMinor(int mBeaconMinor) {
+        this.mBeaconMinor = mBeaconMinor;
     }
 }
