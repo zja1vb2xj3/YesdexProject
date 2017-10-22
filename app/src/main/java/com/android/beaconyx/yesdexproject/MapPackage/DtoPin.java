@@ -7,13 +7,27 @@ import android.graphics.PointF;
  */
 
 public class DtoPin {
-
+    private int pinId;
     private PointF mPointF;
     private int mNotifyYesResID;
     private int mNotifyNoResID;
     private boolean mNotify = false;
     private String mMajor;
     private String mMinor;
+
+    public DtoPin(int pinId){
+        this.pinId = pinId;
+    }
+
+
+
+    public int getPinId() {
+        return pinId;
+    }
+
+    public void setPinId(int pinId) {
+        this.pinId = pinId;
+    }
 
     public PointF getPointF() {
         return mPointF;

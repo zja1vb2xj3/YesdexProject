@@ -24,7 +24,7 @@ import pl.polidea.view.ZoomView;
 public class MapInfoActivity extends Activity {
 
     private MapView mMapView;
-    private ArrayList mMapPinList;
+    private ArrayList<DtoPin> mMapPinList;
 
     private final String ACTIVITY_NAME = "MapInfoActivity";
     private ThisApplication mThisApplication;
@@ -65,23 +65,17 @@ public class MapInfoActivity extends Activity {
 
     }
 
-    //    mMapPinList = new ArrayList();
-//
-//        mMapPinList.add(new MapPin(mMapWidth / 2, mMapHeight / 2, 1));
-//
-//        mMapView.setPins(mMapPinList);
     private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            Toast.makeText(getApplicationContext(), String.valueOf(motionEvent.getAction()), Toast.LENGTH_SHORT).show();
 
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-
+                    Log.i(ACTIVITY_NAME, "ACTION_DOWN");
                     break;
 
                 case MotionEvent.ACTION_UP:
-                    Log.i("motionEvent", "up");
+                    Log.i(ACTIVITY_NAME, "ACTION_UP");
                     break;
             }
 
@@ -109,12 +103,12 @@ public class MapInfoActivity extends Activity {
 
         mMapView.setImage(ImageSource.resource(R.drawable.map_sample_img));
 
-        mMapPinList = new ArrayList();
+        mMapPinList = new ArrayList<>();
 
-//        mMapPinList.add(new DtoPin(mMapWidth / 2, mMapHeight / 2, 1));
-//
-//        mMapView.setPins(mMapPinList);
+        for(int i=1; i<=3; i++)
+        mMapPinList.add(new DtoPin(i));
 
+        mMapView.setPin(mMapPinList);
 
     }
 

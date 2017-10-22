@@ -1,6 +1,7 @@
 package com.android.beaconyx.yesdexproject.MapPackage;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -13,10 +14,13 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
+import com.android.beaconyx.yesdexproject.Application.ThisApplication;
+import com.android.beaconyx.yesdexproject.R;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created by beaconyx on 2017-10-13.
@@ -26,14 +30,13 @@ public class MapView extends SubsamplingScaleImageView {
 
     private ArrayList<DtoPin> mDtoPinList = new ArrayList<>();
     private HashMap<String, DtoPin> mDtoPinHashMap = new HashMap<>();
-    private ArrayList<Bitmap> mPinIconList = new ArrayList<>();
+    private ArrayList<Bitmap> mPinBitmapList = new ArrayList<>();
     private int mOriginImageWidth = 0;
     private int mOriginImageHeight = 0;
     private HashMap<String, Rect> mRectList = new HashMap<String, Rect>();
 
     private Context mContext;
     String tag = getClass().getSimpleName();
-
 
     public MapView(Context context) {
         this(context, null);
@@ -43,38 +46,22 @@ public class MapView extends SubsamplingScaleImageView {
     public MapView(Context context, AttributeSet attr) {
         super(context, attr);
         this.mContext = context;
-
     }
 
-    private void initialise() {
-        if (mDtoPinList != null) {
-            for (int i = 0; i < mDtoPinList.size(); i++) {
-                if (mDtoPinList.get(i).getNotifyNoResID() != 0 && mDtoPinList.get(i).getNotifyYesResID() != 0) {
 
-                    float density = getResources().getDisplayMetrics().densityDpi;
-                    Bitmap bitmap = null;
-                    if (mDtoPinList.get(i).getNotify() == true) {
-                        bitmap = BitmapFactory.decodeResource(this.getResources(), mDtoPinList.get(i).getNotifyYesResID());
-                    } else {
-                        bitmap = BitmapFactory.decodeResource(this.getResources(), mDtoPinList.get(i).getNotifyNoResID());
-                    }
+    public void setPin(ArrayList<DtoPin> pinArrayList) {
+        mDtoPinHashMap.clear();
+        mDtoPinList = pinArrayList;
 
-                    float w = (density / 420f) * bitmap.getWidth();
-                    float h = (density / 420f) * bitmap.getHeight();
-                    if (w < 50) {
-                        w = 50;
-                    }
-                    if (h < 50) {
-                        h = 50;
-                    }
-                    bitmap = Bitmap.createScaledBitmap(bitmap, (int) w, (int) h, true);
-                    mPinIconList.add(bitmap);
-                }
-            }
+        for (int i = 0; i < mDtoPinList.size(); i++) {
+            mDtoPinHashMap.put(mDtoPinList.get(i).getMajor() + "-" + mDtoPinList.get(i).getMinor(), mDtoPinList.get(i));
         }
+//
+//        mPinIconList.clear();
+//        mRectList.clear();
+
+        invalidate();
     }
-
-
 
 
     @Override
@@ -93,61 +80,51 @@ public class MapView extends SubsamplingScaleImageView {
             return;
         }
 
+        int width = this.getMeasuredWidth();
+        int height = this.getMeasuredHeight();
 
         Paint paint = new Paint();
         paint.setAntiAlias(true);
 
-        if (mPinIconList != null && mDtoPinList != null) {
-            for (int i = 0; i < mPinIconList.size(); i++) {
-                if (mDtoPinList.get(i).getPointF() != null) {
+        int centerX = width / 2;
+        int centerY = height / 2;
 
-                    int pinViewWidth = this.getSWidth();
-                    int pinViewHeight = this.getSHeight();
+        int markerWidth = width / 30;
+        int markerHeight = height / 60;
 
-                    Log.d("TEST11", "swidth : " + pinViewWidth + ",  sheight : " + pinViewHeight);
+        Bitmap onImage = BitmapFactory.decodeResource(getResources(), R.drawable.on_img);
+        Bitmap offImage = BitmapFactory.decodeResource(getResources(), R.drawable.off_img);
 
-                    double rescaleWidth = pinViewWidth / (double) mOriginImageWidth;
-                    double rescaleHeight = pinViewHeight / (double) mOriginImageHeight;
+        Bitmap resizeOnBitmap = Bitmap.createScaledBitmap(onImage, markerWidth, markerHeight, true);
+        Bitmap resizeOffBitmap = Bitmap.createScaledBitmap(offImage, markerWidth, markerHeight, true);
 
-                    PointF pointf = mDtoPinList.get(i).getPointF();
-                    float xx = (float) (pointf.x * rescaleWidth);
-                    float yy = (float) (pointf.y * rescaleHeight);
+        canvas.drawBitmap(resizeOffBitmap, centerX - 100, centerY, paint);
+        canvas.drawBitmap(resizeOffBitmap, centerX, centerY, paint);
+        canvas.drawBitmap(resizeOffBitmap, centerX + 100, centerY, paint);
 
+}
 
-                    PointF vPin = sourceToViewCoord(new PointF(xx, yy));
+    private OnMarkerTouch mMarkerTouch;
 
+public interface OnMarkerTouch {
+    void onMarkerTouch(DtoPin dto);
 
-                    float vX = (vPin.x - (mPinIconList.get(i).getWidth() / 2));
-                    float vY = (vPin.y - mPinIconList.get(i).getHeight());
+}
 
-                    Rect rect = new Rect();
-
-                    //좀더 빡빡하지 않게
-                    rect.set(
-                            (int) (vX - (mPinIconList.get(i).getWidth() / 1.2)),
-                            (int) (vY - (mPinIconList.get(i).getHeight() / 1.2)),
-                            (int) (vX + (mPinIconList.get(i).getWidth() / 1.2)),
-                            (int) (vY + (mPinIconList.get(i).getHeight() / 1.2))
-                    );
-
-                    mRectList.put(mDtoPinList.get(i).getMajor() + "-" + mDtoPinList.get(i).getMinor(), rect);
-                    canvas.drawBitmap(mPinIconList.get(i), vX, vY, paint);
-
-                }
-            }
-        }
+    public void setOnMarkerTouchListener(OnMarkerTouch markerTouch) {
+        mMarkerTouch = markerTouch;
     }
 
 
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent event) {
-        Log.i("TouchEvent", event.actionToString(event.getAction()));
-        Log.i("핀위치", "");
+        if (event.getAction() == MotionEvent.ACTION_UP) {
 
 
-        return false;
+        }
+
+        return super.onTouchEvent(event);
     }
-
 
 
 }
