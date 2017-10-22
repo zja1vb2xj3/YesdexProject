@@ -25,7 +25,7 @@ import java.util.HashMap;
 import pl.polidea.view.ZoomView;
 
 public class MapInfoActivity extends Activity {
-    //
+
     private MapView mMapView;
     private ArrayList<DtoPin> mMapPinList;
 

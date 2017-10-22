@@ -55,7 +55,7 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
     private boolean mIsMapInfoActivityComplete = false;
 
     private int mBeaconMinor;
-
+//
     @Override
     public void onCreate() {
         super.onCreate();
