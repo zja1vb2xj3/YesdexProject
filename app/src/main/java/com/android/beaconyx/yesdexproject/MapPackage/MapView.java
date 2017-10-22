@@ -96,7 +96,7 @@ public class MapView extends SubsamplingScaleImageView {
         Bitmap resizeOnBitmap = Bitmap.createScaledBitmap(onImage, markerWidth, markerHeight, true);
         Bitmap resizeOffBitmap = Bitmap.createScaledBitmap(offImage, markerWidth, markerHeight, true);
 
-
+//
         if (mThisApplication.getBeaconMinor() == 1){
             Log.i(tag, "minor = 1");
             canvas.drawBitmap(resizeOffBitmap, centerX - 100, centerY, paint);

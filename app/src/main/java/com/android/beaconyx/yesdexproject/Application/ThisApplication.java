@@ -175,7 +175,7 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
             }//end didRangeBeaconsInRegion
         });//setRangeNotifier
     }//onBeaconServiceConnect
-
+//
     /**
      * 비콘 Thread start
      */

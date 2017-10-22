@@ -25,7 +25,7 @@ import java.util.HashMap;
 import pl.polidea.view.ZoomView;
 
 public class MapInfoActivity extends Activity {
-
+    //
     private MapView mMapView;
     private ArrayList<DtoPin> mMapPinList;
 
@@ -148,7 +148,7 @@ public class MapInfoActivity extends Activity {
         });
     }
 
-    class MapViewThread extends Thread {
+    private class MapViewThread extends Thread {
         private Handler handler;
         private boolean runSign = false;
 
