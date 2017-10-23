@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="com.android.beaconyx.yesdexproject.Activity.BInfoActivity"
-    android:weightSum="10">
+    tools:context="com.android.beaconyx.yesdexproject.Activity.BInfoActivity">
 
     <include
         android:id="@+id/top"
@@ -19,16 +18,13 @@
         android:id="@+id/tabLayout"
         style="@style/MyCustomTabLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
-        app:tabGravity="center"
+        android:layout_height="wrap_content"
         />
 
     <com.android.beaconyx.yesdexproject.CustomView.CustomViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="9"/>
+        android:layout_height="match_parent"
+        />
 
 </LinearLayout>

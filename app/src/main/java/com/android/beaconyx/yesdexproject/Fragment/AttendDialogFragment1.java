@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +45,8 @@ public class AttendDialogFragment1 extends DialogFragment {
         View dialogView = inflater.inflate(R.layout.fragment1_attend_dialog, null, false);
         builder.setView(dialogView);
 
+        builder.setOnKeyListener(onKeyListener);
+
         point = mThisApplication.getDisplaySize();
 
         double minWidth = point.x / 1.2;
@@ -78,15 +81,15 @@ public class AttendDialogFragment1 extends DialogFragment {
         return builder.create();
     }
 
-//    DialogInterface.OnKeyListener onKeyListener = new DialogInterface.OnKeyListener() {
-//        @Override
-//        public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
-//            Toast.makeText(getActivity(), "back버튼 클릭", Toast.LENGTH_SHORT).show();
-//            dialogFragment1.onDialog1CancelListener.onCancel(getDialog());
-//
-//            return true;
-//        }
-//    };
+    DialogInterface.OnKeyListener onKeyListener = new DialogInterface.OnKeyListener() {
+        @Override
+        public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+            dialogFragment1.onDialog1CancelListener.onCancel(getDialog());
+            mThisApplication.setFragmentDialog1Sign(true);
+
+            return true;
+        }
+    };
 
 
     private AttendDialogFragment2 mDialogFragment2 = AttendDialogFragment2.newInstance();
@@ -112,15 +115,6 @@ public class AttendDialogFragment1 extends DialogFragment {
     }
 
 
-    private OnMeasureDisplay OnMeasureDisplay;
-
-    public void setOnMeasureDisplay(OnMeasureDisplay onMeasureDisplay) {
-        this.OnMeasureDisplay = onMeasureDisplay;
-    }
-
-    public interface OnMeasureDisplay {
-        Point onMeasure();
-    }
 
     public AttendDialogFragment1() {
 

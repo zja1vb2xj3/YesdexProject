@@ -50,6 +50,7 @@ public class AInfoActivity extends FragmentActivity {
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
         mTabLayout.addTab(mTabLayout.newTab().setText("인사말"));
         mTabLayout.addTab(mTabLayout.newTab().setText("행사개요"));
+        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         ArrayList<Fragment> fragments = getFragment();
 

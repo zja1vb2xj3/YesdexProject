@@ -70,13 +70,14 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
         if (mMotionFragmentActivity != null) {
             mMotionFragmentActivity.getFragmentManager().beginTransaction().remove(mDialogFragment1).commit();
             mDialogFragment1.show(mMotionFragmentActivity.getFragmentManager(), "fragment1");
+            setFragmentDialog1Sign(false);
         }
-
 
         mDialogFragment1.setOnDialogFragment1CancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
                 dialogInterface.cancel();
+                setFragmentDialog1Sign(true);
             }
         });
     }

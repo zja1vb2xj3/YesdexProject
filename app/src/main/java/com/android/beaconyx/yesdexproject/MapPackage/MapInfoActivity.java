@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -12,15 +13,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.os.Handler;
 
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.R;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import pl.polidea.view.ZoomView;
 
@@ -46,8 +44,9 @@ public class MapInfoActivity extends Activity {
 
         mThisApplication = (ThisApplication) this.getApplicationContext();
 
-        mMapWidth = (int) (mThisApplication.getDisplaySize().x / 1.1);
-        mMapHeight = (int) (mThisApplication.getDisplaySize().y / 1.1);
+        Point displaySize = mThisApplication.measureDisplay(this);
+        mMapWidth = (int) (displaySize.x / 1.1);
+        mMapHeight = (int) (displaySize.y / 1.1);
 
         titleInit();
 
@@ -66,9 +65,16 @@ public class MapInfoActivity extends Activity {
         zoomView.setMaxZoom(4f);
         zoomView.setOnTouchListener(onTouchListener);
         LinearLayout container = (LinearLayout) findViewById(R.id.container);
+        int width = container.getMinimumWidth();
+        int height = container.getMinimumHeight();
+
+        Log.i("containerWidth", String.valueOf(width));
+        Log.i("containerHeight", String.valueOf(height));
         container.addView(zoomView);
 
     }
+
+
 
     private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
