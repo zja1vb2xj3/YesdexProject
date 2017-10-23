@@ -1,18 +1,12 @@
 package com.android.beaconyx.yesdexproject.MapPackage;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.PointF;
 import android.graphics.Rect;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.widget.Toast;
 
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.R;
@@ -20,7 +14,6 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * Created by beaconyx on 2017-10-13.
@@ -36,7 +29,8 @@ public class MapView extends SubsamplingScaleImageView {
     private HashMap<String, Rect> mRectList = new HashMap<String, Rect>();
 
     private Context mContext;
-    String tag = getClass().getSimpleName();
+
+    final String CLASSNAME = getClass().getSimpleName();
 
     private ThisApplication mThisApplication;
 
@@ -63,17 +57,10 @@ public class MapView extends SubsamplingScaleImageView {
 
 
     @Override
-    public void setOnTouchListener(OnTouchListener l) {
-
-        Toast.makeText(mContext, "hi", Toast.LENGTH_SHORT).show();
-        super.setOnTouchListener(l);
-    }
-
-    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Log.i("MapView", "onDraw");
-        // Don't draw pin before image is ready so it doesn't move around during       setup.
+//        Log.i("MapView", "onDraw");
+
         if (!isReady()) {
             return;
         }
@@ -98,19 +85,19 @@ public class MapView extends SubsamplingScaleImageView {
 
         invalidate(); // View 리셋
 
-        if (mThisApplication.getBeaconMinor() == 1){
-            Log.i(tag, "minor = 1");
+        if (mThisApplication.getBeaconMinor() == 1) {
+//            Log.i(tag, "minor = 1");
             canvas.drawBitmap(resizeOffBitmap, centerX - 100, centerY, paint);
-            canvas.drawBitmap(resizeOnBitmap, centerX , centerY, paint);
+            canvas.drawBitmap(resizeOnBitmap, centerX, centerY, paint);
             canvas.drawBitmap(resizeOffBitmap, centerX + 100, centerY, paint);
-        }
-        else{
-            Log.i(tag, "minor != 1");
+        } else {
+//            Log.i(tag, "minor != 1");
             canvas.drawBitmap(resizeOffBitmap, centerX - 100, centerY, paint);
             canvas.drawBitmap(resizeOffBitmap, centerX, centerY, paint);
             canvas.drawBitmap(resizeOffBitmap, centerX + 100, centerY, paint);
         }
     }
+
 
     private OnMarkerTouch mMarkerTouch;
 
@@ -124,15 +111,7 @@ public class MapView extends SubsamplingScaleImageView {
     }
 
 
-    @Override
-    public boolean onTouchEvent(@NonNull MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_UP) {
 
-
-        }
-
-        return super.onTouchEvent(event);
-    }
 
 
 }

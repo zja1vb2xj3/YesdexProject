@@ -63,7 +63,7 @@ public class MapInfoActivity extends Activity {
         zoomView.setLayoutParams(layoutParams);
         zoomView.addView(mapView);
         zoomView.setMaxZoom(4f);
-        zoomView.setOnTouchListener(onTouchListener);
+
         LinearLayout container = (LinearLayout) findViewById(R.id.container);
         int width = container.getMinimumWidth();
         int height = container.getMinimumHeight();
@@ -73,26 +73,6 @@ public class MapInfoActivity extends Activity {
         container.addView(zoomView);
 
     }
-
-
-
-    private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-
-            switch (motionEvent.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    Log.i(ACTIVITY_NAME, "ACTION_DOWN");
-                    break;
-
-                case MotionEvent.ACTION_UP:
-                    Log.i(ACTIVITY_NAME, "ACTION_UP");
-                    break;
-            }
-
-            return false;
-        }
-    };
 
 
     @Override
@@ -129,6 +109,23 @@ public class MapInfoActivity extends Activity {
 
     }
 
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        int action = ev.getAction();
+        Log.i("disPatch", String.valueOf(ev.getAction()));
+        if(action == 0){//ActionDown
+            mMapViewThread.stopThread();
+            mMapViewThread = null;
+        }
+
+        if(action == 1){//ActionUP
+            mMapViewThread = new MapViewThread();
+            mMapViewThread.start();
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
     private void titleInit() {
         View topView = findViewById(R.id.top);
 
@@ -154,6 +151,7 @@ public class MapInfoActivity extends Activity {
         });
     }
 
+
     private class MapViewThread extends Thread {
         private Handler handler;
         private boolean runSign = false;
@@ -173,7 +171,7 @@ public class MapInfoActivity extends Activity {
 
                     int beaconMinor = mThisApplication.getBeaconMinor();
 
-                    Log.i("Minor", String.valueOf(beaconMinor));
+//                    Log.i("Minor", String.valueOf(beaconMinor));
 
                     uiHandler();
 
