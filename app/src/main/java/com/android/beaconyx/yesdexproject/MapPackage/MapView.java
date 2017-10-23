@@ -6,7 +6,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.R;
@@ -14,6 +17,7 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created by beaconyx on 2017-10-13.
@@ -21,12 +25,13 @@ import java.util.HashMap;
 
 public class MapView extends SubsamplingScaleImageView {
 
-    private ArrayList<DtoPin> mDtoPinList = new ArrayList<>();
-    private HashMap<String, DtoPin> mDtoPinHashMap = new HashMap<>();
-    private ArrayList<Bitmap> mPinBitmapList = new ArrayList<>();
+    private ArrayList<MapMarker> mMapMarkerList = new ArrayList<>();
+    private HashMap<String, MapMarker> mapMarkerHashMap = new HashMap<>();
+    private ArrayList<Bitmap> mMarkerBitmapList = new ArrayList<>();
+    private HashMap<String, Rect> mRectMarkerHashMap = new HashMap<String, Rect>();
+
     private int mOriginImageWidth = 0;
     private int mOriginImageHeight = 0;
-    private HashMap<String, Rect> mRectList = new HashMap<String, Rect>();
 
     private Context mContext;
 
@@ -40,78 +45,139 @@ public class MapView extends SubsamplingScaleImageView {
         mThisApplication = (ThisApplication) mContext.getApplicationContext();
     }
 
+    private OnMarkerTouchListener MarkerTouch;
 
-    public void setPin(ArrayList<DtoPin> pinArrayList) {
-        mDtoPinHashMap.clear();
-        mDtoPinList = pinArrayList;
+    public interface OnMarkerTouchListener {
+        void onMarkerTouch(MapMarker marker);
 
-        for (int i = 0; i < mDtoPinList.size(); i++) {
-            mDtoPinHashMap.put(mDtoPinList.get(i).getMajor() + "-" + mDtoPinList.get(i).getMinor(), mDtoPinList.get(i));
-        }
-//
-//        mPinIconList.clear();
-//        mRectList.clear();
-
-        invalidate();
     }
 
+    public void setOnMarkerTouchListener(OnMarkerTouchListener markerTouch) {
+        MarkerTouch = markerTouch;
+    }
+
+
+    public void setMarker(ArrayList<MapMarker> mapMarkerList) {
+
+        mMapMarkerList = mapMarkerList;
+
+        mapMarkerHashMap.clear();
+
+        for (int i = 0; i < mMapMarkerList.size(); i++) {
+            mapMarkerHashMap.put(mMapMarkerList.get(i).getMarkerId(), mMapMarkerList.get(i));
+        }
+
+        mMarkerBitmapList.clear();
+        mRectMarkerHashMap.clear();
+
+        createMapMarkerBitmap(mMapMarkerList);
+        invalidate();
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-//        Log.i("MapView", "onDraw");
+//        Log.i(CLASSNAME, "onDraw");
 
         if (!isReady()) {
             return;
         }
 
-        int width = this.getMeasuredWidth();
-        int height = this.getMeasuredHeight();
-
         Paint paint = new Paint();
         paint.setAntiAlias(true);
 
-        int centerX = width / 2;
-        int centerY = height / 2;
+        if (mMarkerBitmapList != null) {
+            for (int i = 0; i < mMarkerBitmapList.size(); i++) {
+                int width = this.getWidth();
+                int height = this.getHeight();
 
-        int markerWidth = width / 30;
-        int markerHeight = height / 60;
+                int centerX = width / 2;
+                int centerY = height / 2;
 
-        Bitmap onImage = BitmapFactory.decodeResource(getResources(), R.drawable.on_img);
-        Bitmap offImage = BitmapFactory.decodeResource(getResources(), R.drawable.off_img);
+                Rect rect = new Rect();
 
-        Bitmap resizeOnBitmap = Bitmap.createScaledBitmap(onImage, markerWidth, markerHeight, true);
-        Bitmap resizeOffBitmap = Bitmap.createScaledBitmap(offImage, markerWidth, markerHeight, true);
+                rect.set(
+                        (int) (centerX - (mMarkerBitmapList.get(i).getWidth() / 1.2)),
+                        (int) (centerY - (mMarkerBitmapList.get(i).getHeight() / 1.2)),
+                        (int) (centerX + (mMarkerBitmapList.get(i).getWidth() / 1.2)),
+                        (int) (centerY + (mMarkerBitmapList.get(i).getHeight() / 1.2))
+                );
+
+                mRectMarkerHashMap.put(mMapMarkerList.get(i).getMarkerId(), rect);
+
+                canvas.drawBitmap(mMarkerBitmapList.get(i), centerX, centerY, paint);
+
+                //                Log.i("sWidth", String.valueOf(width));
+//                Log.i("sHeight", String.valueOf(height));
+//                PointF markerPointF = sourceToViewCoord(new PointF(width, height));
+//
+//                float bitmapX = (markerPointF.x - (mMarkerBitmapList.get(i).getWidth() / 2));
+//                float bitmapY = (markerPointF.y - (mMarkerBitmapList.get(i).getHeight()));
+//
+//                Log.i("bitmapX", String.valueOf(bitmapX));
+//                Log.i("bitmapY", String.valueOf(bitmapY));
+            }
+        }
 
         invalidate(); // View 리셋
+    }
 
-        if (mThisApplication.getBeaconMinor() == 1) {
-//            Log.i(tag, "minor = 1");
-            canvas.drawBitmap(resizeOffBitmap, centerX - 100, centerY, paint);
-            canvas.drawBitmap(resizeOnBitmap, centerX, centerY, paint);
-            canvas.drawBitmap(resizeOffBitmap, centerX + 100, centerY, paint);
-        } else {
-//            Log.i(tag, "minor != 1");
-            canvas.drawBitmap(resizeOffBitmap, centerX - 100, centerY, paint);
-            canvas.drawBitmap(resizeOffBitmap, centerX, centerY, paint);
-            canvas.drawBitmap(resizeOffBitmap, centerX + 100, centerY, paint);
+    private void createMapMarkerBitmap(ArrayList<MapMarker> mapMarkerList) {
+        if (mapMarkerList != null) {
+            for (int i = 0; i < mapMarkerList.size(); i++) {
+                float density = getResources().getDisplayMetrics().densityDpi;
+
+                Paint paint = new Paint();
+                paint.setAntiAlias(true);
+
+                Bitmap onImage = BitmapFactory.decodeResource(getResources(), R.drawable.on_img);
+                Bitmap offImage = BitmapFactory.decodeResource(getResources(), R.drawable.off_img);
+
+                float markerWidth = (density / 420f) * offImage.getWidth();
+                float markerHeight = (density / 420f) * offImage.getHeight();
+
+                if (markerWidth < 50) {
+                    markerWidth = 50;
+                }
+
+                if (markerHeight < 50) {
+                    markerHeight = 50;
+                }
+
+//                Bitmap resizeOnBitmap = Bitmap.createScaledBitmap(onImage, markerWidth, markerHeight, true);
+                Bitmap resizeOffBitmap = Bitmap.createScaledBitmap(offImage, (int) markerWidth, (int) markerHeight, true);
+                mMarkerBitmapList.add(resizeOffBitmap);
+
+            }//end for
+        }//end if
+    }// 맵 마커에 따른 비트맵 생성
+
+    @Override
+    public boolean onTouchEvent(@NonNull MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            Log.i("맵뷰 터치", "터치");
+
+            Iterator<String> iter = mRectMarkerHashMap.keySet().iterator();
+            while (iter.hasNext()) {
+                String key = iter.next();
+                Rect rect = mRectMarkerHashMap.get(key);
+                float eventTouchX = event.getX();
+                float eventTouchY = event.getY();
+                if (rect.contains((int) eventTouchX, (int) eventTouchY)) {
+                    MapMarker mapMarker = mapMarkerHashMap.get(key);
+                    if (mapMarker != null) {
+                        if (MarkerTouch != null) {
+                            MarkerTouch.onMarkerTouch(mapMarker);
+                        }
+                        break;
+                    }
+                }
+            }
+
         }
+
+        return super.onTouchEvent(event);
     }
-
-
-    private OnMarkerTouch mMarkerTouch;
-
-    public interface OnMarkerTouch {
-        void onMarkerTouch(DtoPin dto);
-
-    }
-
-    public void setOnMarkerTouchListener(OnMarkerTouch markerTouch) {
-        mMarkerTouch = markerTouch;
-    }
-
-
-
 
 
 }

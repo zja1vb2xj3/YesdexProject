@@ -6,8 +6,8 @@ import android.graphics.PointF;
  * Created by beaconyx on 2017-10-13.
  */
 
-public class DtoPin {
-    private int pinId;
+public class MapMarker {
+    private String mMarkerId;
     private PointF mPointF;
     private int mNotifyYesResID;
     private int mNotifyNoResID;
@@ -15,18 +15,18 @@ public class DtoPin {
     private String mMajor;
     private String mMinor;
 
-    public DtoPin(int pinId){
-        this.pinId = pinId;
+    public MapMarker(String mMarkerId){
+        this.mMarkerId = mMarkerId;
     }
 
 
 
-    public int getPinId() {
-        return pinId;
+    public String getMarkerId() {
+        return mMarkerId;
     }
 
-    public void setPinId(int pinId) {
-        this.pinId = pinId;
+    public void setMarkerId(String mMarkerId) {
+        this.mMarkerId = mMarkerId;
     }
 
     public PointF getPointF() {

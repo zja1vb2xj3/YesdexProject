@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.android.beaconyx.yesdexproject.Dto.DtoContent;
 import com.android.beaconyx.yesdexproject.Fragment.AttendDialogFragment1;
 
 import org.altbeacon.beacon.Beacon;
@@ -230,7 +231,7 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
     }
 
     public interface OnBeaconCallback {
-        void onBeacon(int minor);
+        void onBeacon(final DtoContent dtoContent);
     }
 
     @Override

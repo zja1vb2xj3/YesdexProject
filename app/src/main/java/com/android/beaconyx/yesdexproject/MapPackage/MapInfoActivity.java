@@ -12,7 +12,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.R;
@@ -25,17 +27,18 @@ import pl.polidea.view.ZoomView;
 public class MapInfoActivity extends Activity {
 
     private MapView mMapView;
-    private ArrayList<DtoPin> mMapPinList;
+    private ArrayList<MapMarker> mMapPinList;
 
     private final String ACTIVITY_NAME = "MapInfoActivity";
     private ThisApplication mThisApplication;
-
-    private Point mDisplaySize;
 
     private int mMapWidth;
     private int mMapHeight;
 
     private MapViewThread mMapViewThread;
+
+    private LinearLayout mListLayout;
+    private ListView mMarkerInfoListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,8 @@ public class MapInfoActivity extends Activity {
         Log.i("containerHeight", String.valueOf(height));
         container.addView(zoomView);
 
+        mMarkerInfoListView = (ListView) findViewById(R.id.listview);
+
     }
 
 
@@ -83,7 +88,7 @@ public class MapInfoActivity extends Activity {
 
         mMapViewThread = new MapViewThread();
         mMapViewThread.start();
-    }
+    }//MapActivity화면 true 및 Thread start
 
     @Override
     protected void onPause() {
@@ -93,7 +98,7 @@ public class MapInfoActivity extends Activity {
 
         mMapViewThread.stopThread();
         mMapViewThread = null;
-    }
+    }//MapActivity화면 false 및 Thread stop
 
     private void mapViewInit(View view) {
         mMapView = (MapView) view.findViewById(R.id.mapview);
@@ -102,29 +107,60 @@ public class MapInfoActivity extends Activity {
 
         mMapPinList = new ArrayList<>();
 
-        for (int i = 1; i <= 3; i++)
-            mMapPinList.add(new DtoPin(i));
+        mMapPinList.add(new MapMarker(String.valueOf(1)));
 
-        mMapView.setPin(mMapPinList);
+        mMapView.setMarker(mMapPinList);
 
+        mMapView.setOnMarkerTouchListener(onMarkerTouchListener);
+
+
+    }//mapView 바인딩, 이미지 설정, 마커 설정
+
+
+    MapView.OnMarkerTouchListener onMarkerTouchListener = new MapView.OnMarkerTouchListener() {
+        @Override
+        public void onMarkerTouch(MapMarker marker) {
+            createListView();
+        }
+    };
+
+    private void createListView(){
+        Toast.makeText(getApplicationContext(), "마커 클릭", Toast.LENGTH_SHORT).show();
+
+        mListLayout = (LinearLayout) findViewById(R.id.listLayout);
+        mListLayout.setVisibility(View.VISIBLE);
+
+        MapInfoListViewAdapter listViewAdapter = new MapInfoListViewAdapter();
+        listViewAdapter.addItem("A");
+        listViewAdapter.addItem("B");
+        listViewAdapter.addItem("C");
+        listViewAdapter.addItem("D");
+
+        mMarkerInfoListView.setAdapter(listViewAdapter);
     }
+
+    public void listHideImage(View view) {
+        mListLayout.setVisibility(View.INVISIBLE);
+    }
+
+
 
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         int action = ev.getAction();
         Log.i("disPatch", String.valueOf(ev.getAction()));
-        if(action == 0){//ActionDown
+        if (action == 0) {//ActionDown
             mMapViewThread.stopThread();
             mMapViewThread = null;
         }
 
-        if(action == 1){//ActionUP
+        if (action == 1) {//ActionUP
             mMapViewThread = new MapViewThread();
             mMapViewThread.start();
         }
         return super.dispatchTouchEvent(ev);
-    }
+    }//화면 터치 스레드 동작
 
     private void titleInit() {
         View topView = findViewById(R.id.top);
@@ -138,15 +174,6 @@ public class MapInfoActivity extends Activity {
             @Override
             public void onClick(View view) {
                 finish();
-            }
-        });
-    }
-
-    private void drawAllMarker(final ArrayList<DtoPin> pins) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
             }
         });
     }
@@ -197,6 +224,6 @@ public class MapInfoActivity extends Activity {
                 }
             });
         }
-    }//end inner Class
+    }//end inner Class MapView Thread 동작 (마커 비콘반응)
 
 }
