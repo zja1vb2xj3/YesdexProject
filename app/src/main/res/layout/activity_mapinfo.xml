@@ -6,34 +6,20 @@
     android:background="#FFFFFF"
     tools:context="com.android.beaconyx.yesdexproject.MapPackage.MapInfoActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="invisible"
-        android:id="@+id/listLayout">
 
-        <ListView
-            android:id="@+id/listview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/list_exit_img"
-            android:onClick="listHideImage"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+    <RelativeLayout
         android:id="@+id/container"
-        android:gravity="center">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|bottom"
+        android:orientation="vertical">
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <include
             android:id="@+id/top"
@@ -42,8 +28,32 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/listlayout"
+            android:layout_below="@id/top"
+            >
 
-    </LinearLayout>
+            <ListView
+                android:id="@+id/listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:visibility="invisible"
+                />
+
+            <ImageView
+                android:id="@+id/listHideImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/list_exit_img"
+                android:visibility="invisible"
+                />
+
+        </LinearLayout>
+    </RelativeLayout>
 
     <!--rating 들어가는 영역-->
     <FrameLayout

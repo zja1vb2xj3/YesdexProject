@@ -10,9 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +42,7 @@ public class MapInfoActivity extends Activity {
 
     private LinearLayout mListLayout;
     private ListView mMarkerInfoListView;
+    private ImageView mListHideImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,16 +71,13 @@ public class MapInfoActivity extends Activity {
         zoomView.addView(mapView);
         zoomView.setMaxZoom(4f);
 
-        LinearLayout container = (LinearLayout) findViewById(R.id.container);
+        RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
         int width = container.getMinimumWidth();
         int height = container.getMinimumHeight();
 
         Log.i("containerWidth", String.valueOf(width));
         Log.i("containerHeight", String.valueOf(height));
         container.addView(zoomView);
-
-        mMarkerInfoListView = (ListView) findViewById(R.id.listview);
-
     }
 
 
@@ -124,11 +125,11 @@ public class MapInfoActivity extends Activity {
         }
     };
 
-    private void createListView(){
+    private void createListView() {
         Toast.makeText(getApplicationContext(), "마커 클릭", Toast.LENGTH_SHORT).show();
 
-        mListLayout = (LinearLayout) findViewById(R.id.listLayout);
-        mListLayout.setVisibility(View.VISIBLE);
+        mListLayout = (LinearLayout) findViewById(R.id.listlayout);
+
 
         MapInfoListViewAdapter listViewAdapter = new MapInfoListViewAdapter();
         listViewAdapter.addItem("A");
@@ -136,14 +137,69 @@ public class MapInfoActivity extends Activity {
         listViewAdapter.addItem("C");
         listViewAdapter.addItem("D");
 
+        mMarkerInfoListView = (ListView) findViewById(R.id.listview);
+
         mMarkerInfoListView.setAdapter(listViewAdapter);
+
+        listLayoutDown();
+
+        mListHideImage = (ImageView) findViewById(R.id.listHideImage);
+        mListHideImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listLayoutUp();
+            }
+        });
     }
 
-    public void listHideImage(View view) {
-        mListLayout.setVisibility(View.INVISIBLE);
+    private void listLayoutDown() {
+        Animation animaion = AnimationUtils.loadAnimation(this, R.anim.slide_down);
+
+        animaion.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mMarkerInfoListView.setVisibility(View.VISIBLE);
+                mListHideImage.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        mMarkerInfoListView.startAnimation(animaion);
+
     }
 
+    private void listLayoutUp() {
+        Animation animaion = AnimationUtils.loadAnimation(this, R.anim.slide_up);
 
+        animaion.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                mListHideImage.startAnimation(animation);
+                mMarkerInfoListView.setVisibility(View.INVISIBLE);
+                mListHideImage.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        mMarkerInfoListView.startAnimation(animaion);
+    }
 
 
     @Override
@@ -160,6 +216,7 @@ public class MapInfoActivity extends Activity {
             mMapViewThread.start();
         }
         return super.dispatchTouchEvent(ev);
+
     }//화면 터치 스레드 동작
 
     private void titleInit() {
