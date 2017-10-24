@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
@@ -30,8 +29,8 @@ public class MapView extends SubsamplingScaleImageView {
     private ArrayList<Bitmap> mMarkerBitmapList = new ArrayList<>();
     private HashMap<String, Rect> mRectMarkerHashMap = new HashMap<String, Rect>();
 
-    private int mOriginImageWidth = 0;
-    private int mOriginImageHeight = 0;
+    private int mMapViewWidth;
+    private int mMapViewHeight;
 
     private Context mContext;
 
@@ -79,20 +78,16 @@ public class MapView extends SubsamplingScaleImageView {
         super.onDraw(canvas);
 //        Log.i(CLASSNAME, "onDraw");
 
-        if (!isReady()) {
-            return;
-        }
-
         Paint paint = new Paint();
         paint.setAntiAlias(true);
 
         if (mMarkerBitmapList != null) {
             for (int i = 0; i < mMarkerBitmapList.size(); i++) {
-                int width = this.getWidth();
-                int height = this.getHeight();
+                mMapViewWidth = this.getMeasuredWidth();
+                mMapViewHeight = this.getMeasuredHeight();
 
-                int centerX = width / 2;
-                int centerY = height / 2;
+                int centerX = mMapViewWidth / 2;
+                int centerY = mMapViewHeight / 2;
 
                 Rect rect = new Rect();
 
@@ -130,8 +125,8 @@ public class MapView extends SubsamplingScaleImageView {
                 Paint paint = new Paint();
                 paint.setAntiAlias(true);
 
-                Bitmap onImage = BitmapFactory.decodeResource(getResources(), R.drawable.on_img);
-                Bitmap offImage = BitmapFactory.decodeResource(getResources(), R.drawable.off_img);
+                Bitmap onImage = BitmapFactory.decodeResource(getResources(), R.drawable.on_pin);
+                Bitmap offImage = BitmapFactory.decodeResource(getResources(), R.drawable.off_pin);
 
                 float markerWidth = (density / 420f) * offImage.getWidth();
                 float markerHeight = (density / 420f) * offImage.getHeight();
@@ -155,22 +150,28 @@ public class MapView extends SubsamplingScaleImageView {
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            Log.i("맵뷰 터치", "터치");
 
             Iterator<String> iter = mRectMarkerHashMap.keySet().iterator();
+
             while (iter.hasNext()) {
                 String key = iter.next();
                 Rect rect = mRectMarkerHashMap.get(key);
                 float eventTouchX = event.getX();
                 float eventTouchY = event.getY();
                 if (rect.contains((int) eventTouchX, (int) eventTouchY)) {
+
                     MapMarker mapMarker = mapMarkerHashMap.get(key);
                     if (mapMarker != null) {
                         if (MarkerTouch != null) {
                             MarkerTouch.onMarkerTouch(mapMarker);
+
                         }
                         break;
                     }
+                }
+
+                else{
+
                 }
             }
 
@@ -179,5 +180,11 @@ public class MapView extends SubsamplingScaleImageView {
         return super.onTouchEvent(event);
     }
 
+    public int getMapViewWidth() {
+        return mMapViewWidth;
+    }
 
+    public int getMapViewHeight() {
+        return mMapViewHeight;
+    }
 }

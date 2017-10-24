@@ -3,7 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorOrange">#FF5E00</color>
 
-    <color name="tab_text_act">#FF0000</color>
-    <color name="tab_text">#326bdf</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorRed">#FF0000</color>
+    <color name="colorBlue">#326bdf</color>
 </resources>

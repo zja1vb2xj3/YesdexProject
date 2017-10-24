@@ -3,17 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     android:orientation="vertical"
     android:weightSum="10"
-    tools:context="com.android.beaconyx.yesdexproject.Activity.MainActivity"
-    android:background="#FFFFFF">
+    tools:context="com.android.beaconyx.yesdexproject.Activity.MainActivity">
     <!--메인이미지-->
+    <!--4-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="match_parent"
@@ -23,96 +24,130 @@
 
     </LinearLayout>
 
-    <TableLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="6"
-        android:weightSum="4">
+        android:layout_weight="1.5"
+        android:orientation="horizontal">
 
-        <TableRow
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:onClick="mapInfoActivityOperation"
+            android:background="@drawable/orange_oval"
+            android:textSize="24dp"
+            android:textColor="@color/colorWhite"
+            android:text="행사장 지도"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="2.5dp"
             android:layout_weight="1"
-            android:weightSum="1">
+            android:onClick="aInfoActivityOperation"
+            android:background="@drawable/blue_oval"
+            android:textSize="24dp"
+            android:textColor="@color/colorWhite"
+            android:text="YESDEX 2017" />
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_margin="1dp"
-                android:background="@drawable/main_button_map"
-                android:onClick="mapInfoActivityOperation" />
-
-        </TableRow>
-
-        <TableRow
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:weightSum="2">
+            android:background="@drawable/blue_oval"
+            android:onClick="bInfoActivityOperation"
+            android:textSize="24dp"
+            android:textColor="@color/colorWhite"
+            android:text="행사안내"/>
 
-            <!--Yesdex 2017-->
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="1dp"
-                android:layout_weight="1"
-                android:background="@drawable/main_button_a"
-                android:onClick="aInfoActivityOperation" />
-            <!--행사안내-->
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="1dp"
-                android:layout_weight="1"
-                android:background="@drawable/main_button_b"
-                android:onClick="bInfoActivityOperation" />
-        </TableRow>
+    </LinearLayout>
 
-        <TableRow
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="2.5dp"
             android:layout_weight="1"
-            android:weightSum="2">
-            <!--종합학술대회-->
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="1dp"
-                android:layout_weight="1"
-                android:background="@drawable/main_button_c"
-                android:onClick="cInfoActivityOperation" />
+            android:onClick="cInfoActivityOperation"
+            android:textSize="24dp"
+            android:textColor="@color/colorWhite"
+            android:text="종합학술대회"
+            android:background="@drawable/blue_oval"
+            />
 
-            <!--강의 출석 및 현황-->
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="1dp"
-                android:layout_weight="1"
-                android:background="@drawable/main_button_d"
-                android:onClick="dInfoActivityOperation" />
-
-        </TableRow>
-
-        <TableRow
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:weightSum="2">
-            <!--교통 숙박 관광-->
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="1dp"
-                android:layout_weight="1"
-                android:background="@drawable/main_button_e"
-                android:onClick="eInfoActivityOperation" />
+            android:onClick="dInfoActivityOperation"
+            android:textSize="24dp"
+            android:textColor="@color/colorWhite"
+            android:text="강의 출석 및 현황"
+            android:background="@drawable/blue_oval"
+            />
 
-            <!--부스위치안내-->
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="1dp"
-                android:layout_weight="1"
-                android:background="@drawable/main_button_f"
-                android:onClick="fInfoActivityOperation"/>
+    </LinearLayout>
 
-        </TableRow>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:orientation="horizontal"
+        android:weightSum="2">
 
-    </TableLayout>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="2.5dp"
+            android:layout_weight="1"
+            android:onClick="eInfoActivityOperation"
+            android:textSize="24dp"
+            android:textColor="@color/colorWhite"
+            android:text="교통·숙박·관광"
+            android:background="@drawable/blue_oval"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:onClick="dInfoActivityOperation"
+            android:textSize="24dp"
+            android:textColor="@color/colorWhite"
+            android:text="부스위치 안내"
+            android:background="@drawable/blue_oval"/>
+
+    </LinearLayout>
 
 
 </LinearLayout>

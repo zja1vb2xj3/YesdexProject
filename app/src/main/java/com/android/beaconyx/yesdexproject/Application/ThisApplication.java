@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 /**
  * Created by user on 2017-10-15.
@@ -141,10 +140,10 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
 
-                List<ActivityManager.RunningTaskInfo> mActivityList = mActivityManager.getRunningTasks(1);
-
-                String motionActivityName = mActivityList.get(0).topActivity.toString();
-                Log.i("activityName", String.valueOf(motionActivityName));
+//                List<ActivityManager.RunningTaskInfo> mActivityList = mActivityManager.getRunningTasks(1);
+//
+//                String motionActivityName = mActivityList.get(0).topActivity.toString();
+//                Log.i("activityName", String.valueOf(motionActivityName));
 
                 if (beacons.size() != 0) {
                     Log.i("Beacon Service : ", "beacon find");

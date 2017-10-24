@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -40,7 +41,7 @@ public class MapInfoActivity extends Activity {
 
     private MapViewThread mMapViewThread;
 
-    private LinearLayout mListLayout;
+    private LinearLayout mListViewContainer;
     private ListView mMarkerInfoListView;
     private ImageView mListHideImage;
 
@@ -48,36 +49,40 @@ public class MapInfoActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapinfo);
+        titleInit();
 
         mThisApplication = (ThisApplication) this.getApplicationContext();
 
         Point displaySize = mThisApplication.measureDisplay(this);
-        mMapWidth = (int) (displaySize.x / 1.1);
-        mMapHeight = (int) (displaySize.y / 1.1);
-
-        titleInit();
+        mMapWidth = (int) (displaySize.x / 1.2);
+        mMapHeight = (int) (displaySize.y / 1.15);
 
         View mapView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.map, null, false);
 
-        Log.i("mMapWidth", String.valueOf(mMapWidth));
-        Log.i("mMapHeight", String.valueOf(mMapHeight));
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(displaySize.x, mMapHeight);
 
         mapViewInit(mapView);
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(mMapWidth, mMapHeight);
-
         ZoomView zoomView = new ZoomView(this);
-        zoomView.setLayoutParams(layoutParams);
         zoomView.addView(mapView);
+        zoomView.setLayoutParams(layoutParams);
         zoomView.setMaxZoom(4f);
 
         RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
-        int width = container.getMinimumWidth();
-        int height = container.getMinimumHeight();
-
-        Log.i("containerWidth", String.valueOf(width));
-        Log.i("containerHeight", String.valueOf(height));
         container.addView(zoomView);
+
+        mListHideImage = (ImageView) findViewById(R.id.listHideImage);
+        mListHideImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listLayoutUp();
+            }
+        });
+
+        mListViewContainer = (LinearLayout) findViewById(R.id.listContainer);
+
+//        Log.i("mMapWidth", String.valueOf(mMapWidth));
+//        Log.i("mMapHeight", String.valueOf(mMapHeight));
     }
 
 
@@ -87,8 +92,10 @@ public class MapInfoActivity extends Activity {
         Log.i(ACTIVITY_NAME, "onResume");
         mThisApplication.setIsMapInfoActivity(true); // AttendActivity 실행신호
 
-        mMapViewThread = new MapViewThread();
-        mMapViewThread.start();
+        if (mMapViewThread == null) {
+            mMapViewThread = new MapViewThread();
+            mMapViewThread.start();
+        }
     }//MapActivity화면 true 및 Thread start
 
     @Override
@@ -97,12 +104,14 @@ public class MapInfoActivity extends Activity {
         Log.i(ACTIVITY_NAME, "onPause");
         mThisApplication.setIsMapInfoActivity(false); // AttendActivity 실행신호
 
-        mMapViewThread.stopThread();
-        mMapViewThread = null;
+        if (mMapViewThread != null) {
+            mMapViewThread.stopThread();
+            mMapViewThread = null;
+        }
     }//MapActivity화면 false 및 Thread stop
 
     private void mapViewInit(View view) {
-        mMapView = (MapView) view.findViewById(R.id.mapview);
+        mMapView = (MapView) view.findViewById(R.id.mapView);
 
         mMapView.setImage(ImageSource.resource(R.drawable.map_sample_img));
 
@@ -128,9 +137,6 @@ public class MapInfoActivity extends Activity {
     private void createListView() {
         Toast.makeText(getApplicationContext(), "마커 클릭", Toast.LENGTH_SHORT).show();
 
-        mListLayout = (LinearLayout) findViewById(R.id.listlayout);
-
-
         MapInfoListViewAdapter listViewAdapter = new MapInfoListViewAdapter();
         listViewAdapter.addItem("A");
         listViewAdapter.addItem("B");
@@ -143,13 +149,6 @@ public class MapInfoActivity extends Activity {
 
         listLayoutDown();
 
-        mListHideImage = (ImageView) findViewById(R.id.listHideImage);
-        mListHideImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listLayoutUp();
-            }
-        });
     }
 
     private void listLayoutDown() {
@@ -190,6 +189,7 @@ public class MapInfoActivity extends Activity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
+
             }
 
             @Override
@@ -205,15 +205,19 @@ public class MapInfoActivity extends Activity {
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         int action = ev.getAction();
-        Log.i("disPatch", String.valueOf(ev.getAction()));
+        Log.i(ACTIVITY_NAME, String.valueOf(action));
         if (action == 0) {//ActionDown
-            mMapViewThread.stopThread();
-            mMapViewThread = null;
+            if (mMapViewThread != null) {
+                mMapViewThread.stopThread();
+                mMapViewThread = null;
+            }
         }
 
         if (action == 1) {//ActionUP
-            mMapViewThread = new MapViewThread();
-            mMapViewThread.start();
+            if (mMapViewThread == null) {
+                mMapViewThread = new MapViewThread();
+                mMapViewThread.start();
+            }
         }
         return super.dispatchTouchEvent(ev);
 
