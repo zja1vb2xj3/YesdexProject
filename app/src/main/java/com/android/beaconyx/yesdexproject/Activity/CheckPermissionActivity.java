@@ -2,7 +2,6 @@ package com.android.beaconyx.yesdexproject.Activity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -26,7 +25,6 @@ public class CheckPermissionActivity extends Activity {
 
     private PermissionManager mPermissionManager;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +36,7 @@ public class CheckPermissionActivity extends Activity {
         boolean checkLocationSign = mPermissionManager.getCheckLocationSign();
 
         if (checkLocationSign == true) {
-            mThisApplication.setCheckPermissionSign(true);
+
             startActivity(new Intent(getApplicationContext(), SplashActivity.class));
             finish();
         } else {
@@ -80,8 +78,6 @@ public class CheckPermissionActivity extends Activity {
     PermissionListener permissionListener = new PermissionListener() {
         @Override
         public void onPermissionGranted() {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, 1);
 
             Toast.makeText(getApplicationContext(), "권한 허용 ", Toast.LENGTH_SHORT).show();
             Log.i("check", "granted");
@@ -120,8 +116,8 @@ public class CheckPermissionActivity extends Activity {
                     //권한 허가
                     mPermissionManager.save(true);
 
-                    mThisApplication.setCheckPermissionSign(true);
                     startActivity(new Intent(getApplicationContext(), SplashActivity.class));
+
                     finish();
 
                 } else {

@@ -56,8 +56,6 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
 
     private int mBeaconMinor;
 
-    private boolean mCheckPermissionSign = false;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -289,7 +287,4 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
         this.mBeaconMinor = mBeaconMinor;
     }
 
-    public void setCheckPermissionSign(boolean mCheckPermissionSign) {
-        this.mCheckPermissionSign = mCheckPermissionSign;
-    }
 }

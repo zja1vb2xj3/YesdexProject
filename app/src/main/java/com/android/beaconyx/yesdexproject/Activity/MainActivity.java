@@ -1,6 +1,7 @@
 package com.android.beaconyx.yesdexproject.Activity;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,13 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /**
+         * 블루투스가 켜져있지 않으면 활성화
+         */
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (!bluetoothAdapter.isEnabled()) {
+            bluetoothAdapter.enable();
+        }
 
         mThisApplication = (ThisApplication) getApplicationContext();
 
@@ -31,14 +39,14 @@ public class MainActivity extends Activity {
 
     }
 
-    public void aInfoActivityOperation(View view){
+    public void aInfoActivityOperation(View view) {
         Intent intent = new Intent(this, AInfoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         startActivity(intent);
     }
 
-    public void bInfoActivityOperation(View view){
+    public void bInfoActivityOperation(View view) {
         Intent intent = new Intent(this, BInfoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
