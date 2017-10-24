@@ -39,7 +39,8 @@ public class CheckPermissionActivity extends Activity {
 
             startActivity(new Intent(getApplicationContext(), SplashActivity.class));
             finish();
-        } else {
+        }
+        else {
             TedPermission.with(this)
                     .setPermissionListener(permissionListener)
                     .setRationaleMessage("앱을 이용하려면 위치정보 권한이 필요합니다.")
