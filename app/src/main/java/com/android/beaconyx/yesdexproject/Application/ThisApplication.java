@@ -56,7 +56,8 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
     private boolean mIsMapInfoActivityComplete = false;
 
     private int mBeaconMinor;
-//
+
+    //
     @Override
     public void onCreate() {
         super.onCreate();
@@ -71,6 +72,7 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
         if (mMotionFragmentActivity != null) {
             mMotionFragmentActivity.getFragmentManager().beginTransaction().remove(mDialogFragment1).commit();
             mDialogFragment1.show(mMotionFragmentActivity.getFragmentManager(), "fragment1");
+
             setFragmentDialog1Sign(false);
         }
 
@@ -179,6 +181,7 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
         });//setRangeNotifier
     }//onBeaconServiceConnect
 //
+
     /**
      * 비콘 Thread start
      */

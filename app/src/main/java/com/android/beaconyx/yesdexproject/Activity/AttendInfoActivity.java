@@ -105,6 +105,8 @@ public class AttendInfoActivity extends FragmentActivity {
         });
     }
 
+
+
     /**
      * View Item 초기설정
      */

@@ -76,10 +76,10 @@ public class AttendDialogFragment1 extends DialogFragment {
             }
         });
 
-//        builder.setOnKeyListener(onKeyListener);
 
         return builder.create();
     }
+
 
     DialogInterface.OnKeyListener onKeyListener = new DialogInterface.OnKeyListener() {
         @Override
@@ -113,7 +113,6 @@ public class AttendDialogFragment1 extends DialogFragment {
     public void setOnDialogFragment1CancelListener(DialogInterface.OnCancelListener onCancelListener) {
         this.onDialog1CancelListener = onCancelListener;
     }
-
 
 
     public AttendDialogFragment1() {
