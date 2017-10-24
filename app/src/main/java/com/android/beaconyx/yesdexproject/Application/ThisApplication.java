@@ -56,7 +56,8 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
 
     private int mBeaconMinor;
 
-    //
+    private boolean mCheckPermissionSign = false;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -64,7 +65,7 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
         Log.i(CLASSNAME, "onCreate");
         Log.i("isAttendActivity", String.valueOf(mIsAttendActivityComplete));
         mActivityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        startBeaconThread();
+
     }
 
     private void callDialogFragment1() {
@@ -121,8 +122,8 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
         mRegion = new Region("myRangingUniqueId", Identifier.parse("a0fabefc-b1f5-4836-8328-7c5412fff9c4"), Identifier.parse("51"), null);
         mBeaconManager = BeaconManager.getInstanceForApplication(this);
         mBeaconManager.setAndroidLScanningDisabled(true);
-        mBeaconManager.setBackgroundBetweenScanPeriod(4000);
-        mBeaconManager.setForegroundBetweenScanPeriod(4000);
+        mBeaconManager.setBackgroundBetweenScanPeriod(1000);
+        mBeaconManager.setForegroundBetweenScanPeriod(1000);
         mBeaconManager = BeaconManager.getInstanceForApplication(this);
         mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
 
@@ -286,5 +287,9 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
 
     private void setBeaconMinor(int mBeaconMinor) {
         this.mBeaconMinor = mBeaconMinor;
+    }
+
+    public void setCheckPermissionSign(boolean mCheckPermissionSign) {
+        this.mCheckPermissionSign = mCheckPermissionSign;
     }
 }
