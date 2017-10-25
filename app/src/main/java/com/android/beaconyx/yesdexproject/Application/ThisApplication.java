@@ -15,6 +15,8 @@ import android.util.Log;
 
 import com.android.beaconyx.yesdexproject.Dto.DtoContent;
 import com.android.beaconyx.yesdexproject.AttendPackage.AttendDialogFragment1;
+import com.parse.Parse;
+import com.parse.ParseInstallation;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -59,11 +61,10 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
     @Override
     public void onCreate() {
         super.onCreate();
+        parseInit();
         beaconInit();
         Log.i(CLASSNAME, "onCreate");
-        Log.i("isAttendActivity", String.valueOf(mIsAttendActivityComplete));
         mActivityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-
     }
 
     private void callDialogFragment1() {
@@ -81,6 +82,15 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
                 setFragmentDialog1Sign(true);
             }
         });
+    }
+
+    private void parseInit(){
+        Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
+                .applicationId("YesdexaAZx4r86eeoyIwwGfdfOLeT2CnQKFcQ1")
+                .clientKey("YesdexbeaconyxSwvy38GBFH6i1MZ2JGxfYkt2j4gaROGxy")
+                .server("http://www.beaconyx.co.kr:1337/parse")   // '/' important after 'parse'
+                .build());
+        ParseInstallation.getCurrentInstallation().saveInBackground();
     }
 
 

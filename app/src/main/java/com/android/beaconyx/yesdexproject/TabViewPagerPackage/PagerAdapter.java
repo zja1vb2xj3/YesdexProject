@@ -10,11 +10,11 @@ import java.util.ArrayList;
  * Created by beaconyx on 2017-10-09.
  */
 
-public class PagerAdapter extends FragmentStatePagerAdapter {
+class PagerAdapter extends FragmentStatePagerAdapter {
     private ArrayList<Fragment> fragments;
 
 
-    public PagerAdapter(FragmentManager fm, ArrayList<Fragment> fragments) {
+    PagerAdapter(FragmentManager fm, ArrayList<Fragment> fragments) {
         super(fm);
         this.fragments = fragments;
     }

@@ -9,12 +9,12 @@ import android.view.MotionEvent;
  * Created by beaconyx on 2017-10-09.
  */
 
-public class CustomViewPager extends ViewPager {
-    public CustomViewPager(Context context) {
+class CustomViewPager extends ViewPager {
+    CustomViewPager(Context context) {
         super(context);
     }
 
-    public CustomViewPager(Context context, AttributeSet attrs) {
+    CustomViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -31,10 +31,9 @@ public class CustomViewPager extends ViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        try{
+        try {
             return super.onInterceptTouchEvent(ev);
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
 

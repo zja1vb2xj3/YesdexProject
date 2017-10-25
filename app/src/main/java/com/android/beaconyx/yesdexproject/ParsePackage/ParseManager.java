@@ -5,7 +5,6 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,71 +12,103 @@ import java.util.List;
  */
 
 public class ParseManager {
-    private OnParseCallback mCallback;
+    private OnCheckAuthenticationCallBack onCheckAuthenticationCallBack;
 
-    public interface OnParseCallback {
-        void onParse(String data, boolean isSucess);
+    public interface OnCheckAuthenticationCallBack {
+        void onCheck(boolean resultSign);
     }
 
-
-    public void setOnParseCallback(OnParseCallback callback) {
-        mCallback = callback;
+    public void setOnCheckAuthenticationCallBack(OnCheckAuthenticationCallBack onCheckAuthenticationCallBack) {
+        this.onCheckAuthenticationCallBack = onCheckAuthenticationCallBack;
     }
 
     public synchronized void load() {
 
     }
-//ArrayList에 담아서 return 시켜야함
-    public synchronized void loadUserData() {
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("TB_USER_Ko");
-        query.orderByAscending("USR_IDX");
-
+    public synchronized void checkAuthentication(String userName, String userNumber) {
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery("TB_User_Ko");
 
         boolean isCache = query.hasCachedResult();
         if (isCache == true) {
             query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         }
 
+        query.whereEqualTo("USR_NAME", userName);
+        query.whereEqualTo("USR_NUMBER", userNumber);
+
         query.findInBackground(new FindCallback<ParseObject>() {
-
             @Override
-            public void done(List<ParseObject> parseObjects, ParseException e) {
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (objects.size() != 0) {// 있는거
+                    if (onCheckAuthenticationCallBack != null) {
 
-                if (e == null) {
-                    //for (int i = 0; i < parseObjects.size(); i++) {
-//                    for(int i=0; i<parseObjects.size(); i++){
-//                        parseObjects.get(i).getString("USR_NAME");
-//                    }
-                    for (int i = 0; i < parseObjects.size(); i++) {
-                        ParseObject parseObject = parseObjects.get(i);
-                        ArrayList<DtoUserModel> dtoUserModels = new ArrayList<DtoUserModel>();
-                        String userName = null;
-                        if (parseObject.getString("stamp_major") != null) {
-                            userName = parseObject.getString("stamp_major");
-                            dtoUserModels.get(i).setUserName(userName);
-                        }
-
-                        String userNumber = null;
-                        if (parseObject.getString("stamp_minor") != null) {
-                            userNumber = parseObject.getString("stamp_minor");
-                            dtoUserModels.get(i).setUserNumber(userNumber);
-                        }
-                        if (parseObject.getInt("stamp_position") != 0) {
-                            int idx = parseObject.getInt("stamp_position");
-                            dtoUserModels.get(i).setIdx(idx);
-                        }
-
-                        if (mCallback != null) {
-                            mCallback.onParse("\"major : \" + dto.getStampBeaconMajor() + \"\\n\" + \"minor : \" + dto.getmStampBeaconMinor() + \"\\n\" + \"position : \" + dto.getStampBeaconPosition()", true);
-                        }
-                        //mTestTextView.setText("major : " + dto.getStampBeaconMajor() + "\n" + "minor : " + dto.getmStampBeaconMinor() + "\n" + "position : " + dto.getStampBeaconPosition());
+                        onCheckAuthenticationCallBack.onCheck(true);
+                    }
+                } else {
+                    if (onCheckAuthenticationCallBack != null) {
+                        onCheckAuthenticationCallBack.onCheck(false);
                     }
                 }
             }
         });
 
-    }//end
+    }
 
-
+//    public synchronized void loadUserData() {
+//
+//        ParseQuery<ParseObject> query = ParseQuery.getQuery("TB_USER_Ko");
+//
+//        boolean isCache = query.hasCachedResult();
+//
+//        if (isCache == true) {
+//            query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+//        }
+//
+//        query.orderByAscending("USR_IDX");
+//
+//        query.findInBackground(new FindCallback<ParseObject>() {
+//
+//            @Override
+//            public void done(List<ParseObject> parseObjects, ParseException e) {
+//
+//                if (e == null) {
+//
+//                    ArrayList<DtoUserModel> dtoUserModels = new ArrayList<>();
+//
+//                    for (int i = 0; i < parseObjects.size(); i++) {
+//                        ParseObject parseObject = parseObjects.get(i);
+//                        DtoUserModel dtoUserModel = new DtoUserModel();
+//
+//                        String userName = null;
+//                        if (parseObject.getString("USR_NAME") != null) {
+//                            userName = parseObject.getString("USR_NAME");
+//                            dtoUserModel.setUserName(userName);
+//                        }
+//
+//                        String userNumber = null;
+//                        if (parseObject.getString("USR_NUMBER") != null) {
+//                            userNumber = parseObject.getString("USR_NUMBER");
+//                            dtoUserModel.setUserNumber(userNumber);
+//                        }
+//                        if (parseObject.getInt("USR_IDX") != 0) {
+//                            int idx = parseObject.getInt("USR_IDX");
+//                            dtoUserModel.setIdx(idx);
+//                        }
+//
+//                        dtoUserModels.add(dtoUserModel);
+//                    }
+//
+//                    if (mAttendParseCallBack != null) {
+//                        mAttendParseCallBack.onParse(dtoUserModels, true);
+//                    }
+//                } else {
+//                    Log.i("Parse 에러임", e.toString());
+//                }
+//            }
+//        });
+//}
 }
+
+
+

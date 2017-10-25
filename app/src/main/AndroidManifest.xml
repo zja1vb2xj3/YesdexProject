@@ -28,7 +28,7 @@
         <activity android:name=".TabViewPagerPackage.AInfoActivity" />
         <activity android:name=".TabViewPagerPackage.BInfoActivity" />
         <activity android:name=".TabViewPagerPackage.CInfoActivity" />
-        <activity android:name=".TabViewPagerPackage.DInfoActivity" />
+        <activity android:name=".AttendPackage.DInfoActivity" />
         <activity android:name=".TabViewPagerPackage.EInfoActivity" />
         <activity android:name=".MapPackage.MapInfoActivity" />
         <activity android:name=".AttendPackage.AttendInfoActivity" />

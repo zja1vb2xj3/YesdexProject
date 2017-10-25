@@ -12,7 +12,7 @@ import com.android.beaconyx.yesdexproject.R;
 import com.android.beaconyx.yesdexproject.TabViewPagerPackage.AInfoActivity;
 import com.android.beaconyx.yesdexproject.TabViewPagerPackage.BInfoActivity;
 import com.android.beaconyx.yesdexproject.TabViewPagerPackage.CInfoActivity;
-import com.android.beaconyx.yesdexproject.TabViewPagerPackage.DInfoActivity;
+import com.android.beaconyx.yesdexproject.AttendPackage.DInfoActivity;
 import com.android.beaconyx.yesdexproject.TabViewPagerPackage.EInfoActivity;
 import com.android.beaconyx.yesdexproject.TabViewPagerPackage.FInfoActivity;
 
