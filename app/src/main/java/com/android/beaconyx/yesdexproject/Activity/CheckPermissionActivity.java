@@ -40,6 +40,14 @@ public class CheckPermissionActivity extends Activity {
             startActivity(new Intent(getApplicationContext(), SplashActivity.class));
             finish();
         }
+        /**
+         * 위치권한이 허용되어 있을때
+         */
+        else if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ){
+            startActivity(new Intent(getApplicationContext(), SplashActivity.class));
+
+            finish();
+        }
         else {
             TedPermission.with(this)
                     .setPermissionListener(permissionListener)

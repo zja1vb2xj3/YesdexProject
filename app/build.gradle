@@ -46,6 +46,8 @@ dependencies {
     compile 'jp.wasabeef:glide-transformations:2.0.1'
     compile 'gun0912.ted:tedpermission:2.0.0'
     testCompile 'junit:junit:4.12'
+
+    compile 'com.parse:parse-android:1.13.1'
 }
 
 

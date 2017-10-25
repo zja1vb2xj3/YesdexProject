@@ -157,12 +157,12 @@ public class MapInfoActivity extends Activity {
         animaion.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
+                mMarkerInfoListView.setVisibility(View.VISIBLE);
+                mListHideImage.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mMarkerInfoListView.setVisibility(View.VISIBLE);
                 mListHideImage.setVisibility(View.VISIBLE);
             }
 
