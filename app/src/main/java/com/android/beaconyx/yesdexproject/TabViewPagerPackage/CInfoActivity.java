@@ -1,4 +1,4 @@
-package com.android.beaconyx.yesdexproject.Activity;
+package com.android.beaconyx.yesdexproject.TabViewPagerPackage;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -8,24 +8,21 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.beaconyx.yesdexproject.Adapter.PagerAdapter;
-import com.android.beaconyx.yesdexproject.CustomView.CustomViewPager;
-import com.android.beaconyx.yesdexproject.Fragment.PageFragment;
 import com.android.beaconyx.yesdexproject.R;
 
 import java.util.ArrayList;
 
-public class EInfoActivity extends FragmentActivity {
+public class CInfoActivity extends FragmentActivity {
 
     private TabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_einfo);
+        setContentView(R.layout.activity_cinfo);
 
         titleInit();
-        taInfoInit();
+        cInfoInit();
     }
 
     private void titleInit(){
@@ -33,7 +30,7 @@ public class EInfoActivity extends FragmentActivity {
 
         TextView title = (TextView) topView.findViewById(R.id.title);
 
-        title.setText(getResources().getString(R.string.e_info_activity_title));
+        title.setText(getResources().getString(R.string.c_info_activity_title));
 
         ImageView back = (ImageView) topView.findViewById(R.id.top_title_back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -44,12 +41,11 @@ public class EInfoActivity extends FragmentActivity {
         });
     }
 
-    private void taInfoInit(){
+    private void cInfoInit(){
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        mTabLayout.addTab(mTabLayout.newTab().setText("교통 안내"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("숙박 안내"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("관광 안내"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("주변 안내"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("학술프로그램 소개"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("강연장 안내"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("강연자 소개"));
 
         ArrayList<Fragment> fragments = getFragment();
 
@@ -59,10 +55,9 @@ public class EInfoActivity extends FragmentActivity {
     private ArrayList<Fragment> getFragment(){
         ArrayList<Fragment> fragments = new ArrayList<>();
 
-        fragments.add(PageFragment.newInstance("교통 안내"));
-        fragments.add(PageFragment.newInstance("숙박 안내"));
-        fragments.add(PageFragment.newInstance("관광 안내"));
-        fragments.add(PageFragment.newInstance("주변 안내"));
+        fragments.add(PageFragment.newInstance("학술프로그램 소개"));
+        fragments.add(PageFragment.newInstance("강연장 안내"));
+        fragments.add(PageFragment.newInstance("강연자 소개"));
 
         return fragments;
     }

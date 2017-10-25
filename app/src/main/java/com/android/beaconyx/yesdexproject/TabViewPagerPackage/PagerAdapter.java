@@ -1,4 +1,4 @@
-package com.android.beaconyx.yesdexproject.Adapter;
+package com.android.beaconyx.yesdexproject.TabViewPagerPackage;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

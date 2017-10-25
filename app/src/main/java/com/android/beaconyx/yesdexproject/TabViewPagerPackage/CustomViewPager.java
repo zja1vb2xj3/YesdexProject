@@ -1,4 +1,4 @@
-package com.android.beaconyx.yesdexproject.CustomView;
+package com.android.beaconyx.yesdexproject.TabViewPagerPackage;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.android.beaconyx.yesdexproject.Activity.CInfoActivity">
+    tools:context="com.android.beaconyx.yesdexproject.TabViewPagerPackage.CInfoActivity">
 
     <include
         android:id="@+id/top"
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.android.beaconyx.yesdexproject.CustomView.CustomViewPager
+    <com.android.beaconyx.yesdexproject.TabViewPagerPackage.CustomViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

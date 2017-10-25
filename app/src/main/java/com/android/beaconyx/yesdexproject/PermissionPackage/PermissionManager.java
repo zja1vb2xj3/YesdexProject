@@ -1,9 +1,7 @@
-package com.android.beaconyx.yesdexproject.Manager;
+package com.android.beaconyx.yesdexproject.PermissionPackage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
-import com.android.beaconyx.yesdexproject.Activity.CheckPermissionActivity;
 
 /**
  * Created by beaconyx on 2017-10-24.

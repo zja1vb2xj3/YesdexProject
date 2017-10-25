@@ -1,4 +1,4 @@
-package com.android.beaconyx.yesdexproject.Fragment;
+package com.android.beaconyx.yesdexproject.AttendPackage;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

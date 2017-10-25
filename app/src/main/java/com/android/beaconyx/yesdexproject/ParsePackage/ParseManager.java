@@ -1,11 +1,11 @@
-package com.android.beaconyx.yesdexproject.Manager;
+package com.android.beaconyx.yesdexproject.ParsePackage;
 
-import com.android.beaconyx.yesdexproject.Dto.DtoUser;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,22 +25,19 @@ public class ParseManager {
     }
 
     public synchronized void load() {
-        loadStampBeaconData();
+
     }
+//ArrayList에 담아서 return 시켜야함
+    public synchronized void loadUserData() {
 
-    private void loadStampBeaconData() {
-
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("TB_Test_Stamp_Beacon");
-        query.orderByAscending("stamp_position");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("TB_USER_Ko");
+        query.orderByAscending("USR_IDX");
 
 
         boolean isCache = query.hasCachedResult();
         if (isCache == true) {
             query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         }
-
-        query.orderByAscending("idx");
 
         query.findInBackground(new FindCallback<ParseObject>() {
 
@@ -49,26 +46,26 @@ public class ParseManager {
 
                 if (e == null) {
                     //for (int i = 0; i < parseObjects.size(); i++) {
-                    for(int i=0; i<parseObjects.size(); i++){
-                        parseObjects.get(i).getString("stamp_major");
-                    }
-                    for (int i = 0; i < 1; i++) {
+//                    for(int i=0; i<parseObjects.size(); i++){
+//                        parseObjects.get(i).getString("USR_NAME");
+//                    }
+                    for (int i = 0; i < parseObjects.size(); i++) {
                         ParseObject parseObject = parseObjects.get(i);
-                        DtoUser dto = new DtoUser();
+                        ArrayList<DtoUserModel> dtoUserModels = new ArrayList<DtoUserModel>();
                         String userName = null;
                         if (parseObject.getString("stamp_major") != null) {
                             userName = parseObject.getString("stamp_major");
-                            dto.setUserName(userName);
+                            dtoUserModels.get(i).setUserName(userName);
                         }
 
                         String userNumber = null;
                         if (parseObject.getString("stamp_minor") != null) {
                             userNumber = parseObject.getString("stamp_minor");
-                            dto.setUserNumber(userNumber);
+                            dtoUserModels.get(i).setUserNumber(userNumber);
                         }
                         if (parseObject.getInt("stamp_position") != 0) {
                             int idx = parseObject.getInt("stamp_position");
-                            dto.setIdx(idx);
+                            dtoUserModels.get(i).setIdx(idx);
                         }
 
                         if (mCallback != null) {
@@ -79,7 +76,7 @@ public class ParseManager {
                 }
             }
         });
-        ;
+
     }//end
 
 

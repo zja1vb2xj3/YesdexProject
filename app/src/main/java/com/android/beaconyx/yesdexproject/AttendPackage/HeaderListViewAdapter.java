@@ -1,4 +1,4 @@
-package com.android.beaconyx.yesdexproject.Adapter;
+package com.android.beaconyx.yesdexproject.AttendPackage;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.beaconyx.yesdexproject.Model.HeaderListViewModel;
 import com.android.beaconyx.yesdexproject.R;
 
 import java.util.ArrayList;

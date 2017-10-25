@@ -1,4 +1,4 @@
-package com.android.beaconyx.yesdexproject.Fragment;
+package com.android.beaconyx.yesdexproject.TabViewPagerPackage;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

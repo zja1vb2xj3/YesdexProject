@@ -14,7 +14,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.android.beaconyx.yesdexproject.Dto.DtoContent;
-import com.android.beaconyx.yesdexproject.Fragment.AttendDialogFragment1;
+import com.android.beaconyx.yesdexproject.AttendPackage.AttendDialogFragment1;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;

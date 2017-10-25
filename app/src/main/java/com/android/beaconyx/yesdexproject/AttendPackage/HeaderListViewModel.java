@@ -1,4 +1,4 @@
-package com.android.beaconyx.yesdexproject.Model;
+package com.android.beaconyx.yesdexproject.AttendPackage;
 
 /**
  * Created by beaconyx on 2017-10-11.

@@ -1,10 +1,10 @@
-package com.android.beaconyx.yesdexproject.Dto;
+package com.android.beaconyx.yesdexproject.ParsePackage;
 
 /**
  * Created by beaconyx on 2017-10-25.
  */
 
-public class DtoUser{
+public class DtoUserModel {
     private String mUserName;
     private String mUserNumber;
     private int mIdx;

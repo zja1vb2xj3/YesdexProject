@@ -1,4 +1,4 @@
-package com.android.beaconyx.yesdexproject.Activity;
+package com.android.beaconyx.yesdexproject.PermissionPackage;
 
 import android.Manifest;
 import android.app.Activity;
@@ -11,8 +11,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.beaconyx.yesdexproject.Activity.SplashActivity;
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
-import com.android.beaconyx.yesdexproject.Manager.PermissionManager;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 

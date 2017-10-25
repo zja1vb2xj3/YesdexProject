@@ -1,4 +1,4 @@
-package com.android.beaconyx.yesdexproject.Activity;
+package com.android.beaconyx.yesdexproject.AttendPackage;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -10,9 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.beaconyx.yesdexproject.Adapter.HeaderListViewAdapter;
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
-import com.android.beaconyx.yesdexproject.Model.HeaderListViewModel;
 import com.android.beaconyx.yesdexproject.R;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;

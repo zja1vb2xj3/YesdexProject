@@ -1,4 +1,4 @@
-package com.android.beaconyx.yesdexproject.Activity;
+package com.android.beaconyx.yesdexproject.TabViewPagerPackage;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -8,34 +8,28 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.beaconyx.yesdexproject.Adapter.PagerAdapter;
-import com.android.beaconyx.yesdexproject.CustomView.CustomViewPager;
-import com.android.beaconyx.yesdexproject.Fragment.PageFragment;
 import com.android.beaconyx.yesdexproject.R;
 
 import java.util.ArrayList;
-//
-public class AInfoActivity extends FragmentActivity {
 
-    private TabLayout mTabLayout ;
+public class BInfoActivity extends FragmentActivity {
+
+    private TabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ainfo);
+        setContentView(R.layout.activity_binfo);
 
         titleInit();
-        aInfoInit();
-
+        bInfoInit();
     }
-
-
     private void titleInit(){
         View topView = findViewById(R.id.top);
 
         TextView title = (TextView) topView.findViewById(R.id.title);
 
-        title.setText(getResources().getString(R.string.a_info_activity_title));
+        title.setText(getResources().getString(R.string.b_info_activity_title));
 
         ImageView back = (ImageView) topView.findViewById(R.id.top_title_back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -46,11 +40,13 @@ public class AInfoActivity extends FragmentActivity {
         });
     }
 
-    private void aInfoInit(){
+
+    private void bInfoInit(){
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        mTabLayout.addTab(mTabLayout.newTab().setText("인사말"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("행사개요"));
-        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        mTabLayout.addTab(mTabLayout.newTab().setText("개막/환영식"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("버스킹 공연"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("중식 안내"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("경품 행사"));
 
         ArrayList<Fragment> fragments = getFragment();
 
@@ -60,9 +56,10 @@ public class AInfoActivity extends FragmentActivity {
     private ArrayList<Fragment> getFragment(){
         ArrayList<Fragment> fragments = new ArrayList<>();
 
-        fragments.add(PageFragment.newInstance("인사말"));
-
-        fragments.add(PageFragment.newInstance("행사개요"));
+        fragments.add(PageFragment.newInstance("개막식 / 환영리셉션"));
+        fragments.add(PageFragment.newInstance("버스킹 공연"));
+        fragments.add(PageFragment.newInstance("중식 안내"));
+        fragments.add(PageFragment.newInstance("경품 행사 안내"));
 
         return fragments;
     }
@@ -80,7 +77,6 @@ public class AInfoActivity extends FragmentActivity {
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                //ViewPager clear Page 가 변환 될때
                 viewPager.setCurrentItem(tab.getPosition());
             }
 

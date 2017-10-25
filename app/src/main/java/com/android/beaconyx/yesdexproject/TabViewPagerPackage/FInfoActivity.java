@@ -1,4 +1,4 @@
-package com.android.beaconyx.yesdexproject.Activity;
+package com.android.beaconyx.yesdexproject.TabViewPagerPackage;
 
 import android.app.Activity;
 import android.os.Bundle;

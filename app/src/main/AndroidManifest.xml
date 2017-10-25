@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.CheckPermissionActivity">
+        <activity android:name=".PermissionPackage.CheckPermissionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,15 +25,15 @@
         </activity>
         <activity android:name=".Activity.SplashActivity" />
         <activity android:name=".Activity.MainActivity" />
-        <activity android:name=".Activity.AInfoActivity" />
-        <activity android:name=".Activity.BInfoActivity" />
-        <activity android:name=".Activity.CInfoActivity" />
-        <activity android:name=".Activity.DInfoActivity" />
-        <activity android:name=".Activity.EInfoActivity" />
+        <activity android:name=".TabViewPagerPackage.AInfoActivity" />
+        <activity android:name=".TabViewPagerPackage.BInfoActivity" />
+        <activity android:name=".TabViewPagerPackage.CInfoActivity" />
+        <activity android:name=".TabViewPagerPackage.DInfoActivity" />
+        <activity android:name=".TabViewPagerPackage.EInfoActivity" />
         <activity android:name=".MapPackage.MapInfoActivity" />
-        <activity android:name=".Activity.AttendInfoActivity" />
+        <activity android:name=".AttendPackage.AttendInfoActivity" />
         <activity android:name=".Activity.PdfViewerActivity" />
-        <activity android:name=".Activity.FInfoActivity" />
+        <activity android:name=".TabViewPagerPackage.FInfoActivity" />
     </application>
 
 </manifest>
