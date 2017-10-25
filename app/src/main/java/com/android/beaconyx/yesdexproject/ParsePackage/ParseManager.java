@@ -1,5 +1,7 @@
 package com.android.beaconyx.yesdexproject.ParsePackage;
 
+import android.content.Context;
+
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -24,6 +26,33 @@ public class ParseManager {
 
     public synchronized void load() {
 
+    }
+    /**
+     * 등록된 유저인지 uuid 인지 체크
+     * @param context
+     * @return
+     */
+    public synchronized void checkRegisteredUser(Context context){
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery("TB_Account_Ko");
+
+        boolean isCache = query.hasCachedResult();
+        if (isCache == true) {
+            query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        }
+
+        //폰 uuid 체크
+
+        //ACT_CERTIFICATION true 라면 이미 등록된 유저
+    }
+
+    /**
+     * 핸드폰 uuid 구하기
+     * @param context
+     * @return
+     */
+    private String getDevicesUUID(Context context){
+
+        return null;
     }
 
     public synchronized void checkAuthentication(String userName, String userNumber) {

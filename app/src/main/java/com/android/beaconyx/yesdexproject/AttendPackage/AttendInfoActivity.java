@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.R;
@@ -44,7 +43,7 @@ public class AttendInfoActivity extends FragmentActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
-                Toast.makeText(getApplicationContext(), "backKey인식", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "backKey인식", Toast.LENGTH_SHORT).show();
 
                 break;
         }
