@@ -2,52 +2,39 @@ package com.android.beaconyx.yesdexproject.CheckPackage;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.beaconyx.yesdexproject.Activity.SplashActivity;
+import com.android.beaconyx.yesdexproject.Loading.SplashActivity;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
 import java.util.ArrayList;
 
-public class CheckActivity extends Activity {
+public class PermissionActivity extends Activity {
 
     private static final int MY_PERMISSIONS_REQUEST_LOCATION_CONTACTS = 0;
 
-    private CheckSharedPreferencesManager mCheckSharedPreferencesManager;
 
     private String CLASSNAME = getClass().getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mCheckSharedPreferencesManager = new CheckSharedPreferencesManager(this);
 
-        boolean checkLocationSign = mCheckSharedPreferencesManager.getCheckLocationSign();
-        Log.i(CLASSNAME, String.valueOf(checkLocationSign));
-        /**
-         * 초기 등록을 했다면
-         */
-        if (checkLocationSign == true) {
-
-            startSplashActivity();
-        }
         /**
          * 위치권한이 허용되어 있을때
          */
-        else if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-            createAccountAccessAskDIalog();
-//            startSplashActivity();
+            startAccountActivity();
 
         }
 
@@ -90,31 +77,11 @@ public class CheckActivity extends Activity {
         }
     }
 
-    private void startSplashActivity(){
+    private void startAccountActivity() {
         startActivity(new Intent(getApplicationContext(), SplashActivity.class));
         finish();
     }
 
-    private void createAccountAccessAskDIalog(){
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setTitle("UUID 생성 질문").setMessage("비콘 서비스를 이용하기 위해 디바이스 블루투스 UUID를 생성합니다.").setCancelable(false)
-                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
 
     PermissionListener permissionListener = new PermissionListener() {
         @Override
@@ -154,11 +121,7 @@ public class CheckActivity extends Activity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    //권한 허가 정보 저장
-                    mCheckSharedPreferencesManager.save(true);
-
-                    createAccountAccessAskDIalog();
-//                    startSplashActivity();
+                    startAccountActivity();
 
                 } else {
 

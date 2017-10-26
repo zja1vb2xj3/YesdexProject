@@ -18,14 +18,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CheckPackage.CheckActivity">
+        <activity android:name=".CheckPackage.PermissionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.SplashActivity" />
+        <activity android:name=".Loading.SplashActivity" />
         <activity android:name=".Activity.MainActivity" />
         <activity android:name=".TabViewPagerPackage.AInfoActivity" />
         <activity android:name=".TabViewPagerPackage.BInfoActivity" />
@@ -36,7 +36,7 @@
         <activity android:name=".AttendPackage.AttendInfoActivity" />
         <activity android:name=".Activity.PdfViewerActivity" />
         <activity android:name=".TabViewPagerPackage.FInfoActivity" />
-
+        <activity android:name=".CheckPackage.AccountActivity"></activity>
     </application>
 
 </manifest>

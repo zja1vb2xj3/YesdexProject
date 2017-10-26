@@ -93,7 +93,7 @@
         <ImageButton
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/fragment2_button_img"
+            android:background="@mipmap/fragment2_button_img"
             android:id="@+id/pdf_viewer_button"
             />
 

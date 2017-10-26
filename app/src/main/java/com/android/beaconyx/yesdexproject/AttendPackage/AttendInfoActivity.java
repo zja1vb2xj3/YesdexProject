@@ -123,8 +123,8 @@ public class AttendInfoActivity extends FragmentActivity {
         headerListViewModel1.setmEducatorTime("강연 시간 : 14:00 ~ 15:00");
         headerListViewModel1.setmEducatorTitle("강연제목 : 모든 임상가를 위한...");
 
-        headerListViewModel1.setDemoEduImage(R.drawable.demo_header_img1);
-        headerListViewModel1.setDemoStateImage(R.drawable.demo_state_img1);
+        headerListViewModel1.setDemoEduImage(R.mipmap.demo_header_img1);
+        headerListViewModel1.setDemoStateImage(R.mipmap.demo_state_img1);
 //
         headerListViewModel2.setmHeaderid(1);
         headerListViewModel2.setmHeader("11월 10일 (금)");
@@ -132,8 +132,8 @@ public class AttendInfoActivity extends FragmentActivity {
         headerListViewModel2.setmEducatorTime("강연 시간 : 15:00 ~ 16:00");
         headerListViewModel2.setmEducatorTitle("강연제목 : 치과의사의 직업전문성...");
 
-        headerListViewModel2.setDemoEduImage(R.drawable.demo_header_img2);
-        headerListViewModel2.setDemoStateImage(R.drawable.demo_state_img2);
+        headerListViewModel2.setDemoEduImage(R.mipmap.demo_header_img2);
+        headerListViewModel2.setDemoStateImage(R.mipmap.demo_state_img2);
 //
         headerListViewModel3.setmHeaderid(1);
         headerListViewModel3.setmHeader("11월 11일 (금)");
@@ -141,8 +141,8 @@ public class AttendInfoActivity extends FragmentActivity {
         headerListViewModel3.setmEducatorTime("강연 시간 : 16:00 ~ 17:00");
         headerListViewModel3.setmEducatorTitle("강연제목 : 실패한 임플란트를 극복하는 smart way");
 
-        headerListViewModel3.setDemoEduImage(R.drawable.demo_header_img3);
-        headerListViewModel3.setDemoStateImage(R.drawable.demo_state_img1);
+        headerListViewModel3.setDemoEduImage(R.mipmap.demo_header_img3);
+        headerListViewModel3.setDemoStateImage(R.mipmap.demo_state_img1);
 //
         headerListViewModel4.setmHeaderid(2);
         headerListViewModel4.setmHeader("11월 11일 (토)");
@@ -150,8 +150,8 @@ public class AttendInfoActivity extends FragmentActivity {
         headerListViewModel4.setmEducatorTime("강연 시간 : 10:00 ~ 12:00");
         headerListViewModel4.setmEducatorTitle("강연제목 : 보톡스 시술을 시작하기 위한 필수 강연");
 
-        headerListViewModel4.setDemoEduImage(R.drawable.demo_header_img4);
-        headerListViewModel4.setDemoStateImage(R.drawable.demo_state_img3);
+        headerListViewModel4.setDemoEduImage(R.mipmap.demo_header_img4);
+        headerListViewModel4.setDemoStateImage(R.mipmap.demo_state_img3);
 
         mHeaderListViewAdapter.addList(headerListViewModel1);
         mHeaderListViewAdapter.addList(headerListViewModel2);

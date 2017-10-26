@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-import com.android.beaconyx.yesdexproject.Dto.DtoContent;
 import com.android.beaconyx.yesdexproject.AttendPackage.AttendDialogFragment1;
 import com.parse.Parse;
 import com.parse.ParseInstallation;
@@ -235,15 +234,6 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
         }
     };
 
-    private OnBeaconCallback mOnBeaconCallback;
-
-    public void setOnBeaconCallback(ThisApplication.OnBeaconCallback mOnBeaconCallback) {
-        this.mOnBeaconCallback = mOnBeaconCallback;
-    }
-
-    public interface OnBeaconCallback {
-        void onBeacon(final DtoContent dtoContent);
-    }
 
     @Override
     public void didEnterRegion(Region region) {

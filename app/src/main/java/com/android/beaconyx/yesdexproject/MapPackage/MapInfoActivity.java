@@ -113,7 +113,7 @@ public class MapInfoActivity extends Activity {
     private void mapViewInit(View view) {
         mMapView = (MapView) view.findViewById(R.id.mapView);
 
-        mMapView.setImage(ImageSource.resource(R.drawable.map_sample_img));
+        mMapView.setImage(ImageSource.resource(R.mipmap.map_sample_img));
 
         mMapPinList = new ArrayList<>();
 

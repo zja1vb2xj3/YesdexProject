@@ -125,8 +125,8 @@ public class MapView extends SubsamplingScaleImageView {
                 Paint paint = new Paint();
                 paint.setAntiAlias(true);
 
-                Bitmap onImage = BitmapFactory.decodeResource(getResources(), R.drawable.on_pin);
-                Bitmap offImage = BitmapFactory.decodeResource(getResources(), R.drawable.off_pin);
+                Bitmap onImage = BitmapFactory.decodeResource(getResources(), R.mipmap.on_pin);
+                Bitmap offImage = BitmapFactory.decodeResource(getResources(), R.mipmap.off_pin);
 
                 float markerWidth = (density / 420f) * offImage.getWidth();
                 float markerHeight = (density / 420f) * offImage.getHeight();

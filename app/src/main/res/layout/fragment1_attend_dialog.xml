@@ -18,7 +18,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/dialog_img1"/>
+            android:background="@mipmap/dialog_img1"/>
 
     </LinearLayout>
 
@@ -37,7 +37,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_margin="1dp"
-            android:background="@drawable/in_button_img"/>
+            android:background="@mipmap/in_button_img"/>
 
         <Button
             android:id="@+id/out_button"
@@ -45,7 +45,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_margin="1dp"
-            android:background="@drawable/out_button_img"/>
+            android:background="@mipmap/out_button_img"/>
     </LinearLayout>
 
     <!--<LinearLayout-->

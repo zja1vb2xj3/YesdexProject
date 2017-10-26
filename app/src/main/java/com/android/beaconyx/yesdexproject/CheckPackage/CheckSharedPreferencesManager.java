@@ -15,7 +15,7 @@ public class CheckSharedPreferencesManager {
 
     private static final String PERMISSIONDATA_KEY = "PERMISSIONDATAKEY";
 
-    public CheckSharedPreferencesManager(CheckActivity activity) {
+    public CheckSharedPreferencesManager(PermissionActivity activity) {
         permissionData = activity.getSharedPreferences(PERMISSIONDATA, Context.MODE_PRIVATE);
     }
 
