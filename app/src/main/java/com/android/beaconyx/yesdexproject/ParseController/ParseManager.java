@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.android.beaconyx.yesdexproject.CheckPackage.AccountDtoModel;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -33,8 +34,9 @@ public class ParseManager {
      */
     private final String TB_User_Ko = "TB_User_Ko";
 
+    //region OnRegisterUserCallback
     //유저 등록 콜백
-    public interface OnRegisterUserCallback{
+    public interface OnRegisterUserCallback {
         void onRegistUser();
     }
 
@@ -43,10 +45,10 @@ public class ParseManager {
     public void setOnRegisterUserCallback(OnRegisterUserCallback onRegisterUserCallback) {
         this.onRegisterUserCallback = onRegisterUserCallback;
     }
+    //endregion
 
     //유저 등록
-
-    public synchronized void registAccountUserData(final AccountDtoModel accountDtoModel){
+    public synchronized void registAccountUserData(final AccountDtoModel accountDtoModel) {
         final ParseObject parseObject = new ParseObject(TB_Account_Ko);
 
         parseObject.put(ACT_USER_ID, accountDtoModel.getACT_USER_ID());
@@ -63,15 +65,14 @@ public class ParseManager {
                     if (onRegisterUserCallback != null) {
                         onRegisterUserCallback.onRegistUser();
                     }
-                }
-
-                else{
+                } else {
                     Log.i(CLASSNAME, "registAccountUserData Error");
                 }
             }
         });
     }
 
+    //region OnCheckRegisterdDeviceCallback
     //등록된 디바이스 인지 체크
     public interface OnCheckRegisterdDeviceCallback {
         void onCheckDevice(boolean resultSign);
@@ -82,11 +83,12 @@ public class ParseManager {
     public void setOnCheckRegisterdDeviceCallback(OnCheckRegisterdDeviceCallback onCheckRegisterdDeviceCallback) {
         this.onCheckRegisterdDeviceCallback = onCheckRegisterdDeviceCallback;
     }
+//endregion
 
     /**
      * 등록된 디바이스 인지 체크
      */
-    public synchronized void checkRegisteredDevice(final String uuid){
+    public synchronized void checkRegisteredDevice(final String uuid) {
         final ParseQuery<ParseObject> query = ParseQuery.getQuery(TB_Account_Ko);
 
         boolean isCache = query.hasCachedResult();
@@ -115,7 +117,7 @@ public class ParseManager {
     }
 
 
-
+    //region OnCheckAuthenticationCallback
     private OnCheckAuthenticationCallback onCheckAuthenticationCallback;
 
     public interface OnCheckAuthenticationCallback {
@@ -125,13 +127,15 @@ public class ParseManager {
     public void setOnCheckAuthenticationCallback(OnCheckAuthenticationCallback onCheckAuthenticationCallback) {
         this.onCheckAuthenticationCallback = onCheckAuthenticationCallback;
     }
+    //endregion
 
     /**
-     * 등록된 청강자 인지 체크
+     * (디비에 등록된 회원인지 체크)
+     *
      * @param userName
      * @param userNumber
      */
-    public synchronized void checkAuthentication(String userName, String userNumber) {
+    public synchronized void checkRegistedUser(String userName, String userNumber) {
         final ParseQuery<ParseObject> query = ParseQuery.getQuery(TB_User_Ko);
 
         boolean isCache = query.hasCachedResult();
@@ -147,7 +151,6 @@ public class ParseManager {
             public void done(List<ParseObject> objects, ParseException e) {
                 if (objects.size() != 0) {// 있는거
                     if (onCheckAuthenticationCallback != null) {
-
                         onCheckAuthenticationCallback.onCheckAuthentication(true);
                     }
                 } else {
@@ -160,6 +163,54 @@ public class ParseManager {
 
     }
 
+    //region OnUpdateCertificationCallback
+    private OnUpdateCertificationCallback onUpdateCertificationCallback;
+
+    public interface OnUpdateCertificationCallback {
+        void onUpdate(boolean resultSign);
+    }
+
+    public void setOnUpdateCertificationCallback(OnUpdateCertificationCallback onUpdateCertificationCallback) {
+        this.onUpdateCertificationCallback = onUpdateCertificationCallback;
+    }
+
+    //endregion
+
+    //TB_Account_Ko의 ACT_CERTIFICATION 을 true 로 바꾸기
+    public synchronized void updateACT_CERTIFICATION(String uuid) {
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery(TB_Account_Ko);
+
+        boolean isCache = query.hasCachedResult();
+        if (isCache == true) {
+            query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        }
+
+        query.whereEqualTo(ACT_USER_ID, uuid);
+
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                boolean resultSign = false;
+
+                if (e == null) {
+                    object.put(ACT_CERTIFICATION, "true");
+                    object.saveInBackground().isCompleted();
+                    resultSign = true;
+                }
+
+                else{
+                    Log.i(CLASSNAME, "updateACT_CERTIFICATION error");
+                }
+
+                if (onUpdateCertificationCallback != null) {
+                    onUpdateCertificationCallback.onUpdate(resultSign);
+                }
+            }
+        });
+
+    }
+
+    //TB_USER_KO의 USR_USER_ID에 UUID를 추가
 
 
 //    public synchronized void loadUserData() {

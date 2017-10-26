@@ -8,13 +8,13 @@ import com.android.beaconyx.yesdexproject.ParseController.ParseManager;
  * Created by beaconyx on 2017-10-25.
  */
 
-public class AttendParseThread extends Thread{
+public class CheckRegistedUserThread extends Thread{
     private ParseManager mParseManager;
     private String CLASSNAME = getClass().getName();
     private String userName;
     private String userNumber;
 
-    public AttendParseThread(ParseManager mParseManager, String userName, String userNumber) {
+    public CheckRegistedUserThread(ParseManager mParseManager, String userName, String userNumber) {
         this.mParseManager = mParseManager;
         this.userName = userName;
         this.userNumber = userNumber;
@@ -25,7 +25,7 @@ public class AttendParseThread extends Thread{
         super.run();
 
         if(mParseManager != null){
-            mParseManager.checkAuthentication(userName, userNumber);
+            mParseManager.checkRegistedUser(userName, userNumber);
         }
         else{
             Log.i(CLASSNAME, "ParseManager가 null임");

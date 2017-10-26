@@ -11,8 +11,8 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 
+import com.android.beaconyx.yesdexproject.Activity.MainActivity;
 import com.android.beaconyx.yesdexproject.Constant.ConstantPool;
-import com.android.beaconyx.yesdexproject.Loading.SplashActivity;
 import com.android.beaconyx.yesdexproject.ParseController.ParseManager;
 import com.android.beaconyx.yesdexproject.R;
 
@@ -39,7 +39,6 @@ public class AccountActivity extends Activity {
 
         mParseManager.setOnCheckRegisterdDeviceCallback(onCheckRegisterdDeviceCallback);
         mParseManager.setOnRegisterUserCallback(onRegisterUserCallback);
-
         mUUID = getDeviceUUID();
 
         String savedUserId = mPref.getString(ConstantPool.ACCOUNT_SHARED_PREFERENCES_KEY, "");
@@ -47,7 +46,7 @@ public class AccountActivity extends Activity {
 
         //SharedPreferences ConstantPool.ACCOUNT_SHARED_PREFERENCES_KEY로 저장된 데이터가 있으면 바로 로딩 실행
         if(!savedUserId.equals("")){
-            startSplashActivity();
+            startMainActivity();
         }
     }
 
@@ -66,7 +65,8 @@ public class AccountActivity extends Activity {
         @Override
         public void onCheckDevice(boolean resultSign) {
             if (resultSign == true) {//등록된 디바이스가 있다면
-                startSplashActivity();
+                startMainActivity();
+
             } else {//없다면
                 AccountDtoModel accountDtoModel = accountTableRegistData();
                 mParseManager.registAccountUserData(accountDtoModel);//서버에 등록
@@ -77,12 +77,12 @@ public class AccountActivity extends Activity {
     ParseManager.OnRegisterUserCallback onRegisterUserCallback = new ParseManager.OnRegisterUserCallback() {
         @Override
         public void onRegistUser() {
-            startSplashActivity();
+            startMainActivity();
         }
     };
 
-    private void startSplashActivity(){
-        startActivity(new Intent(getApplicationContext(), SplashActivity.class));
+    private void startMainActivity(){
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
     }
 

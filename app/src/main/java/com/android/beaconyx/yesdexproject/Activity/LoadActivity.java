@@ -1,15 +1,15 @@
-package com.android.beaconyx.yesdexproject.Loading;
+package com.android.beaconyx.yesdexproject.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.android.beaconyx.yesdexproject.Activity.MainActivity;
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
+import com.android.beaconyx.yesdexproject.CheckPackage.AccountActivity;
 import com.android.beaconyx.yesdexproject.R;
 
-public class SplashActivity extends Activity {
+public class LoadActivity extends Activity {
 
 
     private ThisApplication mThisApplication;
@@ -17,7 +17,7 @@ public class SplashActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.activity_load);
 
         startLoading();
 
@@ -37,7 +37,7 @@ public class SplashActivity extends Activity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), AccountActivity.class));
                 finish();
             }
         }, 500);

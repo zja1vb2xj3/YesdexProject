@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.beaconyx.yesdexproject.Activity.LoadActivity;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -33,7 +34,7 @@ public class PermissionActivity extends Activity {
          */
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-            startAccountActivity();
+            startLoadActivity();
 
         }
 
@@ -76,8 +77,8 @@ public class PermissionActivity extends Activity {
         }
     }
 
-    private void startAccountActivity() {
-        startActivity(new Intent(getApplicationContext(), AccountActivity.class));
+    private void startLoadActivity() {
+        startActivity(new Intent(getApplicationContext(), LoadActivity.class));
         finish();
     }
 
@@ -120,7 +121,7 @@ public class PermissionActivity extends Activity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    startAccountActivity();
+                    startLoadActivity();
 
                 } else {
 

@@ -26,8 +26,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".Activity.LoadActivity" />
         <activity android:name=".CheckPackage.AccountActivity"/>
-        <activity android:name=".Loading.SplashActivity" />
         <activity android:name=".Activity.MainActivity" />
         <activity android:name=".TabViewPagerPackage.AInfoActivity" />
         <activity android:name=".TabViewPagerPackage.BInfoActivity" />
