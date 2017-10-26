@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <!--핸드폰 uuid 확인-->
+    <!-- 핸드폰 uuid 확인 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
@@ -36,6 +36,7 @@
         <activity android:name=".AttendPackage.AttendInfoActivity" />
         <activity android:name=".Activity.PdfViewerActivity" />
         <activity android:name=".TabViewPagerPackage.FInfoActivity" />
+        <activity android:name=".Activity.AccountActivity"></activity>
     </application>
 
 </manifest>
