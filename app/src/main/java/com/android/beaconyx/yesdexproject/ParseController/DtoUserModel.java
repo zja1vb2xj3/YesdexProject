@@ -1,4 +1,4 @@
-package com.android.beaconyx.yesdexproject.ParsePackage;
+package com.android.beaconyx.yesdexproject.ParseController;
 
 /**
  * Created by beaconyx on 2017-10-25.

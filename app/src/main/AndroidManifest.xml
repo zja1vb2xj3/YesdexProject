@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PermissionPackage.CheckPermissionActivity">
+        <activity android:name=".CheckPackage.CheckActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,7 +36,7 @@
         <activity android:name=".AttendPackage.AttendInfoActivity" />
         <activity android:name=".Activity.PdfViewerActivity" />
         <activity android:name=".TabViewPagerPackage.FInfoActivity" />
-        <activity android:name=".Activity.AccountActivity"></activity>
+
     </application>
 
 </manifest>

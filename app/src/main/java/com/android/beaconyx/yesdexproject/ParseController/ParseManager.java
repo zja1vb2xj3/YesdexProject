@@ -1,4 +1,4 @@
-package com.android.beaconyx.yesdexproject.ParsePackage;
+package com.android.beaconyx.yesdexproject.ParseController;
 
 import android.content.Context;
 

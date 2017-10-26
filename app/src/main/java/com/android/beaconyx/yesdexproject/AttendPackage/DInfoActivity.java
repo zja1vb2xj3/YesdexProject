@@ -10,8 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.beaconyx.yesdexproject.ParsePackage.AttendParseThread;
-import com.android.beaconyx.yesdexproject.ParsePackage.ParseManager;
+import com.android.beaconyx.yesdexproject.ParseController.ParseManager;
 import com.android.beaconyx.yesdexproject.R;
 
 public class DInfoActivity extends Activity {

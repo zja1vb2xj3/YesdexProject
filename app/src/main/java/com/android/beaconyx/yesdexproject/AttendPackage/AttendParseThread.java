@@ -1,6 +1,8 @@
-package com.android.beaconyx.yesdexproject.ParsePackage;
+package com.android.beaconyx.yesdexproject.AttendPackage;
 
 import android.util.Log;
+
+import com.android.beaconyx.yesdexproject.ParseController.ParseManager;
 
 /**
  * Created by beaconyx on 2017-10-25.

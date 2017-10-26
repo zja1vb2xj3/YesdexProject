@@ -1,4 +1,4 @@
-package com.android.beaconyx.yesdexproject.PermissionPackage;
+package com.android.beaconyx.yesdexproject.CheckPackage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
  * Created by beaconyx on 2017-10-24.
  */
 
-public class PermissionManager {
+public class CheckSharedPreferencesManager {
 
     private SharedPreferences permissionData;
 
@@ -15,7 +15,7 @@ public class PermissionManager {
 
     private static final String PERMISSIONDATA_KEY = "PERMISSIONDATAKEY";
 
-    public PermissionManager(CheckPermissionActivity activity) {
+    public CheckSharedPreferencesManager(CheckActivity activity) {
         permissionData = activity.getSharedPreferences(PERMISSIONDATA, Context.MODE_PRIVATE);
     }
 
