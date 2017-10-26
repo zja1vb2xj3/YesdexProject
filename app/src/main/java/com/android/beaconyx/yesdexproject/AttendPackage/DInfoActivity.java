@@ -26,9 +26,9 @@ public class DInfoActivity extends Activity {
 
         mParseManager = new ParseManager();
 
-        mParseManager.setOnCheckAuthenticationCallBack(new ParseManager.OnCheckAuthenticationCallBack() {
+        mParseManager.setOnCheckAuthenticationCallback(new ParseManager.OnCheckAuthenticationCallback() {
             @Override
-            public void onCheck(boolean resultSign) {
+            public void onCheckAuthentication(boolean resultSign) {
                 Log.i(CLASSNAME, String.valueOf(resultSign));
                 if (resultSign == true) {//인증완료
                     startAttendInfoActivity();

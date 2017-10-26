@@ -32,7 +32,6 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/accoutBtn"
             android:layout_width="310dp"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
@@ -41,7 +40,8 @@
             android:text="Touch and Sign in !"
             android:textColor="#ffffff"
             android:textSize="17sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:onClick="signInButtonClick"/>
 
 
     </LinearLayout>

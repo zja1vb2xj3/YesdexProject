@@ -18,7 +18,7 @@ public class AccountParseThread extends Thread {
 
     @Override
     public void run() {
-//        _manager.loadCheckUser(_userId);
+        _manager.checkRegisteredDevice(_userId);
     }
 
 }
