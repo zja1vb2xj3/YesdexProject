@@ -84,7 +84,7 @@ public class ParseManager {
             query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         }
 
-        query.whereEqualTo("ACT_USER_ID", uuid);
+        query.whereEqualTo(TBAccountKoConstantPool.ACT_USER_ID, uuid);
 
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -118,12 +118,7 @@ public class ParseManager {
     //endregion
 
 
-    /**
-     * (디비에 등록된 회원인지 체크)
-     *
-     * @param userName
-     * @param userNumber
-     */
+    //디비에 등록된 회원인지 체크
     public synchronized void checkRegistedUser(String userName, final String userNumber) {
         final ParseQuery<ParseObject> query = ParseQuery.getQuery(TBUserKoConstantPool.TB_User_Ko);
 
@@ -156,7 +151,7 @@ public class ParseManager {
     private OnUpdateCertificationCallback onUpdateCertificationCallback;
 
     public interface OnUpdateCertificationCallback {
-        void onUpdate(String uuid,String userNumber, boolean resultSign);
+        void onUpdate(String uuid, String userNumber, boolean resultSign);
     }
 
     public void setOnUpdateCertificationCallback(OnUpdateCertificationCallback onUpdateCertificationCallback) {
@@ -184,14 +179,12 @@ public class ParseManager {
                     object.put(TBAccountKoConstantPool.ACT_CERTIFICATION, "true");
                     object.saveInBackground().isCompleted();
                     resultSign = true;
-                }
-
-                else{
+                } else {
                     Log.i(CLASSNAME, "updateACT_CERTIFICATION error");
                 }
 
                 if (onUpdateCertificationCallback != null) {
-                    onUpdateCertificationCallback.onUpdate(uuid, userNumber ,resultSign);
+                    onUpdateCertificationCallback.onUpdate(uuid, userNumber, resultSign);
                 }
             }
         });
@@ -199,15 +192,12 @@ public class ParseManager {
     }//endregion
 
 
-
-    //region
-
-
+    //region OnUpdateUSR_USER_IDCallback
     public interface OnUpdateUSR_USER_IDCallback {
         void onUpdate(boolean resultSign);
     }
 
-    OnUpdateUSR_USER_IDCallback onUpdateUSR_User_IdCallback;
+    private OnUpdateUSR_USER_IDCallback onUpdateUSR_User_IdCallback;
 
     public void setOnUpdateUSR_User_IdCallback(OnUpdateUSR_USER_IDCallback onUpdateUSR_User_IdCallback) {
         this.onUpdateUSR_User_IdCallback = onUpdateUSR_User_IdCallback;
@@ -216,7 +206,7 @@ public class ParseManager {
     //endregion
 
     //TB_USER_KO의 USR_USER_ID에 UUID를 추가
-    public synchronized void updateUSR_USER_ID(final String userNumber, final String uuid){
+    public synchronized void updateUSR_USER_ID(final String userNumber, final String uuid) {
         final ParseQuery<ParseObject> query = ParseQuery.getQuery(TBUserKoConstantPool.TB_User_Ko);
 
         boolean isCache = query.hasCachedResult();
@@ -236,9 +226,7 @@ public class ParseManager {
                     object.put(TBUserKoConstantPool.USR_USER_ID, uuid);
                     object.saveInBackground().isCompleted();
                     resultSign = true;
-                }
-
-                else{
+                } else {
                     Log.i(CLASSNAME, "updateACT_CERTIFICATION error");
                 }
 
@@ -249,6 +237,80 @@ public class ParseManager {
         });
     }
 
+
+    //region OnSearchUSR_USER_IDCallback
+
+    public interface OnSearch_USR_USER_ID_Callback {
+        void onSearch(String userNumber);
+    }
+
+    private OnSearch_USR_USER_ID_Callback onSearchUsrUserIdCallback;
+
+    public void setOnSearchUsrUserIdCallback(OnSearch_USR_USER_ID_Callback onSearchUsrUserIdCallback) {
+        this.onSearchUsrUserIdCallback = onSearchUsrUserIdCallback;
+    }
+
+    //TB_User_Ko의 uuid 검색
+    public synchronized void searchUSR_USER_ID(final String uuid) {
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery(TBUserKoConstantPool.TB_User_Ko);
+
+        boolean isCache = query.hasCachedResult();
+        if (isCache == true) {
+            query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        }
+        query.whereEqualTo(TBUserKoConstantPool.USR_USER_ID, uuid);
+
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+
+                if (object != null) {// 검색 실패
+                    Object o = object.get(TBUserKoConstantPool.USR_NUMBER);
+
+                    String userNumber = o.toString();
+
+                    if (onSearchUsrUserIdCallback != null) {
+                        onSearchUsrUserIdCallback.onSearch(userNumber);
+                    }
+                }
+
+                else {
+                    if (onSearchUsrUserIdCallback != null) {
+                        onSearchUsrUserIdCallback.onSearch(null);
+                    }
+                    Log.i(CLASSNAME, "searchUSR_USER_ID error");
+                }
+
+//                if (e == null) {
+//                    //USR_USER_ID update
+//                    object.put(TBUserKoConstantPool.USR_USER_ID, uuid);
+//                    object.saveInBackground().isCompleted();
+//                    resultSign = true;
+//                } else {
+//                    Log.i(CLASSNAME, "updateACT_CERTIFICATION error");
+//                }
+//
+//                if (onUpdateUSR_User_IdCallback != null) {
+//                    onUpdateUSR_User_IdCallback.onUpdate(resultSign);
+//                }
+            }
+        });
+//        query.findInBackground(new FindCallback<ParseObject>() {
+//            @Override
+//            public void done(List<ParseObject> objects, ParseException e) {
+//                if (objects.size() != 0) {// 있는거
+//                    if (onSearchUSR_user_idCallback != null) {
+//
+//                        onSearchUSR_user_idCallback.onSearch(true);
+//                    }
+//                } else {//없는거
+//                    if (onSearchUSR_user_idCallback != null) {
+//                        onSearchUSR_user_idCallback.onSearch(false);
+//                    }
+//                }
+//            }
+//        });
+    }
 
 //    public synchronized void loadUserData() {
 //

@@ -5,7 +5,7 @@ android {
     buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.android.beaconyx.yesdexproject"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
@@ -44,6 +44,7 @@ dependencies {
     compile 'gun0912.ted:tedpermission:2.0.0'
     compile 'com.parse:parse-android:1.13.1'
     testCompile 'junit:junit:4.12'
+    compile 'es.voghdev.pdfviewpager:library:1.0.1'
 }
 
 

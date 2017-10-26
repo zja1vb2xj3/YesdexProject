@@ -18,4 +18,10 @@
     <string name="attend_info_activity_title">강의 출석 및 현황</string>
 
     <string name="pdf_viewer_activity_title">강의 초록 보기</string>
+
+    //PDF 지원 에러 다이얼로그
+    <string name="pdf_not_support_message">PDF보기가 지원되지 않는 안드로이드 버전 입니다.</string>
+
+    <string name="pdf_not_dialog_button">확인</string>
+
 </resources>

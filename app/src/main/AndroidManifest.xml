@@ -36,7 +36,7 @@
         <activity android:name=".TabViewPagerPackage.EInfoActivity" />
         <activity android:name=".MapPackage.MapInfoActivity" />
         <activity android:name=".AttendPackage.AttendInfoActivity" />
-        <activity android:name=".Activity.PdfViewerActivity" />
+        <activity android:name=".PDFPackage.PDFViewerActivity" />
         <activity android:name=".TabViewPagerPackage.FInfoActivity" />
 
     </application>

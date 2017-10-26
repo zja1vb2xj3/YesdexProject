@@ -16,7 +16,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.android.beaconyx.yesdexproject.Activity.PdfViewerActivity;
+import com.android.beaconyx.yesdexproject.PDFPackage.PdfViewerActivity;
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.R;
 
