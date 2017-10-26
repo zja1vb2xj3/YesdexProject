@@ -6,7 +6,7 @@ package com.android.beaconyx.yesdexproject.CheckPackage;
 
 public class AccountDtoModel {
     private String ACT_USER_OS;
-    private String ACT_USER_ID;
+    private String ACT_USER_ID;//user uuid
     private String ACT_OS_VERSION;
     private String ACT_USER_PHONE_MODEL;
     private String ACT_CERTIFICATION;

@@ -25,6 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".CheckPackage.AccountActivity"/>
         <activity android:name=".Loading.SplashActivity" />
         <activity android:name=".Activity.MainActivity" />
         <activity android:name=".TabViewPagerPackage.AInfoActivity" />
@@ -36,7 +38,7 @@
         <activity android:name=".AttendPackage.AttendInfoActivity" />
         <activity android:name=".Activity.PdfViewerActivity" />
         <activity android:name=".TabViewPagerPackage.FInfoActivity" />
-        <activity android:name=".CheckPackage.AccountActivity"></activity>
+
     </application>
 
 </manifest>

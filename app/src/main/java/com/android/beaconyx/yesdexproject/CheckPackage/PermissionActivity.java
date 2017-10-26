@@ -11,7 +11,6 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.beaconyx.yesdexproject.Loading.SplashActivity;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -78,7 +77,7 @@ public class PermissionActivity extends Activity {
     }
 
     private void startAccountActivity() {
-        startActivity(new Intent(getApplicationContext(), SplashActivity.class));
+        startActivity(new Intent(getApplicationContext(), AccountActivity.class));
         finish();
     }
 

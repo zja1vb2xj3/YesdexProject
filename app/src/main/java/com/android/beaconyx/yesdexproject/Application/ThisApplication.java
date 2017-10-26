@@ -83,6 +83,9 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
         });
     }
 
+    /**
+     * Parse 서버 초기 설정
+     */
     private void parseInit(){
         Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
                 .applicationId("YesdexaAZx4r86eeoyIwwGfdfOLeT2CnQKFcQ1")
@@ -206,6 +209,7 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
     /**
      * 비콘 Thread Handler
      */
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -235,6 +239,7 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
     };
 
 
+
     @Override
     public void didEnterRegion(Region region) {
 
@@ -250,6 +255,9 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
 
     }
 
+    /**
+     * 정렬
+     */
     private static class NoDescCompare implements Comparator<Beacon> {
 
         /**
