@@ -10,7 +10,7 @@ public class AccountParseThread extends Thread {
 
     private ParseManager _manager;
     private String _userId;
-
+//
     public AccountParseThread(ParseManager manager, String userId) {
         _manager = manager;
         _userId = userId;
