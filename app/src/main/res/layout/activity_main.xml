@@ -139,7 +139,7 @@
             android:layout_marginLeft="2.5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:onClick="dInfoActivityOperation"
+            android:onClick="fInfoActivityOperation"
             android:textSize="24dp"
             android:textColor="@color/colorWhite"
             android:text="부스위치 안내"

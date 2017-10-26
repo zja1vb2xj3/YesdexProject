@@ -3,7 +3,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="10">
+    android:weightSum="10"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".AttendPackage.DInfoActivity">
 
     <include
         android:id="@+id/top"

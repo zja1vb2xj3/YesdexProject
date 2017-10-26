@@ -10,11 +10,11 @@ import android.view.MotionEvent;
  */
 
 class CustomViewPager extends ViewPager {
-    CustomViewPager(Context context) {
+    public CustomViewPager(Context context) {
         super(context);
     }
 
-    CustomViewPager(Context context, AttributeSet attrs) {
+    public CustomViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

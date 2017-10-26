@@ -15,21 +15,21 @@ import com.android.beaconyx.yesdexproject.R;
  * Created by beaconyx on 2017-10-09.
  */
 
-class PageFragment extends Fragment {
+public class PageFragment extends Fragment {
 
 
     private Button pageFragmentViewItem;
     private int mResId;
     private String contents;
 
-    static final PageFragment newInstance(String data) {
+    public static final PageFragment newInstance(String data) {
         PageFragment pageFragment = new PageFragment(data);
 
         return pageFragment;
     }
 
 
-    PageFragment(String data) {
+    public PageFragment(String data) {
         contents = data;
     }
 
