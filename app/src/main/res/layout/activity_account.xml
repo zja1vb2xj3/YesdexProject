@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="7"
+        android:layout_weight="8"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -19,7 +19,7 @@
             android:layout_marginLeft="18dp"
             android:layout_marginRight="18dp"
             android:gravity="center"
-            android:text="본 서비스는 개인정보를 수집하지 앖습니다.\n\n\n블루투스를 켜야 정상작동 합니다."
+            android:text="본 서비스는 개인정보를 수집하지 않습니다.\n\n\n블루투스를 켜야 정상작동 합니다."
             android:textColor="#7a7a7a"
             android:textSize="17sp" />
     </LinearLayout>
@@ -27,7 +27,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
+        android:layout_weight="2"
         android:gravity="center|top"
         android:orientation="horizontal">
 

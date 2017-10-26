@@ -3,6 +3,8 @@ package com.android.beaconyx.yesdexproject.ParseController;
 import android.util.Log;
 
 import com.android.beaconyx.yesdexproject.CheckPackage.AccountDtoModel;
+import com.android.beaconyx.yesdexproject.Constant.TBAccountKoConstantPool;
+import com.android.beaconyx.yesdexproject.Constant.TBUserKoConstantPool;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -18,21 +20,7 @@ import java.util.List;
 
 public class ParseManager {
 
-    private String CLASSNAME = getClass().getSimpleName();
-    /**
-     * TB_Account_Ko Table set
-     */
-    private final String TB_Account_Ko = "TB_Account_Ko";
-    private final String ACT_USER_ID = "ACT_USER_ID";
-    private final String ACT_USER_OS = "ACT_USER_OS";
-    private final String ACT_OS_VERSION = "ACT_OS_VERSION";
-    private final String ACT_USER_PHONE_MODEL = "ACT_USER_PHONE_MODEL";
-    private final String ACT_CERTIFICATION = "ACT_CERTIFICATION";
-
-    /**
-     * TB_User_Ko Table set
-     */
-    private final String TB_User_Ko = "TB_User_Ko";
+    private final String CLASSNAME = getClass().getSimpleName();
 
     //region OnRegisterUserCallback
     //유저 등록 콜백
@@ -49,13 +37,13 @@ public class ParseManager {
 
     //유저 등록
     public synchronized void registAccountUserData(final AccountDtoModel accountDtoModel) {
-        final ParseObject parseObject = new ParseObject(TB_Account_Ko);
+        final ParseObject parseObject = new ParseObject(TBAccountKoConstantPool.TB_Account_Ko);
 
-        parseObject.put(ACT_USER_ID, accountDtoModel.getACT_USER_ID());
-        parseObject.put(ACT_USER_OS, accountDtoModel.getACT_USER_OS());
-        parseObject.put(ACT_OS_VERSION, accountDtoModel.getACT_OS_VERSION());
-        parseObject.put(ACT_USER_PHONE_MODEL, accountDtoModel.getACT_USER_PHONE_MODEL());
-        parseObject.put(ACT_CERTIFICATION, accountDtoModel.getACT_CERTIFICATION());
+        parseObject.put(TBAccountKoConstantPool.ACT_USER_ID, accountDtoModel.getACT_USER_ID());
+        parseObject.put(TBAccountKoConstantPool.ACT_USER_OS, accountDtoModel.getACT_USER_OS());
+        parseObject.put(TBAccountKoConstantPool.ACT_OS_VERSION, accountDtoModel.getACT_OS_VERSION());
+        parseObject.put(TBAccountKoConstantPool.ACT_USER_PHONE_MODEL, accountDtoModel.getACT_USER_PHONE_MODEL());
+        parseObject.put(TBAccountKoConstantPool.ACT_CERTIFICATION, accountDtoModel.getACT_CERTIFICATION());
 
         parseObject.saveInBackground(new SaveCallback() {
             @Override
@@ -89,7 +77,7 @@ public class ParseManager {
      * 등록된 디바이스 인지 체크
      */
     public synchronized void checkRegisteredDevice(final String uuid) {
-        final ParseQuery<ParseObject> query = ParseQuery.getQuery(TB_Account_Ko);
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery(TBAccountKoConstantPool.TB_Account_Ko);
 
         boolean isCache = query.hasCachedResult();
         if (isCache == true) {
@@ -121,7 +109,7 @@ public class ParseManager {
     private OnCheckAuthenticationCallback onCheckAuthenticationCallback;
 
     public interface OnCheckAuthenticationCallback {
-        void onCheckAuthentication(boolean resultSign);
+        void onCheckAuthentication(String userNumber, boolean resultSign);
     }
 
     public void setOnCheckAuthenticationCallback(OnCheckAuthenticationCallback onCheckAuthenticationCallback) {
@@ -129,33 +117,34 @@ public class ParseManager {
     }
     //endregion
 
+
     /**
      * (디비에 등록된 회원인지 체크)
      *
      * @param userName
      * @param userNumber
      */
-    public synchronized void checkRegistedUser(String userName, String userNumber) {
-        final ParseQuery<ParseObject> query = ParseQuery.getQuery(TB_User_Ko);
+    public synchronized void checkRegistedUser(String userName, final String userNumber) {
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery(TBUserKoConstantPool.TB_User_Ko);
 
         boolean isCache = query.hasCachedResult();
         if (isCache == true) {
             query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         }
 
-        query.whereEqualTo("USR_NAME", userName);
-        query.whereEqualTo("USR_NUMBER", userNumber);
+        query.whereEqualTo(TBUserKoConstantPool.USR_NAME, userName);
+        query.whereEqualTo(TBUserKoConstantPool.USR_NUMBER, userNumber);
 
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (objects.size() != 0) {// 있는거
                     if (onCheckAuthenticationCallback != null) {
-                        onCheckAuthenticationCallback.onCheckAuthentication(true);
+                        onCheckAuthenticationCallback.onCheckAuthentication(userNumber, true);
                     }
                 } else {
                     if (onCheckAuthenticationCallback != null) {
-                        onCheckAuthenticationCallback.onCheckAuthentication(false);
+                        onCheckAuthenticationCallback.onCheckAuthentication(userNumber, false);
                     }
                 }
             }
@@ -167,25 +156,24 @@ public class ParseManager {
     private OnUpdateCertificationCallback onUpdateCertificationCallback;
 
     public interface OnUpdateCertificationCallback {
-        void onUpdate(boolean resultSign);
+        void onUpdate(String uuid,String userNumber, boolean resultSign);
     }
 
     public void setOnUpdateCertificationCallback(OnUpdateCertificationCallback onUpdateCertificationCallback) {
         this.onUpdateCertificationCallback = onUpdateCertificationCallback;
     }
-
     //endregion
 
     //TB_Account_Ko의 ACT_CERTIFICATION 을 true 로 바꾸기
-    public synchronized void updateACT_CERTIFICATION(String uuid) {
-        final ParseQuery<ParseObject> query = ParseQuery.getQuery(TB_Account_Ko);
+    public synchronized void updateACT_CERTIFICATION(final String uuid, final String userNumber) {
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery(TBAccountKoConstantPool.TB_Account_Ko);
 
         boolean isCache = query.hasCachedResult();
         if (isCache == true) {
             query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         }
 
-        query.whereEqualTo(ACT_USER_ID, uuid);
+        query.whereEqualTo(TBAccountKoConstantPool.ACT_USER_ID, uuid);
 
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
@@ -193,7 +181,7 @@ public class ParseManager {
                 boolean resultSign = false;
 
                 if (e == null) {
-                    object.put(ACT_CERTIFICATION, "true");
+                    object.put(TBAccountKoConstantPool.ACT_CERTIFICATION, "true");
                     object.saveInBackground().isCompleted();
                     resultSign = true;
                 }
@@ -203,14 +191,63 @@ public class ParseManager {
                 }
 
                 if (onUpdateCertificationCallback != null) {
-                    onUpdateCertificationCallback.onUpdate(resultSign);
+                    onUpdateCertificationCallback.onUpdate(uuid, userNumber ,resultSign);
                 }
             }
         });
 
+    }//endregion
+
+
+
+    //region
+
+
+    public interface OnUpdateUSR_USER_IDCallback {
+        void onUpdate(boolean resultSign);
     }
 
+    OnUpdateUSR_USER_IDCallback onUpdateUSR_User_IdCallback;
+
+    public void setOnUpdateUSR_User_IdCallback(OnUpdateUSR_USER_IDCallback onUpdateUSR_User_IdCallback) {
+        this.onUpdateUSR_User_IdCallback = onUpdateUSR_User_IdCallback;
+    }
+
+    //endregion
+
     //TB_USER_KO의 USR_USER_ID에 UUID를 추가
+    public synchronized void updateUSR_USER_ID(final String userNumber, final String uuid){
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery(TBUserKoConstantPool.TB_User_Ko);
+
+        boolean isCache = query.hasCachedResult();
+        if (isCache == true) {
+            query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        }
+
+        query.whereEqualTo(TBUserKoConstantPool.USR_NUMBER, userNumber);//TB_User_Ko USR_NUMBER 검색
+
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                boolean resultSign = false;
+
+                if (e == null) {
+                    //USR_USER_ID update
+                    object.put(TBUserKoConstantPool.USR_USER_ID, uuid);
+                    object.saveInBackground().isCompleted();
+                    resultSign = true;
+                }
+
+                else{
+                    Log.i(CLASSNAME, "updateACT_CERTIFICATION error");
+                }
+
+                if (onUpdateUSR_User_IdCallback != null) {
+                    onUpdateUSR_User_IdCallback.onUpdate(resultSign);
+                }
+            }
+        });
+    }
 
 
 //    public synchronized void loadUserData() {

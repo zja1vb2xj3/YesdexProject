@@ -69,6 +69,10 @@ public class MainActivity extends Activity {
     }
 
     public void dInfoActivityOperation(View view) {
+        //TB_User_Ko 테이블의 USR_USER_ID를 체크 undefined 라면 강의 출석 인증 화면 창(DInfoActivity)로 이동
+        //uuid는 앱 새로 다운시 SharedPreferences에서 가지고 있음
+
+        //아니면 바로 AttendInfoActivity로 이동**
         Intent intent = new Intent(this, DInfoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 

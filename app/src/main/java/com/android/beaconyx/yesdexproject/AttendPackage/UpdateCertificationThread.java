@@ -9,13 +9,15 @@ import com.android.beaconyx.yesdexproject.ParseController.ParseManager;
  */
 
 public class UpdateCertificationThread extends Thread{
-    private String mUUID;
     private ParseManager mParseManager;
+    private String mUUID;
+    private String mUserNumber;
     private String CLASSNAME = getClass().getSimpleName();
 
-    public UpdateCertificationThread(ParseManager parseManager,String typeStrUUID) {
+    public UpdateCertificationThread(ParseManager parseManager,String typeStrUUID, String userNumber) {
         mParseManager = parseManager;
         this.mUUID = typeStrUUID;
+        this.mUserNumber = userNumber;
     }
 
     @Override
@@ -23,7 +25,7 @@ public class UpdateCertificationThread extends Thread{
         super.run();
 
         if(mParseManager != null){
-            mParseManager.updateACT_CERTIFICATION(mUUID);
+            mParseManager.updateACT_CERTIFICATION(mUUID, mUserNumber);
         }
 
         else{
