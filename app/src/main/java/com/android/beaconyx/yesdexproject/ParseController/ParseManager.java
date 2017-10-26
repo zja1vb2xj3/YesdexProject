@@ -103,11 +103,11 @@ public class ParseManager {
 //
 //                if (e == null) {
 //
-//                    ArrayList<DtoUserModel> dtoUserModels = new ArrayList<>();
+//                    ArrayList<> dtoUserModels = new ArrayList<>();
 //
 //                    for (int i = 0; i < parseObjects.size(); i++) {
 //                        ParseObject parseObject = parseObjects.get(i);
-//                        DtoUserModel dtoUserModel = new DtoUserModel();
+//                         dtoUserModel = new ();
 //
 //                        String userName = null;
 //                        if (parseObject.getString("USR_NAME") != null) {
