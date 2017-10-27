@@ -11,10 +11,8 @@ import android.view.View;
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.AttendPackage.AttendInfoActivity;
 import com.android.beaconyx.yesdexproject.AttendPackage.DInfoActivity;
-import com.android.beaconyx.yesdexproject.AttendPackage.SearchUSRUSERIDThread;
 import com.android.beaconyx.yesdexproject.Constant.SharedPreferencesConstantPool;
 import com.android.beaconyx.yesdexproject.MapPackage.MapInfoActivity;
-import com.android.beaconyx.yesdexproject.ParseController.ParseManager;
 import com.android.beaconyx.yesdexproject.R;
 import com.android.beaconyx.yesdexproject.TabViewPagerPackage.AInfoActivity;
 import com.android.beaconyx.yesdexproject.TabViewPagerPackage.BInfoActivity;
@@ -24,7 +22,6 @@ import com.android.beaconyx.yesdexproject.TabViewPagerPackage.FInfoActivity;
 
 public class MainActivity extends Activity {
     private ThisApplication mThisApplication;
-    private ParseManager mParseManager;
     private String CLASSNAME = getClass().getSimpleName();
 
     @Override
@@ -43,12 +40,9 @@ public class MainActivity extends Activity {
 
         mThisApplication.startBeaconThread();
 
-        mParseManager = new ParseManager();
-
-        mParseManager.setOnSearchUsrUserIdCallback(onSearchUsrUserIdCallback);
     }
 
-    public void mapInfoActivityOperation(View view) {
+    public void mapInfoButton_onClick(View view) {
         Intent intent = new Intent(this, MapInfoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -56,14 +50,14 @@ public class MainActivity extends Activity {
 
     }
 
-    public void aInfoActivityOperation(View view) {
+    public void aInfoButton_onClick(View view) {
         Intent intent = new Intent(this, AInfoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         startActivity(intent);
     }
 
-    public void bInfoActivityOperation(View view) {
+    public void bInfoButton_onClick(View view) {
         Intent intent = new Intent(this, BInfoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -72,70 +66,54 @@ public class MainActivity extends Activity {
     }
 
 
-    public void cInfoActivityOperation(View view) {
+    public void cInfoButton_onClick(View view) {
         Intent intent = new Intent(this, CInfoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         startActivity(intent);
     }
 
-    public void dInfoActivityOperation(View view) {
-        //TB_User_Ko 테이블의 USR_USER_ID를 체크 undefined 라면 강의 출석 인증 화면 창(DInfoActivity)로 이동
-        //uuid는 앱 새로 다운시 SharedPreferences에서 가지고 있음
-        String getUUID = findUUID();
+    public void dInfoButton_onClick(View view) {
+        SharedPreferences sharedPreferences = getSharedPreferences(SharedPreferencesConstantPool.ACCOUNT_SHARED_PREFERENCES_NAME, MODE_PRIVATE);
 
-        if (getUUID == null) { //앱 초기에 등록된 UUID가 없다면
-            Log.i(CLASSNAME, "getUUID가 null임");
-        } else {//있다면 Parse에 접속에서 찾음
-            SearchUSRUSERIDThread searchUSRUSERIDThread = new SearchUSRUSERIDThread(mParseManager, getUUID);
-            searchUSRUSERIDThread.start();
-        }
-        //아니면 바로 AttendInfoActivity로 이동**
-//        Intent intent = new Intent(this, DInfoActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//
-//        startActivity(intent);
+        String certifiValue = sharedPreferences.getString(SharedPreferencesConstantPool.ACCOUNT_CERTIFICATION_KEY, "false");
+        Log.i(CLASSNAME, certifiValue);
+//        if(certifiValue.equals("true")){
+//            startAttendActivity();
+//        }
+//        else{
+//            startDinfoActivity();
+//        }
     }
 
-    ParseManager.OnSearch_USR_USER_ID_Callback onSearchUsrUserIdCallback = new ParseManager.OnSearch_USR_USER_ID_Callback() {
-        @Override
-        public void onSearch(String userNumber) {
-            if (userNumber != null) {//찾기성공
-                //찾았으면 출석화면으로
-                Intent intent = new Intent(getApplicationContext(), AttendInfoActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    /**
+     * certification이 true일때
+     */
+    private void startAttendActivity(){
+        Intent intent = new Intent(this, AttendInfoActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-                startActivity(intent);
-
-            }
-
-            else {
-                Log.i(CLASSNAME, "USR_USER_ID 를 못찾음" + "");
-                //못찾으면 인증화면으로
-                Intent intent = new Intent(getApplicationContext(), DInfoActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                startActivity(intent);
-
-            }
-        }
-    };
-
-    private String findUUID() {
-        SharedPreferences mSharedPreferences = getSharedPreferences(SharedPreferencesConstantPool.ACCOUNT_SHARED_PREFERENCES_NAME, MODE_PRIVATE);
-        String saveUUID = mSharedPreferences.getString(SharedPreferencesConstantPool.ACCOUNT_SHARED_PREFERENCES_KEY, null);
-
-        return saveUUID;
+        startActivity(intent);
     }
 
-    public void eInfoActivityOperation(View view) {
+    /**
+     * certification이 false일때
+     */
+    private void startDinfoActivity(){
+        Intent intent = new Intent(this, DInfoActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        startActivity(intent);
+    }
+
+    public void eInfoButton_onClick(View view) {
         Intent intent = new Intent(this, EInfoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         startActivity(intent);
     }
 
-    public void fInfoActivityOperation(View view) {
+    public void fInfoButton_onClick(View view) {
         Intent intent = new Intent(this, FInfoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 

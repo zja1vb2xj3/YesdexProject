@@ -16,9 +16,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.android.beaconyx.yesdexproject.PDFPackage.PdfViewerActivity;
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
+import com.android.beaconyx.yesdexproject.PDFPackage.PDFViewerActivity;
 import com.android.beaconyx.yesdexproject.R;
+
 
 /**
  * Created by beaconyx on 2017-10-12.
@@ -74,7 +75,7 @@ public class AttendDialogFragment2 extends DialogFragment {
             public void onClick(View view) {
                 onDialog2CancelListener.onCancel(getDialog());
 
-                Intent intent = new Intent(getActivity(), PdfViewerActivity.class);
+                Intent intent = new Intent(getActivity(), PDFViewerActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                 startActivity(intent);

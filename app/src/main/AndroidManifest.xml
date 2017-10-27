@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CheckPackage.PermissionActivity">
+        <activity android:name=".PermissionPackage.PermissionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,8 +26,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Activity.LoadActivity" />
-        <activity android:name=".CheckPackage.AccountActivity"/>
+        <activity android:name=".Load.LoadActivity" />
+        <activity android:name=".AccountPackage.AccountActivity"/>
         <activity android:name=".Activity.MainActivity" />
         <activity android:name=".TabViewPagerPackage.AInfoActivity" />
         <activity android:name=".TabViewPagerPackage.BInfoActivity" />

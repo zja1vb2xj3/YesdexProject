@@ -9,7 +9,9 @@ import android.graphics.Point;
 import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
+import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
+import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -26,10 +28,12 @@ import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.UUID;
 
 /**
  * Created by user on 2017-10-15.
@@ -253,6 +257,34 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
     @Override
     public void didDetermineStateForRegion(int i, Region region) {
 
+    }
+
+    /**
+     * 디바이스 UUID를 생성 후 반환
+     *
+     * @return deviceUUID
+     */
+    public String getDeviceUUID() {
+        UUID deviceUUID;
+
+        final String androidUID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        try {
+            if (!androidUID.equals("")) {
+                deviceUUID = UUID.nameUUIDFromBytes(androidUID.getBytes("utf8"));
+            } else {
+                final String anotherUID = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+                if (anotherUID != null) {
+                    deviceUUID = UUID.nameUUIDFromBytes(anotherUID.getBytes("utf8"));
+                } else {
+                    deviceUUID = UUID.randomUUID();
+                }
+            }
+
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+
+        return deviceUUID.toString();
     }
 
     /**

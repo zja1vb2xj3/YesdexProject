@@ -1,5 +1,6 @@
 package com.android.beaconyx.yesdexproject.AttendPackage;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -19,13 +20,14 @@ public class AttendInfoActivity extends FragmentActivity {
     private StickyListHeadersListView mLectureInfoListView;
     private HeaderListViewAdapter mHeaderListViewAdapter;
 
-    private final String ACTIVITY_NAME = "AttendInfoActivity";
+    private final String CLASSNAME = getClass().getSimpleName();
 
+    private SharedPreferences mPreferences;
     private ThisApplication mThisApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(ACTIVITY_NAME, "onCreate");
+        Log.i(CLASSNAME, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attend_info);
 
@@ -34,6 +36,9 @@ public class AttendInfoActivity extends FragmentActivity {
         initView();
 
         mThisApplication = (ThisApplication) this.getApplicationContext();
+
+        //TB_Account_ko certification true로 바꿔줘야함
+
 
 
     }//end onCreate
@@ -53,7 +58,7 @@ public class AttendInfoActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i(ACTIVITY_NAME, "onResume");
+        Log.i(CLASSNAME, "onResume");
         mThisApplication.setIsAttendActivityComplete(true); // AttendActivity 실행신호
         mThisApplication.setMotionFragmentActivity(this);
         mThisApplication.setFragmentDialog1Sign(true);
@@ -62,7 +67,7 @@ public class AttendInfoActivity extends FragmentActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.i(ACTIVITY_NAME, "onPause");
+        Log.i(CLASSNAME, "onPause");
         mThisApplication.setIsAttendActivityComplete(false);
     }
 

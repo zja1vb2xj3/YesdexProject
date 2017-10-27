@@ -1,4 +1,4 @@
-package com.android.beaconyx.yesdexproject.CheckPackage;
+package com.android.beaconyx.yesdexproject.AccountPackage;
 
 /**
  * Created by beaconyx on 2017-10-26.

@@ -2,33 +2,33 @@ package com.android.beaconyx.yesdexproject.AttendPackage;
 
 import android.util.Log;
 
-import com.android.beaconyx.yesdexproject.ParseController.ParseManager;
-
 /**
  * Created by beaconyx on 2017-10-25.
  */
 
 public class CheckRegistedUserThread extends Thread{
-    private ParseManager mParseManager;
+    private AttendParseController mParseController;
     private String CLASSNAME = getClass().getName();
-    private String userName;
-    private String userNumber;
+    private String mUserName;
+    private String mUserNumber;
+    private String mUUID;
 
-    public CheckRegistedUserThread(ParseManager mParseManager, String userName, String userNumber) {
-        this.mParseManager = mParseManager;
-        this.userName = userName;
-        this.userNumber = userNumber;
+    public CheckRegistedUserThread(AttendParseController controller, String userName, String userNumber, String uuid) {
+        this.mParseController = controller;
+        this.mUserName = userName;
+        this.mUserNumber = userNumber;
+        this.mUUID = uuid;
     }
 
     @Override
     public void run() {
         super.run();
 
-        if(mParseManager != null){
-            mParseManager.checkRegistedUser(userName, userNumber);
+        if(mParseController != null){
+            mParseController.checkRegistUser(mUserName, mUserNumber, mUUID);
         }
         else{
-            Log.i(CLASSNAME, "ParseManager가 null임");
+            Log.i(CLASSNAME, "mParseController is null");
         }
     }
 }
