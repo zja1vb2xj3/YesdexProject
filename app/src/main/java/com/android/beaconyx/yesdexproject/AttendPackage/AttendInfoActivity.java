@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
+import com.android.beaconyx.yesdexproject.Constant.SharedPreferencesConstantPool;
 import com.android.beaconyx.yesdexproject.R;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -22,8 +23,9 @@ public class AttendInfoActivity extends FragmentActivity {
 
     private final String CLASSNAME = getClass().getSimpleName();
 
-    private SharedPreferences mPreferences;
     private ThisApplication mThisApplication;
+    private AttendParseController mParseController;
+    private SharedPreferences mPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +39,45 @@ public class AttendInfoActivity extends FragmentActivity {
 
         mThisApplication = (ThisApplication) this.getApplicationContext();
 
-        //TB_Account_ko certification true로 바꿔줘야함
+        mParseController = new AttendParseController();
+        mParseController.setOnUpdateCertificationCallback(onUpdateCertificationCallback);
 
+        mPreferences = getSharedPreferences(SharedPreferencesConstantPool.ACCOUNT_SHARED_PREFERENCES_NAME, MODE_PRIVATE);
+        String certifiValue = mPreferences.getString(SharedPreferencesConstantPool.ACCOUNT_CERTIFICATION_KEY, "false");
+
+        Log.i(CLASSNAME, certifiValue);
+
+        //sharePreference certifivalue 체크
+
+        if (certifiValue.equals("true")) {//과거에도 인증
+            //Parse TB_Account_Ko Certification true로 변경
+            Log.i(CLASSNAME, "과거인증 이력있음");
+
+        } else {//최초 인증
+            Log.i(CLASSNAME, "최초인증");
+            UpdateCertificationThread updateCertificationThread = new UpdateCertificationThread(mParseController, mThisApplication.getDeviceUUID());
+            updateCertificationThread.start();
+        }
 
 
     }//end onCreate
+
+    //region 최초인증 콜백
+    AttendParseController.OnUpdateCertificationCallback onUpdateCertificationCallback = new AttendParseController.OnUpdateCertificationCallback() {
+        @Override
+        public void onUpdate(String certifiValue) {
+            if (certifiValue.equals("true")) {
+                SharedPreferences.Editor editor = mPreferences.edit();
+                editor.putString(SharedPreferencesConstantPool.ACCOUNT_CERTIFICATION_KEY, "true");
+            }
+
+            else{
+                Log.i(CLASSNAME, "서버 certifiCation 업데이트 실패");
+            }
+        }
+    };
+
+    //endregion
 
 
     @Override
@@ -106,7 +142,6 @@ public class AttendInfoActivity extends FragmentActivity {
             }
         });
     }
-
 
 
     /**

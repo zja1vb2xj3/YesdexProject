@@ -8,7 +8,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.android.beaconyx.yesdexproject.AccountPackage.AccountActivity;
-import com.android.beaconyx.yesdexproject.Activity.MainActivity;
+import com.android.beaconyx.yesdexproject.Main.MainActivity;
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.Constant.SharedPreferencesConstantPool;
 import com.android.beaconyx.yesdexproject.R;
@@ -32,14 +32,20 @@ public class LoadActivity extends Activity {
 
         mPreferences = getSharedPreferences(SharedPreferencesConstantPool.ACCOUNT_SHARED_PREFERENCES_NAME, MODE_PRIVATE);
         String objectId = mPreferences.getString(SharedPreferencesConstantPool.ACCOUNT_OBJECTID_KEY, null);
+        String certifiValue = mPreferences.getString(SharedPreferencesConstantPool.ACCOUNT_CERTIFICATION_KEY, "false");
+        String uuid = mThisApplication.getDeviceUUID();
 
-        if (objectId == null) {//
-            String uuid = mThisApplication.getDeviceUUID();
-            Log.i(CLASSNAME, uuid);
+        if (objectId == null) {//폰을 지웟다 다시설치
+            Log.i(CLASSNAME, "object null");
+            Log.i(CLASSNAME, certifiValue);
 
             CheckAccountRegistedThread checkAccountRegistedThread = new CheckAccountRegistedThread(mParseController, uuid);
             checkAccountRegistedThread.start();
-        } else {
+        } else {//object null이 아님
+            Log.i(CLASSNAME, "object not null");
+            Log.i(CLASSNAME + " object : ", objectId);
+            Log.i(CLASSNAME + " certifi : ", certifiValue);
+
             startMainActivity();
         }
     }
@@ -50,12 +56,27 @@ public class LoadActivity extends Activity {
         public void onCheckDeviceUUID(String objectId, String certifivalue) {
             if (objectId == null) {
                 //등록된 디바이스가 없음 false
+                Log.i("device callback", "등록된 디바이스가 없음");
+
+                SharedPreferences.Editor editor = mPreferences.edit();
+
+                editor.putString(SharedPreferencesConstantPool.ACCOUNT_OBJECTID_KEY, objectId);
+                editor.putString(SharedPreferencesConstantPool.ACCOUNT_CERTIFICATION_KEY, certifivalue);//Parse에서 받아온 CertifiCation 저장
+
+                editor.commit();
+
                 startAccountAcitivity();
             } else {
                 //등록된 디바이스가 있음 단순저장
-                mPreferences.edit().putString(SharedPreferencesConstantPool.ACCOUNT_OBJECTID_KEY, objectId);
-                mPreferences.edit().putString(SharedPreferencesConstantPool.ACCOUNT_CERTIFICATION_KEY, certifivalue);
-                mPreferences.edit().commit();
+                Log.i("device callback", "등록된 디바이스가 있음");
+
+                Log.i("로딩", certifivalue);
+                SharedPreferences.Editor editor = mPreferences.edit();
+
+                editor.putString(SharedPreferencesConstantPool.ACCOUNT_OBJECTID_KEY, objectId);
+                editor.putString(SharedPreferencesConstantPool.ACCOUNT_CERTIFICATION_KEY, certifivalue);//Parse에서 받아온 CertifiCation 저장
+
+                editor.commit();
 
                 startMainActivity();
             }
@@ -68,6 +89,7 @@ public class LoadActivity extends Activity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 startActivity(new Intent(getApplicationContext(), AccountActivity.class));
                 finish();
             }

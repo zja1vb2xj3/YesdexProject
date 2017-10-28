@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.android.beaconyx.yesdexproject.Activity.MainActivity;
+import com.android.beaconyx.yesdexproject.Main.MainActivity;
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.Constant.SharedPreferencesConstantPool;
 import com.android.beaconyx.yesdexproject.R;
@@ -46,11 +46,14 @@ public class AccountActivity extends Activity {
     AccountParseController.OnRegistUserCallback onRegistUserCallback = new AccountParseController.OnRegistUserCallback() {
         @Override
         public void onRegistUser(String objectId, String certifiValue) {
-            if(objectId != null && certifiValue != null){
+            if(objectId != null && certifiValue != null){ //
                 SharedPreferences preferences = getSharedPreferences(SharedPreferencesConstantPool.ACCOUNT_SHARED_PREFERENCES_NAME, MODE_PRIVATE);
-                preferences.edit().putString(SharedPreferencesConstantPool.ACCOUNT_OBJECTID_KEY, objectId);
-                preferences.edit().putString(SharedPreferencesConstantPool.ACCOUNT_CERTIFICATION_KEY, certifiValue);
-                preferences.edit().commit();
+
+                SharedPreferences.Editor editor = preferences.edit();
+
+                editor.putString(SharedPreferencesConstantPool.ACCOUNT_OBJECTID_KEY, objectId);
+                editor.putString(SharedPreferencesConstantPool.ACCOUNT_CERTIFICATION_KEY, certifiValue);
+                editor.commit();
 
                 startMainActivity();
             }

@@ -28,7 +28,7 @@
 
         <activity android:name=".Load.LoadActivity" />
         <activity android:name=".AccountPackage.AccountActivity"/>
-        <activity android:name=".Activity.MainActivity" />
+        <activity android:name=".Main.MainActivity" />
         <activity android:name=".TabViewPagerPackage.AInfoActivity" />
         <activity android:name=".TabViewPagerPackage.BInfoActivity" />
         <activity android:name=".TabViewPagerPackage.CInfoActivity" />

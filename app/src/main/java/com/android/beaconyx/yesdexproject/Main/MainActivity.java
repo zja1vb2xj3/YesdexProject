@@ -1,4 +1,4 @@
-package com.android.beaconyx.yesdexproject.Activity;
+package com.android.beaconyx.yesdexproject.Main;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -78,12 +78,13 @@ public class MainActivity extends Activity {
 
         String certifiValue = sharedPreferences.getString(SharedPreferencesConstantPool.ACCOUNT_CERTIFICATION_KEY, "false");
         Log.i(CLASSNAME, certifiValue);
-//        if(certifiValue.equals("true")){
-//            startAttendActivity();
-//        }
-//        else{
-//            startDinfoActivity();
-//        }
+
+        if(certifiValue.equals("true")){
+            startAttendActivity();
+        }
+        else{
+            startDinfoActivity();
+        }
     }
 
     /**

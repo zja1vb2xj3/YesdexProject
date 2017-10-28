@@ -50,10 +50,13 @@ public class DInfoActivity extends Activity {
 
     }
 
+    /**
+     * 검색 후 등록된 유저라면 uuid 업데이트 후 콜백
+     */
     AttendParseController.OnSearchRegistedUserCallback onSearchRegistedUserCallback = new AttendParseController.OnSearchRegistedUserCallback() {
         @Override
         public void onCheck(boolean resultSign) {
-            if(resultSign == true){
+            if(resultSign == true){//등록된 고객이라면
                 startAttendInfoActivity();
             }
             else{
@@ -61,6 +64,8 @@ public class DInfoActivity extends Activity {
             }
         }
     };
+    //endregion
+
 
 
 

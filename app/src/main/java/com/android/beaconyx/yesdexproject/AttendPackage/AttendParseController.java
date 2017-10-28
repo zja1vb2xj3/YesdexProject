@@ -47,18 +47,20 @@ class AttendParseController {
             public void done(ParseObject object, ParseException e) {
                 if (object != null) {// 검색 성공
 
-
                     Object o = object.get(TBUserKoConstantPool.USR_NUMBER);
 
                     String userNumber = o.toString();
 
+                    /**
+                     * TB_USER_Ko 에 해당 유저에 uuid 등록
+                     */
+                    object.put(TBUserKoConstantPool.USR_USER_ID, uuid);
+                    object.saveInBackground().isCompleted();
+
+
                     if (onSearchRegistedUserCallback != null) {
                         onSearchRegistedUserCallback.onCheck(true);
                     }
-
-                    //해당 회원 USR_USER_ID 에 uuid 추가
-                    object.put(TBUserKoConstantPool.USR_USER_ID, uuid);
-                    object.saveInBackground().isCompleted();
                 } else {//검색 실패
                     if (onSearchRegistedUserCallback != null) {
                         onSearchRegistedUserCallback.onCheck(false);
@@ -73,7 +75,7 @@ class AttendParseController {
     private OnUpdateCertificationCallback onUpdateCertificationCallback;
 
     public interface OnUpdateCertificationCallback {
-        void onUpdate(String uuid, boolean resultSign);
+        void onUpdate(String certifiValue);
     }
 
     public void setOnUpdateCertificationCallback(OnUpdateCertificationCallback onUpdateCertificationCallback) {
@@ -95,24 +97,30 @@ class AttendParseController {
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject object, ParseException e) {
-                boolean resultSign = false;
 
-                if (e == null) {
+                if (object != null) {
+
                     object.put(TBAccountKoConstantPool.ACT_CERTIFICATION, "true");
+
+                    Object certifiValue = object.get(TBAccountKoConstantPool.ACT_CERTIFICATION);
+
                     object.saveInBackground().isCompleted();
-                    resultSign = true;
-                } else {
-                    Log.i(CLASSNAME, "updateCertification error");
+
+                    if (onUpdateCertificationCallback != null) {
+                        onUpdateCertificationCallback.onUpdate(certifiValue.toString());
+                    }
                 }
 
-                if (onUpdateCertificationCallback != null) {
-                    onUpdateCertificationCallback.onUpdate(uuid, resultSign);
-                } else {
-                    Log.i(CLASSNAME, "onUpdateCertificationCallback is null");
+                else {
+
+                    if (onUpdateCertificationCallback != null) {
+                        onUpdateCertificationCallback.onUpdate("false");
+                    }
+
+                    Log.i(CLASSNAME, "updateCertification error");
                 }
             }
         });
-
     }
 
 
