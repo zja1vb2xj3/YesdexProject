@@ -19,7 +19,7 @@ import com.android.beaconyx.yesdexproject.TabViewPagerPackage.BInfoActivity;
 import com.android.beaconyx.yesdexproject.TabViewPagerPackage.CInfoActivity;
 import com.android.beaconyx.yesdexproject.TabViewPagerPackage.EInfoActivity;
 import com.android.beaconyx.yesdexproject.TabViewPagerPackage.FInfoActivity;
-
+//
 public class MainActivity extends Activity {
     private ThisApplication mThisApplication;
     private String CLASSNAME = getClass().getSimpleName();

@@ -29,8 +29,6 @@ dependencies {
     //Header Listview
     //AutofitTextView
     compile project(':android-beacon-library-2.3')
-    compile project(':android-zoom-view')
-
 
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
