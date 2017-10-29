@@ -13,5 +13,11 @@ public class TBUserKoConstantPool {
     public static final String USR_NUMBER = "USR_NUMBER";
     public static final String USR_USER_ID = "USR_USER_ID";
 
+    public static final int REQUEST_NOT_REGISTERED_USER = 1;
+
+    public static final int REQUEST_ALREADY_REGISTERED_USER = 2;
+
+    public static final int REQUEST_WRONG_INPUT = 3;
+
 
 }

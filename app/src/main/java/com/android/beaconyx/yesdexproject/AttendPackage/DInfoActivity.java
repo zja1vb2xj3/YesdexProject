@@ -1,6 +1,8 @@
 package com.android.beaconyx.yesdexproject.AttendPackage;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +19,7 @@ public class DInfoActivity extends Activity {
     private String CLASSNAME = getClass().getSimpleName();
     private AttendParseController mParseController;
     private ThisApplication mThisApplication;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,7 @@ public class DInfoActivity extends Activity {
         CheckRegistedUserThread checkRegistedUserThread = new CheckRegistedUserThread(mParseController, userName, userNumber, uuid);
         checkRegistedUserThread.start();
 
+
     }
 
     /**
@@ -55,18 +59,37 @@ public class DInfoActivity extends Activity {
      */
     AttendParseController.OnSearchRegistedUserCallback onSearchRegistedUserCallback = new AttendParseController.OnSearchRegistedUserCallback() {
         @Override
-        public void onCheck(boolean resultSign) {
-            if(resultSign == true){//등록된 고객이라면
+        public void onCheck(int resultSign) {
+            if (resultSign == 1) {//등록된 유저가 존재하지 않는다면
+                Toast.makeText(getApplicationContext(), "등록 완료", Toast.LENGTH_SHORT).show();
                 startAttendInfoActivity();
             }
-            else{
-                Toast.makeText(getApplicationContext(), "정보가 올바르지 않습니다.", Toast.LENGTH_SHORT).show();
+            if (resultSign == 2) { //등록된 고객이라면
+                //이미 등록된 고객이라고 알려줘야함
+                createWrongNotifyDialog("이미 등록된 고객 입니다.");
+            }
+
+            if (resultSign == 3) {
+                createWrongNotifyDialog("미 등록된 고객 입니다.");
             }
         }
     };
     //endregion
 
 
+    private void createWrongNotifyDialog(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("알림")
+                .setMessage(message)
+                .setCancelable(false)
+                .setNegativeButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                }).show();
+    }
 
 
     private void startAttendInfoActivity() {

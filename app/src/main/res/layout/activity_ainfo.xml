@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         style="@style/MyCustomTabLayout"
         />
+    <!--style="@style/MyCustomTabLayout"-->
 
     <com.android.beaconyx.yesdexproject.TabViewPagerPackage.CustomViewPager
         android:id="@+id/viewPager"

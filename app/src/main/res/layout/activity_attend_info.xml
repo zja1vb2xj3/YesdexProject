@@ -16,6 +16,9 @@
         android:scrollbars="none"
         android:id="@+id/lecture_info_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:fadingEdge="none"
+        android:listSelector="@android:color/transparent"
+        />
 
 </LinearLayout>

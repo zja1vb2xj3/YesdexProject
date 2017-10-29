@@ -78,30 +78,31 @@ public class MapView extends SubsamplingScaleImageView {
         super.onDraw(canvas);
 //        Log.i(CLASSNAME, "onDraw");
 
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
+        if (canvas != null) {
+            Paint paint = new Paint();
+            paint.setAntiAlias(true);
 
-        if (mMarkerBitmapList != null) {
-            for (int i = 0; i < mMarkerBitmapList.size(); i++) {
-                mMapViewWidth = this.getMeasuredWidth();
-                mMapViewHeight = this.getMeasuredHeight();
+            if (mMarkerBitmapList != null) {
+                for (int i = 0; i < mMarkerBitmapList.size(); i++) {
+                    mMapViewWidth = this.getMeasuredWidth();
+                    mMapViewHeight = this.getMeasuredHeight();
 
-                int centerX = mMapViewWidth / 2;
-                int centerY = mMapViewHeight / 2;
+                    int centerX = mMapViewWidth / 2;
+                    int centerY = mMapViewHeight / 2;
 
-                Rect rect = new Rect();
+                    Rect rect = new Rect();
 
-                rect.set(
-                        (int) (centerX - (mMarkerBitmapList.get(i).getWidth() / 1.2)),
-                        (int) (centerY - (mMarkerBitmapList.get(i).getHeight() / 1.2)),
-                        (int) (centerX + (mMarkerBitmapList.get(i).getWidth() / 1.2)),
-                        (int) (centerY + (mMarkerBitmapList.get(i).getHeight() / 1.2))
-                );
+                    rect.set(
+                            (int) (centerX - (mMarkerBitmapList.get(i).getWidth() / 1.2)),
+                            (int) (centerY - (mMarkerBitmapList.get(i).getHeight() / 1.2)),
+                            (int) (centerX + (mMarkerBitmapList.get(i).getWidth() / 1.2)),
+                            (int) (centerY + (mMarkerBitmapList.get(i).getHeight() / 1.2))
+                    );
 
-                mRectMarkerHashMap.put(mMapMarkerList.get(i).getMarkerId(), rect);
+                    mRectMarkerHashMap.put(mMapMarkerList.get(i).getMarkerId(), rect);
 
-                canvas.drawBitmap(mMarkerBitmapList.get(i), centerX, centerY, paint);
-
+                    canvas.drawBitmap(mMarkerBitmapList.get(i), centerX, centerY, paint);
+                }
                 //                Log.i("sWidth", String.valueOf(width));
 //                Log.i("sHeight", String.valueOf(height));
 //                PointF markerPointF = sourceToViewCoord(new PointF(width, height));
@@ -168,9 +169,7 @@ public class MapView extends SubsamplingScaleImageView {
                         }
                         break;
                     }
-                }
-
-                else{
+                } else {
 
                 }
             }

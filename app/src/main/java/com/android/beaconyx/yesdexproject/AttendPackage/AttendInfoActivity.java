@@ -68,7 +68,8 @@ public class AttendInfoActivity extends FragmentActivity {
         public void onUpdate(String certifiValue) {
             if (certifiValue.equals("true")) {
                 SharedPreferences.Editor editor = mPreferences.edit();
-                editor.putString(SharedPreferencesConstantPool.ACCOUNT_CERTIFICATION_KEY, "true");
+                editor.putString(SharedPreferencesConstantPool.ACCOUNT_CERTIFICATION_KEY, certifiValue);
+                editor.commit();
             }
 
             else{

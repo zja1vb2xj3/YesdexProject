@@ -5,15 +5,12 @@
     android:background="#FFFFFF">
 
     <!--맵 영역-->
-    <RelativeLayout
-        android:id="@+id/container"
+    <com.android.beaconyx.yesdexproject.MapPackage.MapView
+        android:id="@+id/mapview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/top"
-        android:gravity="center">
-
-
-    </RelativeLayout>
+        android:gravity="center"/>
 
     <include
         android:id="@+id/top"
@@ -34,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
-            android:visibility="invisible"
+            android:visibility="gone"
             />
 
         <ImageView
@@ -42,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:background="@mipmap/list_exit_img"
-            android:visibility="invisible"
+            android:visibility="gone"
             />
     </LinearLayout>
 

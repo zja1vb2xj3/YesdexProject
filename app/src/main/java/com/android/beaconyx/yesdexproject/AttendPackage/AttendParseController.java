@@ -19,7 +19,7 @@ class AttendParseController {
 
     //region OnSearchRegistedUserCallback
     public interface OnSearchRegistedUserCallback {
-        void onCheck(boolean resultSign);
+        void onCheck(int resultSign);
     }
 
     private OnSearchRegistedUserCallback onSearchRegistedUserCallback;
@@ -51,19 +51,36 @@ class AttendParseController {
 
                     String userNumber = o.toString();
 
-                    /**
-                     * TB_USER_Ko 에 해당 유저에 uuid 등록
-                     */
-                    object.put(TBUserKoConstantPool.USR_USER_ID, uuid);
-                    object.saveInBackground().isCompleted();
+                    //parse에 등록된 USR_NUMBER의 row상 USR_USER_ID가 undefined 라면
 
+                    String userid = object.get(TBUserKoConstantPool.USR_USER_ID).toString();
 
-                    if (onSearchRegistedUserCallback != null) {
-                        onSearchRegistedUserCallback.onCheck(true);
+                    Log.i(CLASSNAME + "checkRegistUser", userid);
+
+                    if (userid.equals("undefined")) {//등록된 유저가 존재하지 않는다면
+                        /**
+                         * TB_USER_Ko 에 해당 유저에 uuid 등록
+                         */
+                        object.put(TBUserKoConstantPool.USR_USER_ID, uuid);
+                        object.saveInBackground().isCompleted();
+
+                        if (onSearchRegistedUserCallback != null) {
+                            onSearchRegistedUserCallback.onCheck(TBUserKoConstantPool.REQUEST_NOT_REGISTERED_USER);
+                        }
+
                     }
-                } else {//검색 실패
+
+                    else {//등록된 유저가 존재
+                        if (onSearchRegistedUserCallback != null) {
+                            onSearchRegistedUserCallback.onCheck(TBUserKoConstantPool.REQUEST_ALREADY_REGISTERED_USER);
+                        }
+                    }
+
+                }
+
+                else {//검색 실패 (등록되지 않은 유저 입력)
                     if (onSearchRegistedUserCallback != null) {
-                        onSearchRegistedUserCallback.onCheck(false);
+                        onSearchRegistedUserCallback.onCheck(TBUserKoConstantPool.REQUEST_WRONG_INPUT);
                     }
                 }
             }
@@ -109,9 +126,7 @@ class AttendParseController {
                     if (onUpdateCertificationCallback != null) {
                         onUpdateCertificationCallback.onUpdate(certifiValue.toString());
                     }
-                }
-
-                else {
+                } else {
 
                     if (onUpdateCertificationCallback != null) {
                         onUpdateCertificationCallback.onUpdate("false");

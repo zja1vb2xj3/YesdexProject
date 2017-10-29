@@ -77,6 +77,7 @@ public class MainActivity extends Activity {
         SharedPreferences sharedPreferences = getSharedPreferences(SharedPreferencesConstantPool.ACCOUNT_SHARED_PREFERENCES_NAME, MODE_PRIVATE);
 
         String certifiValue = sharedPreferences.getString(SharedPreferencesConstantPool.ACCOUNT_CERTIFICATION_KEY, "false");
+
         Log.i(CLASSNAME, certifiValue);
 
         if(certifiValue.equals("true")){

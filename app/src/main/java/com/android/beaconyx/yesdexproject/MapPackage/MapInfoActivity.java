@@ -1,22 +1,17 @@
 package com.android.beaconyx.yesdexproject.MapPackage;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,8 +20,6 @@ import com.android.beaconyx.yesdexproject.R;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 
 import java.util.ArrayList;
-
-import pl.polidea.view.ZoomView;
 
 public class MapInfoActivity extends Activity {
 
@@ -53,23 +46,10 @@ public class MapInfoActivity extends Activity {
 
         mThisApplication = (ThisApplication) this.getApplicationContext();
 
-        Point displaySize = mThisApplication.measureDisplay(this);
-        mMapWidth = (int) (displaySize.x / 1.2);
-        mMapHeight = (int) (displaySize.y / 1.15);
+        mMapView = (MapView) findViewById(R.id.mapview);
 
-        View mapView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.map, null, false);
+        mMapView.setImage(ImageSource.resource(R.mipmap.map_img));
 
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(displaySize.x, mMapHeight);
-
-        mapViewInit(mapView);
-
-        ZoomView zoomView = new ZoomView(this);
-        zoomView.addView(mapView);
-        zoomView.setLayoutParams(layoutParams);
-        zoomView.setMaxZoom(4f);
-
-        RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
-        container.addView(zoomView);
 
         mListHideImage = (ImageView) findViewById(R.id.listHideImage);
         mListHideImage.setOnClickListener(new View.OnClickListener() {
@@ -81,8 +61,7 @@ public class MapInfoActivity extends Activity {
 
         mListViewContainer = (LinearLayout) findViewById(R.id.listContainer);
 
-//        Log.i("mMapWidth", String.valueOf(mMapWidth));
-//        Log.i("mMapHeight", String.valueOf(mMapHeight));
+
     }
 
 
@@ -109,22 +88,6 @@ public class MapInfoActivity extends Activity {
             mMapViewThread = null;
         }
     }//MapActivity화면 false 및 Thread stop
-
-    private void mapViewInit(View view) {
-        mMapView = (MapView) view.findViewById(R.id.mapView);
-
-        mMapView.setImage(ImageSource.resource(R.mipmap.map_sample_img));
-
-        mMapPinList = new ArrayList<>();
-
-        mMapPinList.add(new MapMarker(String.valueOf(1)));
-
-        mMapView.setMarker(mMapPinList);
-
-        mMapView.setOnMarkerTouchListener(onMarkerTouchListener);
-
-
-    }//mapView 바인딩, 이미지 설정, 마커 설정
 
 
     MapView.OnMarkerTouchListener onMarkerTouchListener = new MapView.OnMarkerTouchListener() {
@@ -158,7 +121,7 @@ public class MapInfoActivity extends Activity {
             @Override
             public void onAnimationStart(Animation animation) {
                 mMarkerInfoListView.setVisibility(View.VISIBLE);
-                mListHideImage.setVisibility(View.INVISIBLE);
+                mListHideImage.setVisibility(View.GONE);
             }
 
             @Override
@@ -183,8 +146,8 @@ public class MapInfoActivity extends Activity {
             @Override
             public void onAnimationStart(Animation animation) {
                 mListHideImage.startAnimation(animation);
-                mMarkerInfoListView.setVisibility(View.INVISIBLE);
-                mListHideImage.setVisibility(View.INVISIBLE);
+                mMarkerInfoListView.setVisibility(View.GONE);
+                mListHideImage.setVisibility(View.GONE);
             }
 
             @Override
