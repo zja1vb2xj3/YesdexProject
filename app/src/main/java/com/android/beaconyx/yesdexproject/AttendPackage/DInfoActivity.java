@@ -2,11 +2,13 @@ package com.android.beaconyx.yesdexproject.AttendPackage;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,22 +42,24 @@ public class DInfoActivity extends Activity {
         mUserNameEditText = (EditText) findViewById(R.id.userName);
         mUserNumberEditText = (EditText) findViewById(R.id.userNumber);
 
-        Button authenticationButton = (Button) findViewById(R.id.authenticationButton);
+        final Button authenticationButton = (Button) findViewById(R.id.authenticationButton);
 
         authenticationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //키보드 내리기
+                hideKeyBoard(authenticationButton);
+                //
                 String userName = mUserNameEditText.getText().toString();
                 String userNumber = mUserNumberEditText.getText().toString();
 
                 Log.i(CLASSNAME, userName);
                 Log.i(CLASSNAME, userNumber);
 
-                if(userName.equals("") || userNumber.equals("")){
+                if (userName.equals("") || userNumber.equals("")) {
                     createWrongNotifyDialog("성명과 면허번호를 둘 다 입력 해주세요.");
-                }
-
-                else{
+                } else {
                     String uuid = mThisApplication.getDeviceUUID();
 
                     //등록된 유저인지 체크
@@ -64,6 +68,15 @@ public class DInfoActivity extends Activity {
                 }
             }
         });
+    }
+
+    /**
+     * 버튼 클릭 시 키보드 내리기
+     * @param button
+     */
+    private void hideKeyBoard(Button button){
+        InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        manager.hideSoftInputFromWindow(button.getWindowToken(), 0);
     }
 
     /**
@@ -82,7 +95,7 @@ public class DInfoActivity extends Activity {
             }
 
             if (resultSign == 3) {
-                createWrongNotifyDialog("미 등록된 고객 입니다.");
+                createWrongNotifyDialog("등록되지 않은 고객 입니다.");
             }
         }
     };
