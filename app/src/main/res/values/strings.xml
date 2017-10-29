@@ -24,4 +24,7 @@
 
     <string name="pdf_not_dialog_button">확인</string>
 
+    <string name="wrong_notify_dialog_title">인증실패</string>
+
+
 </resources>

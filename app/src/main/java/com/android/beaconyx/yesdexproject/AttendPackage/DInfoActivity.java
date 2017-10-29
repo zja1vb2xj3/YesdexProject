@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,6 +20,9 @@ public class DInfoActivity extends Activity {
     private String CLASSNAME = getClass().getSimpleName();
     private AttendParseController mParseController;
     private ThisApplication mThisApplication;
+    private EditText mUserNameEditText;
+    private EditText mUserNumberEditText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,25 +37,33 @@ public class DInfoActivity extends Activity {
 
         mParseController.setOnSearchRegistedUserCallback(onSearchRegistedUserCallback);
 
-    }
+        mUserNameEditText = (EditText) findViewById(R.id.userName);
+        mUserNumberEditText = (EditText) findViewById(R.id.userNumber);
 
-    /**
-     * 인증하기 버튼 클릭
-     */
-    public void authenticationOperation(View view) {
-        EditText userNameEditText = findViewById(R.id.userName);
-        EditText userNumberEditText = findViewById(R.id.userNumber);
+        Button authenticationButton = (Button) findViewById(R.id.authenticationButton);
 
-        String userName = userNameEditText.getText().toString();
-        String userNumber = userNumberEditText.getText().toString();
+        authenticationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String userName = mUserNameEditText.getText().toString();
+                String userNumber = mUserNumberEditText.getText().toString();
 
-        String uuid = mThisApplication.getDeviceUUID();
+                Log.i(CLASSNAME, userName);
+                Log.i(CLASSNAME, userNumber);
 
-        //등록된 유저인지 체크
-        CheckRegistedUserThread checkRegistedUserThread = new CheckRegistedUserThread(mParseController, userName, userNumber, uuid);
-        checkRegistedUserThread.start();
+                if(userName.equals("") || userNumber.equals("")){
+                    createWrongNotifyDialog("성명과 면허번호를 둘 다 입력 해주세요.");
+                }
 
+                else{
+                    String uuid = mThisApplication.getDeviceUUID();
 
+                    //등록된 유저인지 체크
+                    CheckRegistedUserThread checkRegistedUserThread = new CheckRegistedUserThread(mParseController, userName, userNumber, uuid);
+                    checkRegistedUserThread.start();
+                }
+            }
+        });
     }
 
     /**
@@ -80,7 +92,7 @@ public class DInfoActivity extends Activity {
     private void createWrongNotifyDialog(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle("알림")
+        builder.setTitle(getResources().getString(R.string.wrong_notify_dialog_title))
                 .setMessage(message)
                 .setCancelable(false)
                 .setNegativeButton("확인", new DialogInterface.OnClickListener() {

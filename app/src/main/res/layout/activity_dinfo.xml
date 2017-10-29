@@ -68,7 +68,7 @@
         android:layout_weight="1.5"
         android:text="인증하기"
         android:textSize="25dp"
-        android:onClick="authenticationOperation"
+        android:id="@+id/authenticationButton"
         />
 
     <TextView
