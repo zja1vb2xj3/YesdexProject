@@ -86,7 +86,7 @@ public class DInfoActivity extends Activity {
         @Override
         public void onCheck(int resultSign) {
             if (resultSign == 1) {//등록된 유저가 존재하지 않는다면
-                Toast.makeText(getApplicationContext(), "등록 완료", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "인증 완료 되었습니다.", Toast.LENGTH_SHORT).show();
                 startAttendInfoActivity();
             }
             if (resultSign == 2) { //등록된 고객이라면
