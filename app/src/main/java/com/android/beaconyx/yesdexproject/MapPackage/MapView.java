@@ -22,7 +22,7 @@ import java.util.Iterator;
  * Created by beaconyx on 2017-10-13.
  */
 
-public class MapView extends SubsamplingScaleImageView {
+class MapView extends SubsamplingScaleImageView {
 
     private ArrayList<MapMarker> mMapMarkerList = new ArrayList<>();
     private HashMap<String, MapMarker> mapMarkerHashMap = new HashMap<>();
@@ -31,6 +31,8 @@ public class MapView extends SubsamplingScaleImageView {
 
     private int mMapViewWidth;
     private int mMapViewHeight;
+    private int mDeviceWidth;
+    private int mDeviceHeight;
 
     private Context mContext;
 
@@ -46,12 +48,12 @@ public class MapView extends SubsamplingScaleImageView {
 
     private OnMarkerTouchListener MarkerTouch;
 
-    public interface OnMarkerTouchListener {
+    interface OnMarkerTouchListener {
         void onMarkerTouch(MapMarker marker);
 
     }
 
-    public void setOnMarkerTouchListener(OnMarkerTouchListener markerTouch) {
+    void setOnMarkerTouchListener(OnMarkerTouchListener markerTouch) {
         MarkerTouch = markerTouch;
     }
 
@@ -71,6 +73,13 @@ public class MapView extends SubsamplingScaleImageView {
 
         createMapMarkerBitmap(mMapMarkerList);
         invalidate();
+    }
+
+    void setOriginalMapViewSIze(int width, int height, int deviceWidth, int deviceHeight){
+        mMapViewWidth = width;
+        mMapViewHeight = height;
+        mDeviceWidth = deviceWidth;
+        mDeviceHeight = deviceHeight;
     }
 
     @Override

@@ -2,15 +2,16 @@ package com.android.beaconyx.yesdexproject.MapPackage;
 
 import android.app.Activity;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,12 +30,13 @@ public class MapInfoActivity extends Activity {
     private final String ACTIVITY_NAME = "MapInfoActivity";
     private ThisApplication mThisApplication;
 
-    private int mMapWidth;
+    private static final int MAPWIDTH = 2850;
+    private static final int MAPHEIGHT = 4752;
+
     private int mMapHeight;
 
     private MapViewThread mMapViewThread;
 
-    private LinearLayout mListViewContainer;
     private ListView mMarkerInfoListView;
     private ImageView mListHideImage;
 
@@ -42,14 +44,12 @@ public class MapInfoActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapinfo);
+
         titleInit();
 
+        mapInit();
+
         mThisApplication = (ThisApplication) this.getApplicationContext();
-
-        mMapView = (MapView) findViewById(R.id.mapview);
-
-        mMapView.setImage(ImageSource.resource(R.mipmap.map_img));
-
 
         mListHideImage = (ImageView) findViewById(R.id.listHideImage);
         mListHideImage.setOnClickListener(new View.OnClickListener() {
@@ -59,8 +59,32 @@ public class MapInfoActivity extends Activity {
             }
         });
 
-        mListViewContainer = (LinearLayout) findViewById(R.id.listContainer);
 
+    }
+
+    private void mapInit() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mMapView = (MapView) findViewById(R.id.mapview);
+
+                Display display = getWindowManager().getDefaultDisplay();
+                Point displaySize = new Point();
+                display.getSize(displaySize);
+
+                int deviceWidth = displaySize.x;
+                int deviceHeight = displaySize.y;
+
+                mMapView.setOriginalMapViewSIze(MAPWIDTH, MAPHEIGHT, deviceWidth, deviceHeight);
+
+                mMapView.setImage(ImageSource.resource(R.mipmap.map_img));
+
+                loadParseMapData();
+            }
+        });
+    }
+
+    private void loadParseMapData(){
 
     }
 

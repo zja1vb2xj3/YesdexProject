@@ -8,9 +8,9 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.android.beaconyx.yesdexproject.AccountPackage.AccountActivity;
-import com.android.beaconyx.yesdexproject.Main.MainActivity;
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.Constant.SharedPreferencesConstantPool;
+import com.android.beaconyx.yesdexproject.Main.MainActivity;
 import com.android.beaconyx.yesdexproject.R;
 
 public class LoadActivity extends Activity {
@@ -29,7 +29,28 @@ public class LoadActivity extends Activity {
 
         mParseController = new LoadParseController();
         mParseController.setOnCheckRegisterdDeviceCallback(onCheckRegistedDeviceCallback);
+        mParseController.setOnBeaconContentsCallback(onBeaconContentsCallback);
 
+
+        BeaconContentsThread beaconContentsThread = new BeaconContentsThread(mParseController);
+        beaconContentsThread.start();
+    }
+
+    //region 비콘 컨텐츠 받아오기 콜백
+    LoadParseController.OnBeaconContentsCallback onBeaconContentsCallback = new LoadParseController.OnBeaconContentsCallback() {
+        @Override
+        public void onParse(boolean resultSign) {
+            if (resultSign == true) {
+                Log.i(CLASSNAME, "로딩 서버 접속 완료");
+                checkRegistedUser();
+            } else {
+                Log.i(CLASSNAME, "서버에서 데이터 전송 오류");
+            }
+        }
+    };
+    //endregion
+
+    private void checkRegistedUser() {
         mPreferences = getSharedPreferences(SharedPreferencesConstantPool.ACCOUNT_SHARED_PREFERENCES_NAME, MODE_PRIVATE);
         String objectId = mPreferences.getString(SharedPreferencesConstantPool.ACCOUNT_OBJECTID_KEY, null);
         String certifiValue = mPreferences.getString(SharedPreferencesConstantPool.ACCOUNT_CERTIFICATION_KEY, "false");
