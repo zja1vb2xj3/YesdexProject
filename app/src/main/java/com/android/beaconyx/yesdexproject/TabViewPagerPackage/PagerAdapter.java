@@ -34,5 +34,4 @@ class PagerAdapter extends FragmentStatePagerAdapter {
         return fragments.size();
     }
 
-
 }

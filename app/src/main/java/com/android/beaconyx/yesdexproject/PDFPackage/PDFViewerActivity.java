@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.R;
@@ -98,8 +97,7 @@ public class PDFViewerActivity extends Activity implements DownloadFile.Listener
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
-                Toast.makeText(getApplicationContext(), "backKey인식", Toast.LENGTH_SHORT).show();
-                mThisApplication.setFragmentDialog1Sign(true);
+
 
                 break;
         }

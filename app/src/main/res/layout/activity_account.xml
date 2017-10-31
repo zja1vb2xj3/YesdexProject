@@ -2,48 +2,55 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="10"
-    android:background="#FFFFFF">
+    android:layout_weight="10"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_weight="3">
 
-        <TextView
-            android:id="@+id/textView"
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/mainimg_bg"/>
+
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_margin="60sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="18sp"
-            android:layout_marginRight="18sp"
-            android:gravity="center"
-            android:text="본 서비스는 개인정보를 수집하지 않습니다.\n\n\n블루투스를 켜야 정상작동 합니다."
-            android:textColor="#7a7a7a"
-            android:textSize="17sp" />
-    </LinearLayout>
+            android:id="@+id/accountFirst2"
+            android:foregroundGravity="center"
+            />
 
-    <LinearLayout
+    </FrameLayout>
+
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
-        android:gravity="center|top"
-        android:orientation="horizontal">
+        android:layout_weight="3"
+        android:background="@mipmap/account_second"/>
 
-        <Button
-            android:layout_width="310sp"
-            android:layout_height="50sp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/acccout_request_button"
-            android:text="Touch and Sign in !"
-            android:textColor="#ffffff"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:onClick="signInButtonClick"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:text="본 서비스는 개인정보를 수집하지 않습니다\n\n블루투스를 켜야 정상작동 합니다"
+        android:textSize="18sp"
+        />
 
-
-    </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/appColor"
+        android:layout_margin="5dp"
+        android:text="서비스 시작하기"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"
+        android:onClick="signInButtonClick"
+        />
 </LinearLayout>

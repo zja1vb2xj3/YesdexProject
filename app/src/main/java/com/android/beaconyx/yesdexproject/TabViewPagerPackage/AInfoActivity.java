@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.android.beaconyx.yesdexproject.R;
 
 import java.util.ArrayList;
+
+
 //
 public class AInfoActivity extends FragmentActivity {
 
@@ -44,22 +46,27 @@ public class AInfoActivity extends FragmentActivity {
     }
 
     private void aInfoInit(){
-        mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        mTabLayout.addTab(mTabLayout.newTab().setText("인사말"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("행사개요"));
-        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        ArrayList<Fragment> fragments = getFragment();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
+                mTabLayout.addTab(mTabLayout.newTab().setText("인사말"));
+                mTabLayout.addTab(mTabLayout.newTab().setText("행사개요"));
+                mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        setViewPager(fragments);
+                ArrayList<Fragment> fragments = getFragment();
+
+                setViewPager(fragments);
+            }
+        });
     }
 
     private ArrayList<Fragment> getFragment(){
         ArrayList<Fragment> fragments = new ArrayList<>();
 
-        fragments.add(PageFragment.newInstance("인사말"));
-
-        fragments.add(PageFragment.newInstance("행사개요"));
+        fragments.add(PageFragment.newInstance(R.mipmap.first_1));
+        fragments.add(PageFragment.newInstance(R.mipmap.first_2));
 
         return fragments;
     }
@@ -92,4 +99,6 @@ public class AInfoActivity extends FragmentActivity {
             }
         });
     }
+
+
 }

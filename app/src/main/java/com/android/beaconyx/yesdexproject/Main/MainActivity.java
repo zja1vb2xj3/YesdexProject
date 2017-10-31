@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.AttendPackage.AttendInfoActivity;
@@ -19,6 +20,8 @@ import com.android.beaconyx.yesdexproject.TabViewPagerPackage.BInfoActivity;
 import com.android.beaconyx.yesdexproject.TabViewPagerPackage.CInfoActivity;
 import com.android.beaconyx.yesdexproject.TabViewPagerPackage.EInfoActivity;
 import com.android.beaconyx.yesdexproject.TabViewPagerPackage.FInfoActivity;
+import com.bumptech.glide.Glide;
+
 //
 public class MainActivity extends Activity {
     private ThisApplication mThisApplication;
@@ -35,10 +38,13 @@ public class MainActivity extends Activity {
         if (!bluetoothAdapter.isEnabled()) {
             bluetoothAdapter.enable();
         }
+        ImageView mainBanner = findViewById(R.id.mainBanner);
+        ImageView mainBannerComment = findViewById(R.id.mainBannerComment);
+
+        Glide.with(this).load(R.mipmap.main_symbol).into(mainBanner);
+        Glide.with(this).load(R.drawable.main_txt).into(mainBannerComment);
 
         mThisApplication = (ThisApplication) getApplicationContext();
-
-        mThisApplication.startBeaconThread();
 
     }
 

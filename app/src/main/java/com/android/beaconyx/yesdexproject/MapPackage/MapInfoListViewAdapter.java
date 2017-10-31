@@ -39,7 +39,12 @@ public class MapInfoListViewAdapter extends BaseAdapter {
 
         String data = rowItems.get(position);
 
-        textView.setText(data);
+        if(data == null){
+            textView.setText(" ");
+        }
+        else{
+            textView.setText(data);
+        }
 
         return view;
     }

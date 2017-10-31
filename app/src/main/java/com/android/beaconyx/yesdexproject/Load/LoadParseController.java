@@ -45,19 +45,21 @@ public class LoadParseController {
 
                     DtoListPool dtoListPool = DtoListPool.getInstance();
 
-                    for (int i = 0; i < objects.size(); i++) {
-                        BeaconContentsModel model = new BeaconContentsModel();
+                    if (objects != null){
+                        for (int i = 0; i < objects.size(); i++) {
+                            BeaconContentsModel model = new BeaconContentsModel();
 
-                        model.setIdx(objects.get(i).getInt(TBBeaconContentsKoConstantPool.BCS_IDX));
-                        model.setBeaconID(objects.get(i).getString(TBBeaconContentsKoConstantPool.BCS_BEACON_ID));
-                        model.setBeaconMajor(objects.get(i).getString(TBBeaconContentsKoConstantPool.BCS_BEACON_MAJOR));
-                        model.setBeaconMinor(objects.get(i).getString(TBBeaconContentsKoConstantPool.BCS_BEACON_MINOR));
-                        model.setMapPositionX(Integer.parseInt(objects.get(i).getString(TBBeaconContentsKoConstantPool.BCS_ISE_X_ANDROID)));
-                        model.setMapPositionY(Integer.parseInt(objects.get(i).getString(TBBeaconContentsKoConstantPool.BCS_ISE_Y_ANDROID)));
+                            model.setIdx(objects.get(i).getInt(TBBeaconContentsKoConstantPool.BCS_IDX));
+                            model.setBeaconID(objects.get(i).getString(TBBeaconContentsKoConstantPool.BCS_BEACON_ID));
+                            model.setBeaconMajor(objects.get(i).getString(TBBeaconContentsKoConstantPool.BCS_BEACON_MAJOR));
+                            model.setBeaconMinor(objects.get(i).getString(TBBeaconContentsKoConstantPool.BCS_BEACON_MINOR));
+                            model.setMapPositionX(Integer.parseInt(objects.get(i).getString(TBBeaconContentsKoConstantPool.BCS_ISE_X_ANDROID)));
+                            model.setMapPositionY(Integer.parseInt(objects.get(i).getString(TBBeaconContentsKoConstantPool.BCS_ISE_Y_ANDROID)));
 
-                        dtoListPool.addBeaconContentsModelList(model);
+                            dtoListPool.addBeaconContentsModelList(model);
 
-                    }//end for
+                        }//end for
+                }
                     if (onBeaconContentsCallback != null) {
                         onBeaconContentsCallback.onParse(true);
                     }

@@ -7,11 +7,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
-import com.android.beaconyx.yesdexproject.Main.MainActivity;
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.Constant.SharedPreferencesConstantPool;
+import com.android.beaconyx.yesdexproject.Main.MainActivity;
 import com.android.beaconyx.yesdexproject.R;
+import com.bumptech.glide.Glide;
 
 /**
  * AccountActivity 디바이스 앱 실행 시 블루투스 UUID를 생성하여 Account Table에 업데이트
@@ -31,6 +33,10 @@ public class AccountActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
+        ImageView accountFirst2 = findViewById(R.id.accountFirst2);
+
+        Glide.with(this).load(R.drawable.main_txt).into(accountFirst2);
+
         mThisApplication = (ThisApplication) getApplicationContext();
 
         mAccountParseController = new AccountParseController();
@@ -46,7 +52,7 @@ public class AccountActivity extends Activity {
     AccountParseController.OnRegistUserCallback onRegistUserCallback = new AccountParseController.OnRegistUserCallback() {
         @Override
         public void onRegistUser(String objectId, String certifiValue) {
-            if(objectId != null && certifiValue != null){ //
+            if (objectId != null && certifiValue != null) { //
                 SharedPreferences preferences = getSharedPreferences(SharedPreferencesConstantPool.ACCOUNT_SHARED_PREFERENCES_NAME, MODE_PRIVATE);
 
                 SharedPreferences.Editor editor = preferences.edit();
@@ -56,8 +62,7 @@ public class AccountActivity extends Activity {
                 editor.commit();
 
                 startMainActivity();
-            }
-            else{
+            } else {
                 Log.i(CLASSNAME, "등록실패");
             }
         }

@@ -7,8 +7,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.beaconyx.yesdexproject.R;
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
 public class FInfoActivity extends Activity {
+
+    private SubsamplingScaleImageView zoomView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +20,9 @@ public class FInfoActivity extends Activity {
         setContentView(R.layout.activity_finfo);
 
         titleInit();
+
+        zoomView = (SubsamplingScaleImageView) findViewById(R.id.zoomView);
+        zoomView.setImage(ImageSource.resource(R.mipmap.fifth_1));
     }
 
     private void titleInit(){

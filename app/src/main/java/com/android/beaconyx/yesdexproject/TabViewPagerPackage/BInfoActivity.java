@@ -56,10 +56,11 @@ public class BInfoActivity extends FragmentActivity {
     private ArrayList<Fragment> getFragment(){
         ArrayList<Fragment> fragments = new ArrayList<>();
 
-        fragments.add(PageFragment.newInstance("개막식 / 환영리셉션"));
-        fragments.add(PageFragment.newInstance("버스킹 공연"));
-        fragments.add(PageFragment.newInstance("중식 안내"));
-        fragments.add(PageFragment.newInstance("경품 행사 안내"));
+//        Glide.with(this).load(R.drawable.second_1).into()
+        fragments.add(PageFragment.newInstance(R.mipmap.second_1));
+        fragments.add(PageFragment.newInstance(R.mipmap.second_2));
+        fragments.add(PageFragment.newInstance(R.mipmap.second_3));
+        fragments.add(PageFragment.newInstance(R.mipmap.second_4));
 
         return fragments;
     }

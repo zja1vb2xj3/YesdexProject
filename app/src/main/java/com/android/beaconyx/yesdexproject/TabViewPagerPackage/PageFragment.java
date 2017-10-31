@@ -1,15 +1,17 @@
 package com.android.beaconyx.yesdexproject.TabViewPagerPackage;
 
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.android.beaconyx.yesdexproject.R;
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
 /**
  * Created by beaconyx on 2017-10-09.
@@ -18,19 +20,19 @@ import com.android.beaconyx.yesdexproject.R;
 public class PageFragment extends Fragment {
 
 
-    private Button pageFragmentViewItem;
+    private SubsamplingScaleImageView pageImageView;
     private int mResId;
-    private String contents;
 
-    public static final PageFragment newInstance(String data) {
-        PageFragment pageFragment = new PageFragment(data);
+
+    public static final PageFragment newInstance(int resId) {
+        PageFragment pageFragment = new PageFragment(resId);
 
         return pageFragment;
     }
 
 
-    public PageFragment(String data) {
-        contents = data;
+    public PageFragment(int resId) {
+        mResId = resId;
     }
 
     @Nullable
@@ -38,17 +40,13 @@ public class PageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.page_fragment, container, false);
-        pageFragmentViewItem = (Button) view.findViewById(R.id.pagerimg);
-        pageFragmentViewItem.setGravity(Gravity.CENTER);
-        pageFragmentViewItem.setTextSize(30);
-        pageFragmentViewItem.setText(contents);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        view.setLayoutParams(params);
+//        view.setForegroundGravity(Gravity.TOP);
 
-//        try {
-//            PhotoViewAttacher attacher = new PhotoViewAttacher(pageFragmentViewItem);
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
+        pageImageView = view.findViewById(R.id.pagerimg);
+        pageImageView.setImage(ImageSource.resource(mResId));
+
         return view;
     }
 
@@ -56,4 +54,5 @@ public class PageFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
     }
+
 }

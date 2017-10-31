@@ -9,6 +9,7 @@ public class HeaderListViewModel {
     private String mEducatorImage;
     private String mEducatorName;
     private String mEducatorTime;
+    private String mEducatorLocation;
     private String mEducatorTitle;
     private int mHeaderid;
     private String mHeader;
@@ -46,6 +47,14 @@ public class HeaderListViewModel {
 
     public void setmAttendStateImage(String mAttendStateImage) {
         this.mAttendStateImage = mAttendStateImage;
+    }
+
+    public String getmEducatorLocation() {
+        return mEducatorLocation;
+    }
+
+    public void setmEducatorLocation(String mEducatorLocation) {
+        this.mEducatorLocation = mEducatorLocation;
     }
 
     public String getmEducatorImage() {

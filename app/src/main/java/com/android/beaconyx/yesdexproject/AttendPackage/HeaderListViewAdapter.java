@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.beaconyx.yesdexproject.R;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -23,11 +24,12 @@ public class HeaderListViewAdapter extends BaseAdapter implements StickyListHead
     private ArrayList<HeaderListViewModel> mHeaderListModels;
 
     private LayoutInflater mInflater;
+    private Context mContext;
 
     public HeaderListViewAdapter(Context context) {
         mHeaderListModels = new ArrayList<>();
         mInflater = LayoutInflater.from(context);
-
+        mContext = context;
     }
 
 
@@ -79,6 +81,7 @@ public class HeaderListViewAdapter extends BaseAdapter implements StickyListHead
             holder.educatorImageView = (ImageView) convertView.findViewById(R.id.educator_image);
             holder.educatorNameView = (AutofitTextView) convertView.findViewById(R.id.educator_name);
             holder.educatorTimeView = (AutofitTextView) convertView.findViewById(R.id.educator_time);
+            holder.educatorLocation = (AutofitTextView) convertView.findViewById(R.id.educator_location);
             holder.educatorTitleView = (AutofitTextView) convertView.findViewById(R.id.educator_title);
 
             convertView.setTag(holder);
@@ -100,6 +103,11 @@ public class HeaderListViewAdapter extends BaseAdapter implements StickyListHead
             holder.educatorTimeView.setText(educatorTime);
         }
 
+        if(mHeaderListModels.get(position).getmEducatorLocation() != null){
+            String educatorLocation = model.getmEducatorLocation();
+            holder.educatorLocation.setText(educatorLocation);
+        }
+
         if (mHeaderListModels.get(position).getmEducatorTitle() != null) {
             String educatorTitle = model.getmEducatorTitle();
             holder.educatorTitleView.setText(educatorTitle);
@@ -108,7 +116,8 @@ public class HeaderListViewAdapter extends BaseAdapter implements StickyListHead
         //데모용
         if(mHeaderListModels.get(position).getDemoEduImage() != 0){
             int resid = model.getDemoEduImage();
-            holder.educatorImageView.setImageResource(resid);
+            Glide.with(mContext).load(resid).into(holder.educatorImageView);
+//            holder.educatorImageView.setImageResource(resid);
         }
 
         if(mHeaderListModels.get(position).getDemoStateImage() != 0){
@@ -147,6 +156,7 @@ public class HeaderListViewAdapter extends BaseAdapter implements StickyListHead
         ImageView educatorImageView;
         AutofitTextView educatorNameView;
         AutofitTextView educatorTimeView;
+        AutofitTextView educatorLocation;
         AutofitTextView educatorTitleView;
     }
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@color/colorWhite"
     tools:context=".TabViewPagerPackage.AInfoActivity">
 
     <include
@@ -15,15 +15,16 @@
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
+        style="@style/MyCustomTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/MyCustomTabLayout"
-        />
-    <!--style="@style/MyCustomTabLayout"-->
+        android:layout_below="@id/top" />
+
 
     <com.android.beaconyx.yesdexproject.TabViewPagerPackage.CustomViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tabLayout" />
 
-</LinearLayout>
+</RelativeLayout>

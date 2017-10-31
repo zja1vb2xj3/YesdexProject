@@ -1,22 +1,22 @@
 package com.android.beaconyx.yesdexproject.MapPackage;
 
 import android.app.Activity;
-import android.graphics.Canvas;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Display;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
+import com.android.beaconyx.yesdexproject.Load.BeaconContentsModel;
+import com.android.beaconyx.yesdexproject.Load.DtoListPool;
 import com.android.beaconyx.yesdexproject.R;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 
@@ -25,31 +25,30 @@ import java.util.ArrayList;
 public class MapInfoActivity extends Activity {
 
     private MapView mMapView;
-    private ArrayList<MapMarker> mMapPinList;
 
     private final String ACTIVITY_NAME = "MapInfoActivity";
     private ThisApplication mThisApplication;
 
-    private static final int MAPWIDTH = 2850;
-    private static final int MAPHEIGHT = 4752;
+    private static final int MAPWIDTH = 1500;
+    private static final int MAPHEIGHT = 2481;
 
-    private int mMapHeight;
-
-    private MapViewThread mMapViewThread;
+    private ArrayList<BeaconContentsModel> mapMarkerModels;
 
     private ListView mMarkerInfoListView;
     private ImageView mListHideImage;
+
+    private String CLASSNAME = getClass().getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapinfo);
 
+        mThisApplication = (ThisApplication) this.getApplicationContext();
+
         titleInit();
 
         mapInit();
-
-        mThisApplication = (ThisApplication) this.getApplicationContext();
 
         mListHideImage = (ImageView) findViewById(R.id.listHideImage);
         mListHideImage.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +58,6 @@ public class MapInfoActivity extends Activity {
             }
         });
 
-
     }
 
     private void mapInit() {
@@ -67,72 +65,76 @@ public class MapInfoActivity extends Activity {
             @Override
             public void run() {
                 mMapView = (MapView) findViewById(R.id.mapview);
-
+                mMapView.setOnMarkerTouchListener(onMarkerTouchListener);
                 Display display = getWindowManager().getDefaultDisplay();
+
                 Point displaySize = new Point();
+
                 display.getSize(displaySize);
 
-                int deviceWidth = displaySize.x;
-                int deviceHeight = displaySize.y;
-
-                mMapView.setOriginalMapViewSIze(MAPWIDTH, MAPHEIGHT, deviceWidth, deviceHeight);
+                mMapView.setOriginalMapViewSIze(2850, 4752);
 
                 mMapView.setImage(ImageSource.resource(R.mipmap.map_img));
 
-                loadParseMapData();
+                //마커 데이터 매칭
+                DtoListPool dtoListPool = DtoListPool.getInstance();
+                mapMarkerModels = dtoListPool.getBeaconContentsModelArrayList();
+
+                mMapView.setMarkerList(mapMarkerModels);
+
+                mMapView.invalidate();
             }
         });
     }
 
-    private void loadParseMapData(){
-
-    }
 
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.i(ACTIVITY_NAME, "onResume");
-        mThisApplication.setIsMapInfoActivity(true); // AttendActivity 실행신호
+        mThisApplication.startBeaconThread();
 
-        if (mMapViewThread == null) {
-            mMapViewThread = new MapViewThread();
-            mMapViewThread.start();
-        }
     }//MapActivity화면 true 및 Thread start
 
     @Override
     protected void onPause() {
         super.onPause();
         Log.i(ACTIVITY_NAME, "onPause");
-        mThisApplication.setIsMapInfoActivity(false); // AttendActivity 실행신호
+        mThisApplication.stopBeaconThread(); // AttendActivity 실행신호
 
-        if (mMapViewThread != null) {
-            mMapViewThread.stopThread();
-            mMapViewThread = null;
-        }
     }//MapActivity화면 false 및 Thread stop
 
 
     MapView.OnMarkerTouchListener onMarkerTouchListener = new MapView.OnMarkerTouchListener() {
         @Override
-        public void onMarkerTouch(MapMarker marker) {
+        public void onMarkerTouch(BeaconContentsModel model) {
             createListView();
         }
     };
 
     private void createListView() {
-        Toast.makeText(getApplicationContext(), "마커 클릭", Toast.LENGTH_SHORT).show();
 
         MapInfoListViewAdapter listViewAdapter = new MapInfoListViewAdapter();
-        listViewAdapter.addItem("A");
-        listViewAdapter.addItem("B");
-        listViewAdapter.addItem("C");
-        listViewAdapter.addItem("D");
+        listViewAdapter.addItem(".");
+        listViewAdapter.addItem(".");
+        listViewAdapter.addItem(".");
+        listViewAdapter.addItem(".");
 
         mMarkerInfoListView = (ListView) findViewById(R.id.listview);
 
         mMarkerInfoListView.setAdapter(listViewAdapter);
+
+        mMarkerInfoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getApplicationContext(), MarkerInfoActivity.class);
+
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                startActivity(intent);
+            }
+        });
 
         listLayoutDown();
 
@@ -145,7 +147,7 @@ public class MapInfoActivity extends Activity {
             @Override
             public void onAnimationStart(Animation animation) {
                 mMarkerInfoListView.setVisibility(View.VISIBLE);
-                mListHideImage.setVisibility(View.GONE);
+                mListHideImage.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -170,8 +172,8 @@ public class MapInfoActivity extends Activity {
             @Override
             public void onAnimationStart(Animation animation) {
                 mListHideImage.startAnimation(animation);
-                mMarkerInfoListView.setVisibility(View.GONE);
-                mListHideImage.setVisibility(View.GONE);
+                mMarkerInfoListView.setVisibility(View.INVISIBLE);
+                mListHideImage.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -187,28 +189,6 @@ public class MapInfoActivity extends Activity {
 
         mMarkerInfoListView.startAnimation(animaion);
     }
-
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        int action = ev.getAction();
-        Log.i(ACTIVITY_NAME, String.valueOf(action));
-        if (action == 0) {//ActionDown
-            if (mMapViewThread != null) {
-                mMapViewThread.stopThread();
-                mMapViewThread = null;
-            }
-        }
-
-        if (action == 1) {//ActionUP
-            if (mMapViewThread == null) {
-                mMapViewThread = new MapViewThread();
-                mMapViewThread.start();
-            }
-        }
-        return super.dispatchTouchEvent(ev);
-
-    }//화면 터치 스레드 동작
 
     private void titleInit() {
         View topView = findViewById(R.id.top);
@@ -226,52 +206,5 @@ public class MapInfoActivity extends Activity {
         });
     }
 
-
-    private class MapViewThread extends Thread {
-        private Handler handler;
-        private boolean runSign = false;
-
-        MapViewThread() {
-            handler = new Handler();
-        }
-
-        @Override
-        public void run() {
-            super.run();
-
-            while (!runSign) {
-                try {
-
-                    this.sleep(4000);
-
-                    int beaconMinor = mThisApplication.getBeaconMinor();
-
-//                    Log.i("Minor", String.valueOf(beaconMinor));
-
-                    uiHandler();
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    this.currentThread().interrupt();
-                }
-            }
-        }
-
-        private void stopThread() {
-            runSign = true;
-        }
-
-        private void uiHandler() {
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Canvas canvas = new Canvas();
-
-                    mMapView.draw(canvas);
-
-                }
-            });
-        }
-    }//end inner Class MapView Thread 동작 (마커 비콘반응)
 
 }

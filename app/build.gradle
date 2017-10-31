@@ -30,7 +30,7 @@ dependencies {
     //AutofitTextView
     compile project(':android-beacon-library-2.3')
 
-    compile 'com.android.support:appcompat-v7:26.+'
+    compile "com.android.support:appcompat-v7:26.+"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.commit451:PhotoView:1.2.4'
     compile 'com.android.support:design:26.0.0-alpha1'
@@ -41,9 +41,10 @@ dependencies {
     compile 'jp.wasabeef:glide-transformations:2.0.1'
     compile 'gun0912.ted:tedpermission:2.0.0'
     compile 'com.parse:parse-android:1.13.1'
-    testCompile 'junit:junit:4.12'
     compile 'es.voghdev.pdfviewpager:library:1.0.1'
+    testCompile 'junit:junit:4.12'
 }
+
 
 
 

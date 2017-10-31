@@ -6,12 +6,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.android.beaconyx.yesdexproject.AccountPackage.AccountActivity;
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.Constant.SharedPreferencesConstantPool;
 import com.android.beaconyx.yesdexproject.Main.MainActivity;
 import com.android.beaconyx.yesdexproject.R;
+import com.bumptech.glide.Glide;
 
 public class LoadActivity extends Activity {
     private String CLASSNAME = getClass().getSimpleName();
@@ -30,7 +32,8 @@ public class LoadActivity extends Activity {
         mParseController = new LoadParseController();
         mParseController.setOnCheckRegisterdDeviceCallback(onCheckRegistedDeviceCallback);
         mParseController.setOnBeaconContentsCallback(onBeaconContentsCallback);
-
+        ImageView imageView = findViewById(R.id.mainlogo);
+        Glide.with(this).load(R.mipmap.main_symbol).into(imageView);
 
         BeaconContentsThread beaconContentsThread = new BeaconContentsThread(mParseController);
         beaconContentsThread.start();

@@ -57,7 +57,6 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
     private ActivityManager mActivityManager;
     private FragmentActivity mMotionFragmentActivity = null;
 
-    private boolean mIsMapInfoActivityComplete = false;
 
     private int mBeaconMinor;
 
@@ -90,7 +89,7 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
     /**
      * Parse 서버 초기 설정
      */
-    private void parseInit(){
+    private void parseInit() {
         Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
                 .applicationId("YesdexaAZx4r86eeoyIwwGfdfOLeT2CnQKFcQ1")
                 .clientKey("YesdexbeaconyxSwvy38GBFH6i1MZ2JGxfYkt2j4gaROGxy")
@@ -191,6 +190,8 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
                     Log.i("Beacon Service : ", "beacon not find");
                     setBeaconMinor(0);
                 }//비콘 반응이 없을때
+
+
             }//end didRangeBeaconsInRegion
         });//setRangeNotifier
     }//onBeaconServiceConnect
@@ -210,10 +211,8 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
         handler.sendEmptyMessage(1);
     }
 
-    /**
-     * 비콘 Thread Handler
-     */
 
+    //region 비콘 Thread Handler
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -241,7 +240,7 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
 
         }
     };
-
+//endregion
 
 
     @Override
@@ -301,10 +300,6 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
             return arg0.getRssi() > arg1.getRssi() ? -1 : arg0.getRssi() < arg1.getRssi() ? 1 : 0;
         }
 
-    }
-
-    public void setIsMapInfoActivity(boolean mIsMapInfoActivity) {
-        this.mIsMapInfoActivityComplete = mIsMapInfoActivity;
     }
 
     public void setFragmentDialog1Sign(boolean mFragmentDialog1Sign) {
