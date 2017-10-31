@@ -186,7 +186,9 @@ public class AttendInfoActivity extends FragmentActivity {
         profiles.add("");
 
 
-        AttendDialogFragment3 dialogFragment3 = AttendDialogFragment3.newInstance(time.get(position), location.get(position), name.get(position), images.get(position), profiles.get(position));
+        AttendDialogFragment3 dialogFragment3 = AttendDialogFragment3.newInstance();
+
+        dialogFragment3.setData(time.get(position), location.get(position), name.get(position), images.get(position), profiles.get(position));
 
         dialogFragment3.show(getFragmentManager(), "fragment1");
 

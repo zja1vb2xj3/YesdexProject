@@ -46,6 +46,8 @@ public class AttendDialogFragment2 extends DialogFragment {
     }
 
 
+
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

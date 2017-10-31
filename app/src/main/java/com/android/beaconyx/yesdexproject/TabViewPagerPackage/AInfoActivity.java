@@ -65,8 +65,14 @@ public class AInfoActivity extends FragmentActivity {
     private ArrayList<Fragment> getFragment(){
         ArrayList<Fragment> fragments = new ArrayList<>();
 
-        fragments.add(PageFragment.newInstance(R.mipmap.first_1));
-        fragments.add(PageFragment.newInstance(R.mipmap.first_2));
+        PageFragment pageFragment = new PageFragment();
+        pageFragment.setmResId(R.mipmap.first_1);
+
+        PageFragment pageFragment1 = new PageFragment();
+        pageFragment1.setmResId(R.mipmap.first_2);
+
+        fragments.add(pageFragment);
+        fragments.add(pageFragment1);
 
         return fragments;
     }

@@ -19,20 +19,14 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
 public class PageFragment extends Fragment {
 
-
     private SubsamplingScaleImageView pageImageView;
     private int mResId;
 
-
-    public static final PageFragment newInstance(int resId) {
-        PageFragment pageFragment = new PageFragment(resId);
-
-        return pageFragment;
+    public PageFragment() {
     }
 
-
-    public PageFragment(int resId) {
-        mResId = resId;
+    public void setmResId(int mResId) {
+        this.mResId = mResId;
     }
 
     @Nullable

@@ -36,13 +36,14 @@ public class AttendDialogFragment3 extends DialogFragment {
     private int image;
     private String profile;
 
-    public static AttendDialogFragment3 newInstance(String time, String location, String name, int image, String profile) {
-        dialogFragment3 = new AttendDialogFragment3(time, location, name, image, profile);
+     public static AttendDialogFragment3 newInstance() {
+        dialogFragment3 = new AttendDialogFragment3();
+
 
         return dialogFragment3;
     }
 
-    public AttendDialogFragment3(String time, String location, String name, int image, String profile) {
+    void setData(String time, String location, String name, int image, String profile){
         this.time = time;
         this.location = location;
         this.name = name;
@@ -50,9 +51,11 @@ public class AttendDialogFragment3 extends DialogFragment {
         this.profile = profile;
     }
 
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
 
         mThisApplication = (ThisApplication) getActivity().getApplicationContext();
 
