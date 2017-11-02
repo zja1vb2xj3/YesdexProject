@@ -9,18 +9,25 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.android.beaconyx.yesdexproject.AccountPackage.AccountActivity;
+import com.android.beaconyx.yesdexproject.Application.BeaconContentsModel;
+import com.android.beaconyx.yesdexproject.Application.BeaconContentsModelPool;
+import com.android.beaconyx.yesdexproject.Application.BeaconContentsThread;
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.Constant.SharedPreferencesConstantPool;
 import com.android.beaconyx.yesdexproject.Main.MainActivity;
 import com.android.beaconyx.yesdexproject.R;
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class LoadActivity extends Activity {
     private String CLASSNAME = getClass().getSimpleName();
     private ThisApplication mThisApplication;
     private SharedPreferences mPreferences;
 
-    private LoadParseController mParseController;
+    private LoadParseController mLoadParseController;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,28 +36,44 @@ public class LoadActivity extends Activity {
 
         mThisApplication = (ThisApplication) this.getApplicationContext();
 
-        mParseController = new LoadParseController();
-        mParseController.setOnCheckRegisterdDeviceCallback(onCheckRegistedDeviceCallback);
-        mParseController.setOnBeaconContentsCallback(onBeaconContentsCallback);
-        ImageView imageView = findViewById(R.id.mainlogo);
-        Glide.with(this).load(R.mipmap.main_symbol).into(imageView);
+        mLoadParseController = new LoadParseController();
+        mLoadParseController.setOnLoadDataCallBack(onBeaconContentsCallBack);
+        mLoadParseController.setOnCheckRegisterdDeviceCallback(onCheckRegistedDeviceCallback);
 
-        BeaconContentsThread beaconContentsThread = new BeaconContentsThread(mParseController);
+        ImageView imageView = findViewById(R.id.mainlogo);
+        Glide.with(this).load(R.mipmap.loading_img).into(imageView);
+
+        BeaconContentsThread beaconContentsThread = new BeaconContentsThread(mLoadParseController);
         beaconContentsThread.start();
     }
 
     //region 비콘 컨텐츠 받아오기 콜백
-    LoadParseController.OnBeaconContentsCallback onBeaconContentsCallback = new LoadParseController.OnBeaconContentsCallback() {
+
+    LoadParseController.OnLoadDataCallBack onBeaconContentsCallBack = new LoadParseController.OnLoadDataCallBack() {
+
         @Override
-        public void onParse(boolean resultSign) {
-            if (resultSign == true) {
-                Log.i(CLASSNAME, "로딩 서버 접속 완료");
+        public void onParse(ArrayList<BeaconContentsModel> beaconContentsModels, boolean resultSign) {
+            if (resultSign == true && beaconContentsModels != null) {
+
+                BeaconContentsModelPool beaconContentsModelPool = BeaconContentsModelPool.getInstance();
+
+                beaconContentsModelPool.setBeaconContentsModels(beaconContentsModels);
+
+                HashMap<String, BeaconContentsModel> hashMap = new HashMap<>();
+
+                for (BeaconContentsModel model : beaconContentsModels) {
+                    hashMap.put(model.getBeaconID(), model);//해쉬맵에 넣어줘야됨
+                }
+
+                ThisApplication.beaconContentsModelHashMap = hashMap;
+
                 checkRegistedUser();
             } else {
-                Log.i(CLASSNAME, "서버에서 데이터 전송 오류");
+                Log.i(CLASSNAME, "onMapBeaconContentsCallBack 오류");
             }
         }
     };
+
     //endregion
 
     private void checkRegistedUser() {
@@ -63,7 +86,7 @@ public class LoadActivity extends Activity {
             Log.i(CLASSNAME, "object null");
             Log.i(CLASSNAME, certifiValue);
 
-            CheckAccountRegistedThread checkAccountRegistedThread = new CheckAccountRegistedThread(mParseController, uuid);
+            CheckAccountRegistedThread checkAccountRegistedThread = new CheckAccountRegistedThread(mLoadParseController, uuid);
             checkAccountRegistedThread.start();
         } else {//object null이 아님
             Log.i(CLASSNAME, "object not null");

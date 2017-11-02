@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.android.beaconyx.yesdexproject.Application.ThisApplication;
 import com.android.beaconyx.yesdexproject.PDFPackage.PDFViewerActivity;
@@ -92,10 +91,8 @@ public class AttendDialogFragment2 extends DialogFragment {
     DialogInterface.OnKeyListener onKeyListener = new DialogInterface.OnKeyListener() {
         @Override
         public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
-            Toast.makeText(getActivity(), "back버튼 클릭", Toast.LENGTH_SHORT).show();
+            mThisApplication.setFragmentDialogSign(true);
             dialogFragment2.onDialog2CancelListener.onCancel(getDialog());
-            mThisApplication.setFragmentDialog1Sign(true);
-
             return true;
         }
     };

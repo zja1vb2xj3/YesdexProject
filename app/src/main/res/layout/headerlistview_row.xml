@@ -26,10 +26,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:orientation="vertical"
-            android:layout_marginRight="5sp"
-            android:layout_marginTop="5sp"
-            android:layout_marginBottom="5sp"
-            android:gravity="bottom">
+            android:layout_margin="5sp"
+            android:gravity="center_vertical">
 
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/educator_name"

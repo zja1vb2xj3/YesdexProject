@@ -58,6 +58,7 @@ public class AttendDialogFragment3 extends DialogFragment {
 
 
         mThisApplication = (ThisApplication) getActivity().getApplicationContext();
+        mThisApplication.setFragmentDialogSign(false);
 
         builder = new AlertDialog.Builder(getActivity());
 
@@ -119,6 +120,7 @@ public class AttendDialogFragment3 extends DialogFragment {
     DialogInterface.OnKeyListener onKeyListener = new DialogInterface.OnKeyListener() {
         @Override
         public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+            mThisApplication.setFragmentDialogSign(true);
             dialogFragment3.onDialogCancelListener.onCancel(getDialog());
 
             return true;

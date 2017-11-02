@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -43,22 +45,20 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
     private BeaconManager mBeaconManager;
     private Region mRegion;
 
+    private boolean mIsProcessComplete = true;
+    private boolean foregroundcheck;
+
     public final int mIgnore_Rssi = -90;
 
     private AttendDialogFragment1 mDialogFragment1 = AttendDialogFragment1.newInstance();
 
-    private final String CLASSNAME = "ThisApplication";
-
     private Point mDisplaySize = new Point();
 
-    private boolean mIsAttendActivityComplete = false;
-    private boolean mFragmentDialog1Sign = true;
+    private final String CLASSNAME = "ThisApplication";
 
-    private ActivityManager mActivityManager;
-    private FragmentActivity mMotionFragmentActivity = null;
-
-
-    private int mBeaconMinor;
+    private static String mTempBeaconID = null;
+    private static String mTempBeaconID2 = null;
+    public static HashMap<String, BeaconContentsModel> beaconContentsModelHashMap = new HashMap<>();//static으로 안하면 변할수가 있음 중복막기+ rssi값 보정
 
     @Override
     public void onCreate() {
@@ -66,25 +66,9 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
         parseInit();
         beaconInit();
         Log.i(CLASSNAME, "onCreate");
-        mActivityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+
     }
 
-    private void callDialogFragment1() {
-        if (mMotionFragmentActivity != null) {
-            mMotionFragmentActivity.getFragmentManager().beginTransaction().remove(mDialogFragment1).commit();
-            mDialogFragment1.show(mMotionFragmentActivity.getFragmentManager(), "fragment1");
-
-            setFragmentDialog1Sign(false);
-        }
-
-        mDialogFragment1.setOnDialogFragment1CancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialogInterface) {
-                dialogInterface.cancel();
-                setFragmentDialog1Sign(true);
-            }
-        });
-    }
 
     /**
      * Parse 서버 초기 설정
@@ -132,88 +116,187 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
      * 최초 한번 mBeaconManager 객체, mRegion 객체 생성 및 초기설정
      */
     private void beaconInit() {
-        mRegion = new Region("myRangingUniqueId", Identifier.parse("a0fabefc-b1f5-4836-8328-7c5412fff9c4"), Identifier.parse("51"), null);
+        mBeaconManager = BeaconManager.getInstanceForApplication(this);
+
+        mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
+        mRegion = new Region("myRangingUniqueId", Identifier.parse("a0fabefc-b1f5-4836-8328-7c5412fff9c4"), null, null);
         mBeaconManager = BeaconManager.getInstanceForApplication(this);
         mBeaconManager.setAndroidLScanningDisabled(true);
-        mBeaconManager.setBackgroundBetweenScanPeriod(1000);
-        mBeaconManager.setForegroundBetweenScanPeriod(1000);
+        mBeaconManager.setBackgroundBetweenScanPeriod(2500);
         mBeaconManager = BeaconManager.getInstanceForApplication(this);
-        mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
-
         mBeaconManager.bind(this);
 
     }
 
-
-    /**
-     * 비콘 Thread
-     */
     @Override
     public void onBeaconServiceConnect() {
         mBeaconManager.setRangeNotifier(new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                Log.i(CLASSNAME, "Beacon Size : " + beacons.size());
 
-//                List<ActivityManager.RunningTaskInfo> mActivityList = mActivityManager.getRunningTasks(1);
-//
-//                String motionActivityName = mActivityList.get(0).topActivity.toString();
-//                Log.i("activityName", String.valueOf(motionActivityName));
+                if (mIsProcessComplete) {
+                    mIsProcessComplete = false;
 
-                if (beacons.size() != 0) {
-                    Log.i("Beacon Service : ", "beacon find");
+                    if (beacons.size() == 0) {
+                        mIsProcessComplete = true;
+                        return;
+                    }
 
-                    ArrayList<Beacon> beaconList = new ArrayList<Beacon>(beacons);
-                    Collections.sort(beaconList, new NoDescCompare());
+                    ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+                    List<ActivityManager.RunningTaskInfo> taskInfos = activityManager.getRunningTasks(1);
+                    String runningActivityName = taskInfos.get(0).topActivity.getClassName();
 
-                    int measuredRssi = beaconList.get(0).getRssi();
+                    List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
 
+                    if (appProcesses == null) {
+                        mIsProcessComplete = true;
+                        return;
+                    }
 
-                    if (measuredRssi > mIgnore_Rssi) {
-                        String beaconId1 = beaconList.get(0).getId1().toString();
-                        String beaconId2 = beaconList.get(0).getId2().toString(); // major
-                        int beaconMinor = beaconList.get(0).getId3().toInt(); // minor
-
-                        setBeaconMinor(beaconMinor);
-
-
-                        if (mIsAttendActivityComplete == true) {//AttendActivity가 실행됫을시
-                            if (mFragmentDialog1Sign == true) {
-                                callDialogFragment1();
+                    for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+                        if (appProcess.processName.equalsIgnoreCase("com.android.beaconyx.yesdexproject")) {
+                            if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                                foregroundcheck = true;
+                            } else {
+                                foregroundcheck = false;
                             }
                         }
-                    }// 측정된 rssi가 크다면
+                    }
+
+                    ArrayList<Beacon> tempBeaconList = new ArrayList<>(beacons);
+                    Collections.sort(tempBeaconList, new NoDescCompare());
+                    int beaconRssi = tempBeaconList.get(0).getRssi();
+
+                    String beaconMajor = tempBeaconList.get(0).getId2().toString();
+                    String beaconMinor = tempBeaconList.get(0).getId3().toString();
+
+                    if (beaconMajor.equalsIgnoreCase("52")) {
+                        callDialogFragment1();
+                    } else if (beaconMajor.equalsIgnoreCase("51")) {
+
+                        if (beaconRssi > mIgnore_Rssi) {
+                            String beaconId = "m" + beaconMajor + "_" + beaconMinor;
+
+                            if (mTempBeaconID == null) {
+                                mTempBeaconID = beaconId;
+                                BeaconContentsModel beaconContentsModel = beaconContentsModelHashMap.get(beaconId);
+
+                                if (beaconContentsModel != null) {
+                                    if (beaconRssi > mIgnore_Rssi /*+ Integer.parseInt(beaconContentsModel.getBeaconRssi())*/) {
+                                        if (runningActivityName.contains("com.android.beaconyx.yesdexproject")) {
+                                            Log.i(CLASSNAME, "delivery");
+                                            mTempBeaconID2 = beaconId;
 
 
-                }// 비콘이 잡혓을때
+                                            deliveryContents(beaconContentsModel);
+                                        } else {
+                                            mTempBeaconID2 = beaconId;
+                                        }
+                                    } else {
+                                        //mTempBeaconID = mTempBeaconID2;
+                                    }
+                                } else {
+                                    mTempBeaconID = mTempBeaconID2;
+                                }
 
-                else {
-                    Log.i("Beacon Service : ", "beacon not find");
-                    setBeaconMinor(0);
-                }//비콘 반응이 없을때
+                            } else {
+                                if (!mTempBeaconID.equalsIgnoreCase(beaconId)) {
+                                    mTempBeaconID = beaconId;
+
+                                    BeaconContentsModel beaconContentsModel = beaconContentsModelHashMap.get(beaconId);
+                                    if (beaconContentsModel != null) {
+                                        if (beaconRssi > mIgnore_Rssi /*+ Integer.parseInt(beaconContentsModel.getBeaconRssi())*/) {
+                                            mTempBeaconID2 = beaconId;
+                                            beaconContentsModel.setBeaconID(mTempBeaconID);
+                                            if (runningActivityName.contains("com.android.beaconyx.yesdexproject")) {
+                                                Log.i(CLASSNAME, "delivery");
+                                                deliveryContents(beaconContentsModel);
+                                            } else {
+                                                mTempBeaconID2 = beaconId;
+
+                                            }
+                                        } else {
+                                            // mTempBeaconID = mTempBeaconID2;
+                                        }
+                                    } else {
+                                        mTempBeaconID2 = beaconId;
+                                    }
+                                } else {
+                                    mIsProcessComplete = true;
+                                }
+                            }
+
+                            mIsProcessComplete = true;
+                        } else {
+                            mIsProcessComplete = true;
+                        }
+                    }
+                    mIsProcessComplete = true;
+                }
+
+            }
+        });
+    }
 
 
-            }//end didRangeBeaconsInRegion
-        });//setRangeNotifier
-    }//onBeaconServiceConnect
-//
+    //region 엑티비티에 전달될 콜백
+    public interface OnBeaconEventCallBack {
+        void onBeaconEvent(BeaconContentsModel beaconContentsModel);
+    }
+
+    private OnBeaconEventCallBack onBeaconEventCallBack;
+
+    public void setOnBeaconEventCallBack(OnBeaconEventCallBack onBeaconEventCallBack) {
+        this.onBeaconEventCallBack = onBeaconEventCallBack;
+    }
+    //endregion
+
+    private void deliveryContents(BeaconContentsModel model) {
+        Message message = new Message();
+
+        message.obj = model;
+
+        deliveryEventHandler.sendMessage(message);//deliveryContents 메소드를 호출하면 deliveryEventHandler가 작동됨
+    }
+
+
+    Handler deliveryEventHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            BeaconContentsModel beaconContentsModel = (BeaconContentsModel) msg.obj;
+
+            if (beaconContentsModel != null) {
+                onBeaconEventCallBack.onBeaconEvent(beaconContentsModel);
+            } else {
+                onBeaconEventCallBack.onBeaconEvent(null);
+            }
+
+            mIsProcessComplete = true;
+        }
+    };
 
     /**
      * 비콘 Thread start
      */
     public void startBeaconThread() {
-        handler.sendEmptyMessageDelayed(0, 2000);
+        mIsProcessComplete = true;
+        beaconThreadHandler.sendEmptyMessageDelayed(0, 2000);
     }
 
     /**
      * 비콘 Thread stop
      */
     public void stopBeaconThread() {
-        handler.sendEmptyMessage(1);
+        mIsProcessComplete = false;
+        beaconThreadHandler.sendEmptyMessage(1);
     }
 
 
     //region 비콘 Thread Handler
-    Handler handler = new Handler() {
+    Handler beaconThreadHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -302,24 +385,38 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
 
     }
 
-    public void setFragmentDialog1Sign(boolean mFragmentDialog1Sign) {
-        this.mFragmentDialog1Sign = mFragmentDialog1Sign;
+    private boolean fragmentDialogSign = false;
+
+    public void setFragmentDialogSign(boolean fragmentDialogSign) {
+        this.fragmentDialogSign = fragmentDialogSign;
     }
 
-    public void setIsAttendActivityComplete(boolean mIsAttendActivityComplete) {
-        this.mIsAttendActivityComplete = mIsAttendActivityComplete;
+    private FragmentActivity fragmentActivity;
+
+    public void setFragmentActivity(FragmentActivity fragmentActivity) {
+        this.fragmentActivity = fragmentActivity;
     }
 
-    public void setMotionFragmentActivity(FragmentActivity mMotionActivity) {
-        this.mMotionFragmentActivity = mMotionActivity;
+    //region FragmentDialog1 부르기
+    private void callDialogFragment1() {
+        if (fragmentActivity != null && fragmentDialogSign == true) {
+            fragmentActivity.getFragmentManager().beginTransaction().remove(mDialogFragment1).commit();
+            mDialogFragment1.show(fragmentActivity.getFragmentManager(), "fragment1");
+
+            fragmentDialogSign = false;
+        }
+        else{
+            Log.i(CLASSNAME, "fragmentActivity is null");
+        }
+
+        mDialogFragment1.setOnDialogFragment1CancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                dialogInterface.cancel();
+            }
+        });
     }
 
-    public int getBeaconMinor() {
-        return mBeaconMinor;
-    }
-
-    private void setBeaconMinor(int mBeaconMinor) {
-        this.mBeaconMinor = mBeaconMinor;
-    }
+//endregion
 
 }

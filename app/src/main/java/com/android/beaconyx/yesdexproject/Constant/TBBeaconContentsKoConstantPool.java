@@ -13,4 +13,5 @@ public class TBBeaconContentsKoConstantPool {
     public static final String BCS_BEACON_MINOR = "BCS_BEACON_MINOR";
     public static final String BCS_ISE_X_ANDROID = "BCS_ISE_X_ANDROID";
     public static final String BCS_ISE_Y_ANDROID = "BCS_ISE_Y_ANDROID";
+    public static final String BCS_RSSI_COMPLEMENT = "BCS_RSSI_COMPLEMENT";
 }

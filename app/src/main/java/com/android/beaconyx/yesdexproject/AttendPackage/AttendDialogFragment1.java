@@ -63,7 +63,9 @@ public class AttendDialogFragment1 extends DialogFragment {
         inButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mThisApplication.setFragmentDialog1Sign(false);
+                //파스에 업데이트 해줘야되
+                //해당 디바이스의 UUID로 user_ko의 USR_USER_ID를 검색해서 이름과 넘버를 뽑고 출석시간 업데이트
+
                 onDialog1CancelListener.onCancel(getDialog());
                 callDialogFragment2();
             }
@@ -72,6 +74,7 @@ public class AttendDialogFragment1 extends DialogFragment {
         outButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mThisApplication.setFragmentDialogSign(true);
                 onDialog1CancelListener.onCancel(getDialog());
             }
         });
@@ -84,8 +87,8 @@ public class AttendDialogFragment1 extends DialogFragment {
     DialogInterface.OnKeyListener onKeyListener = new DialogInterface.OnKeyListener() {
         @Override
         public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+            mThisApplication.setFragmentDialogSign(true);
             dialogFragment1.onDialog1CancelListener.onCancel(getDialog());
-            mThisApplication.setFragmentDialog1Sign(true);
 
             return true;
         }
@@ -102,6 +105,7 @@ public class AttendDialogFragment1 extends DialogFragment {
         mDialogFragment2.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
+
                 dialogInterface.cancel();
             }
         });

@@ -1,4 +1,6 @@
-package com.android.beaconyx.yesdexproject.Load;
+package com.android.beaconyx.yesdexproject.Application;
+
+import com.android.beaconyx.yesdexproject.Load.LoadParseController;
 
 /**
  * Created by beaconyx on 2017-10-30.

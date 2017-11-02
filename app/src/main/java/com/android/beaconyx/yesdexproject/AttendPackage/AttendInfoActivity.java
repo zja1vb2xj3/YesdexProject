@@ -41,6 +41,8 @@ public class AttendInfoActivity extends FragmentActivity {
         initView();
 
         mThisApplication = (ThisApplication) this.getApplicationContext();
+        mThisApplication.setFragmentActivity(this);
+        mThisApplication.setFragmentDialogSign(true);
 
         mParseController = new AttendParseController();
         mParseController.setOnUpdateCertificationCallback(onUpdateCertificationCallback);
@@ -97,17 +99,15 @@ public class AttendInfoActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         Log.i(CLASSNAME, "onResume");
-//        mThisApplication.startBeaconThread();
-//        mThisApplication.setIsAttendActivityComplete(true); // AttendActivity 실행신호
-//        mThisApplication.setMotionFragmentActivity(this);
-//        mThisApplication.setFragmentDialog1Sign(true);
+        mThisApplication.startBeaconThread();
+        mThisApplication.setFragmentDialogSign(true); // AttendActivity 실행신호
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Log.i(CLASSNAME, "onPause");
-//        mThisApplication.stopBeaconThread();
+        mThisApplication.stopBeaconThread();
     }
 
     @Override

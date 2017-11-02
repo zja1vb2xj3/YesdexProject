@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
-    tools:context=".TabViewPagerPackage.AInfoActivity">
+    tools:context=".TabViewPagerPackage.AInfoActivity"
+    android:id="@+id/layout">
 
     <include
         android:id="@+id/top"

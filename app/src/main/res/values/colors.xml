@@ -9,4 +9,5 @@
     <color name="colorRed">#FF0000</color>
     <color name="colorBlue">#326bdf</color>
     <color name="appColor">#4F9EFF</color>
+    <color name="colorBlack">#000000</color>
 </resources>

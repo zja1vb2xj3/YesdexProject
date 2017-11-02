@@ -9,10 +9,9 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 
-import com.android.beaconyx.yesdexproject.Load.BeaconContentsModel;
+import com.android.beaconyx.yesdexproject.Application.BeaconContentsModel;
 import com.android.beaconyx.yesdexproject.R;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
@@ -98,11 +97,6 @@ public class MapView extends SubsamplingScaleImageView {
                 int pinViewWidth = getSWidth();
                 int pinViewHeight = getSHeight();
 
-
-                Log.i(CLASSNAME, "onDraw");
-                Log.i(CLASSNAME, String.valueOf(pinViewWidth));
-                Log.i(CLASSNAME, String.valueOf(pinViewHeight));
-
                 double reScaleWidth = pinViewWidth / (double) mMapViewWidth;
                 double reScaleHeight = pinViewHeight / (double) mMapViewHeight;
 
@@ -114,9 +108,6 @@ public class MapView extends SubsamplingScaleImageView {
                 final float yy = (float) (pointF.y * reScaleHeight);
 
                 PointF pinF = sourceToViewCoord(new PointF(xx, yy));
-//
-//                Log.i(CLASSNAME, String.valueOf(pinF.x));
-//                Log.i(CLASSNAME, String.valueOf(pinF.y));
 
 
                 //마커 위치
@@ -131,10 +122,7 @@ public class MapView extends SubsamplingScaleImageView {
                         (int) (pinY - (mMarkerBitmapList.get(i).getHeight()) * 2),
                         (int) (pinX + (mMarkerBitmapList.get(i).getWidth()) * 2),
                         (int) (pinY + (mMarkerBitmapList.get(i).getHeight()) * 2)
-//                        (int) (pinX - (mMarkerBitmapList.get(i).getWidth() / 1.2)),
-//                        (int) (pinY - (mMarkerBitmapList.get(i).getHeight() / 1.2)),
-//                        (int) (pinX + (mMarkerBitmapList.get(i).getWidth() / 1.2)),
-//                        (int) (pinY + (mMarkerBitmapList.get(i).getHeight() / 1.2))
+
                 );
 
                 mRectMarkerHashMap.put(mBeaconContentsModels.get(i).getBeaconID(), rect);
@@ -145,21 +133,26 @@ public class MapView extends SubsamplingScaleImageView {
         }
     }
 
+
     private void createMapMarkerBitmap(ArrayList<BeaconContentsModel> markerList) {
         if (markerList != null) {
             for (int i = 0; i < markerList.size(); i++) {
                 float density = getResources().getDisplayMetrics().densityDpi;
 
-                Log.i("createMarker", String.valueOf(density));
-
                 Paint paint = new Paint();
                 paint.setAntiAlias(true);
 
-                Bitmap onImage = BitmapFactory.decodeResource(getResources(), R.mipmap.on_marker_img);
-                Bitmap offImage = BitmapFactory.decodeResource(getResources(), R.mipmap.off_marker_img);
+                Bitmap bitmap = null;
 
-                float markerWidth = (density / 50000f) * offImage.getHeight();
-                float markerHeight = (density / 50000f) * offImage.getHeight();
+                if(markerList.get(i).getIsnotify() == true){
+                    bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.on_marker_img);
+                }
+                else{
+                    bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.off_marker_img);
+                }
+
+                float markerWidth = (density / 50000f) * bitmap.getHeight();
+                float markerHeight = (density / 50000f) * bitmap.getHeight();
 
                 if (markerWidth < 20) {
                     markerWidth = 20;
@@ -169,7 +162,7 @@ public class MapView extends SubsamplingScaleImageView {
                     markerHeight = 20;
                 }
 
-                Bitmap resizeOffBitmap = Bitmap.createScaledBitmap(offImage, (int) markerWidth, (int) markerHeight, true);
+                Bitmap resizeOffBitmap = Bitmap.createScaledBitmap(bitmap, (int) markerWidth, (int) markerHeight, true);
 
                 mMarkerBitmapList.add(resizeOffBitmap);
 
@@ -194,6 +187,7 @@ public class MapView extends SubsamplingScaleImageView {
                     if (model != null) {
                         if (MarkerTouch != null) {
                             MarkerTouch.onMarkerTouch(model);
+
                         }
                         break;
                     }

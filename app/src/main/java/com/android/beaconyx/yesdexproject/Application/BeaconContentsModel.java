@@ -1,4 +1,4 @@
-package com.android.beaconyx.yesdexproject.Load;
+package com.android.beaconyx.yesdexproject.Application;
 
 /**
  * Created by beaconyx on 2017-10-11.
@@ -11,9 +11,37 @@ public class BeaconContentsModel {
     private String beaconMinor;
     private int mapPositionX;
     private int mapPositionY;
+    private String beaconRssi;
+    private int mRssi;
 
+    private boolean isnotify = false;
     //region getter and setter
 
+
+    public boolean getIsnotify() {
+        return isnotify;
+    }
+
+    public void setIsnotify(boolean isnotify) {
+        this.isnotify = isnotify;
+    }
+
+
+    public int getRssi() {
+        return mRssi;
+    }
+
+    public void setRssi(int mRssi) {
+        this.mRssi = mRssi;
+    }
+
+    public String getBeaconRssi() {
+        return beaconRssi;
+    }
+
+    public void setBeaconRssi(String beaconRssi) {
+        this.beaconRssi = beaconRssi;
+    }
 
     public void setIdx(int idx) {
         this.idx = idx;
