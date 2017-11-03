@@ -22,7 +22,7 @@ import com.android.beaconyx.yesdexproject.TabViewPagerPackage.EInfoActivity;
 import com.android.beaconyx.yesdexproject.TabViewPagerPackage.FInfoActivity;
 import com.bumptech.glide.Glide;
 
-//
+//커밋테스트
 public class MainActivity extends Activity {
     private ThisApplication mThisApplication;
     private String CLASSNAME = getClass().getSimpleName();
