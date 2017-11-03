@@ -2,15 +2,17 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@color/appColor">
 
     <ImageView
+        android:layout_gravity="center|left"
         android:id="@+id/top_title_back"
-        android:layout_width="28dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="25dp"
         android:layout_marginBottom="3dp"
         android:layout_margin="5dp"
-        android:src="@mipmap/top_back_img" />
+        android:src="@mipmap/app_back_bt" />
 
     <TextView
         android:id="@+id/title"
@@ -19,6 +21,7 @@
         android:gravity="center"
         android:textAlignment="center"
         android:textSize="20dp"
+        android:textColor="@color/colorWhite"
         android:textStyle="bold" />
 
 

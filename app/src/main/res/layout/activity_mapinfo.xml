@@ -50,7 +50,7 @@
             android:id="@+id/listHideImage"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:background="@mipmap/list_exit_img"
+            android:background="@mipmap/close_bt"
             android:visibility="gone"
             />
     </LinearLayout>

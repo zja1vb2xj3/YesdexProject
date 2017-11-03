@@ -3,50 +3,58 @@
     android:id="@+id/beacon_reaction_popup"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ecbe17"
+    android:background="#f7ba02"
     android:gravity="center"
     android:orientation="vertical"
-    android:weightSum="10">
+   >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8.5"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         android:orientation="horizontal"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:gravity="center">
 
         <ImageView
+            android:adjustViewBounds="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@mipmap/dialog_img1"/>
+            android:src="@mipmap/dialog_img1"/>
 
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.5"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:weightSum="2"
-        android:layout_margin="10dp">
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="7"
+        android:gravity="bottom"
+
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/in_button"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
             android:layout_margin="1dp"
-            android:background="@mipmap/in_button_img"/>
+            android:background="@color/colorWhite"
+            android:text="퇴장"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textSize="25sp" />
 
-        <Button
-            android:id="@+id/out_button"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:background="@mipmap/out_button_img"/>
-    </LinearLayout>
+        <!--<Button-->
+        <!--android:visibility="gone"-->
+        <!--android:id="@+id/out_button"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_margin="1dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="@mipmap/out_button_img" />-->
+    </FrameLayout>
 
     <!--<LinearLayout-->
         <!--android:layout_width="match_parent"-->

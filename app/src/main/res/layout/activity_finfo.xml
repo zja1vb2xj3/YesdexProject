@@ -24,10 +24,12 @@
         android:layout_height="wrap_content"
         android:scrollbars="none">
 
-        <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-            android:id="@+id/zoomView"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/photoView"
+            android:adjustViewBounds="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
 
     </ScrollView>
 
