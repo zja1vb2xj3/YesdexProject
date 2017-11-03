@@ -55,13 +55,13 @@ public class CInfoActivity extends FragmentActivity {
     private ArrayList<Fragment> getFragment(){
         ArrayList<Fragment> fragments = new ArrayList<>();
 
-        PageFragment pageFragment = new PageFragment();
+        PageFragment pageFragment = new PageFragment(getApplicationContext());
         pageFragment.setmResId(R.mipmap.third_1);
 
-        PageFragment pageFragment1 = new PageFragment();
+        PageFragment pageFragment1 = new PageFragment(getApplicationContext());
         pageFragment1.setmResId(R.mipmap.third_2);
 
-        PageFragment pageFragment2 = new PageFragment();
+        PageFragment pageFragment2 = new PageFragment(getApplicationContext());
         pageFragment2.setmResId(R.mipmap.third_3);
 
 

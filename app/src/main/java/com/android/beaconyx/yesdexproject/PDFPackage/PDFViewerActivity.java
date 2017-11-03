@@ -15,7 +15,6 @@ import com.joanzapata.pdfview.PDFView;
 import java.io.File;
 
 
-
 public class PDFViewerActivity extends Activity {
     private ThisApplication mThisApplication;
     private LinearLayout mPDFLayout;

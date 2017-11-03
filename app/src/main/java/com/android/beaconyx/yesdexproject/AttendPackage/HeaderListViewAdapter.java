@@ -22,7 +22,6 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 public class HeaderListViewAdapter extends BaseAdapter implements StickyListHeadersAdapter {
     private ArrayList<HeaderListViewModel> mHeaderListModels;
-
     private LayoutInflater mInflater;
     private Context mContext;
 

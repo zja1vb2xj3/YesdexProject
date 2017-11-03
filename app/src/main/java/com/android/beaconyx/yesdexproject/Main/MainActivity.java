@@ -22,10 +22,11 @@ import com.android.beaconyx.yesdexproject.TabViewPagerPackage.EInfoActivity;
 import com.android.beaconyx.yesdexproject.TabViewPagerPackage.FInfoActivity;
 import com.bumptech.glide.Glide;
 
-//커밋테스트
+//
 public class MainActivity extends Activity {
     private ThisApplication mThisApplication;
     private String CLASSNAME = getClass().getSimpleName();
+    int ii = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,8 @@ public class MainActivity extends Activity {
         /**
          * 블루투스가 켜져있지 않으면 활성화
          */
+
+
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (!bluetoothAdapter.isEnabled()) {
             bluetoothAdapter.enable();

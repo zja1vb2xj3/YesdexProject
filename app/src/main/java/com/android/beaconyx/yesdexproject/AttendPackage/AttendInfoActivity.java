@@ -112,9 +112,9 @@ public class AttendInfoActivity extends FragmentActivity {
 
     @Override
     protected void onDestroy() {
+//        mThisApplication.mTempBeaconID2 = null;
         super.onDestroy();
     }
-
     /**
      * mLectureInfoListView onItemClickListener
      */

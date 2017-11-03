@@ -18,7 +18,6 @@ public class CustomViewPager extends ViewPager {
         super(context, attrs);
     }
 
-
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         try {

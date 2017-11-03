@@ -7,12 +7,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.beaconyx.yesdexproject.R;
-import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
 
 public class FInfoActivity extends Activity {
 
-    private SubsamplingScaleImageView zoomView;
+    private PhotoView photoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +21,10 @@ public class FInfoActivity extends Activity {
 
         titleInit();
 
-        zoomView = (SubsamplingScaleImageView) findViewById(R.id.zoomView);
-        zoomView.setImage(ImageSource.resource(R.mipmap.fifth_1));
+        photoView = findViewById(R.id.photoView);
+        photoView.setScaleType(ImageView.ScaleType.FIT_START);
+        photoView.setMinimumScale(1f);
+        Glide.with(getApplicationContext()).load(R.mipmap.fifth_1).into(photoView);
     }
 
     private void titleInit(){

@@ -56,16 +56,16 @@ public class BInfoActivity extends FragmentActivity {
     private ArrayList<Fragment> getFragment(){
         ArrayList<Fragment> fragments = new ArrayList<>();
 
-        PageFragment pageFragment = new PageFragment();
+        PageFragment pageFragment = new PageFragment(getApplicationContext());
         pageFragment.setmResId(R.mipmap.second_1);
 
-        PageFragment pageFragment1 = new PageFragment();
+        PageFragment pageFragment1 = new PageFragment(getApplicationContext());
         pageFragment1.setmResId(R.mipmap.second_2);
 
-        PageFragment pageFragment2 = new PageFragment();
+        PageFragment pageFragment2 = new PageFragment(getApplicationContext());
         pageFragment2.setmResId(R.mipmap.second_3);
 
-        PageFragment pageFragment3 = new PageFragment();
+        PageFragment pageFragment3 = new PageFragment(getApplicationContext());
         pageFragment3.setmResId(R.mipmap.second_4);
 
         fragments.add(pageFragment);

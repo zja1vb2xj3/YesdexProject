@@ -1,4 +1,4 @@
-package com.android.beaconyx.yesdexproject.Application;
+package com.android.beaconyx.yesdexproject.Temp;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -15,6 +15,7 @@ import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.android.beaconyx.yesdexproject.Application.BeaconContentsModel;
 import com.android.beaconyx.yesdexproject.AttendPackage.AttendDialogFragment1;
 import com.parse.Parse;
 import com.parse.ParseInstallation;
@@ -41,7 +42,7 @@ import java.util.UUID;
  * Created by user on 2017-10-15.
  */
 
-public class ThisApplication extends Application implements BeaconConsumer, BootstrapNotifier {
+public class beforeThisApplication extends Application implements BeaconConsumer, BootstrapNotifier {
     private BeaconManager mBeaconManager;
     private Region mRegion;
 
@@ -56,8 +57,8 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
 
     private final String CLASSNAME = "ThisApplication";
 
-    public static String mTempBeaconID = null;
-
+    private static String mTempBeaconID = null;
+    private static String mTempBeaconID2 = null;
     public static HashMap<String, BeaconContentsModel> beaconContentsModelHashMap = new HashMap<>();//static으로 안하면 변할수가 있음 중복막기+ rssi값 보정
 
     @Override
@@ -120,19 +121,9 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
 
         mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
         mRegion = new Region("myRangingUniqueId", Identifier.parse("a0fabefc-b1f5-4836-8328-7c5412fff9c4"), null, null);
-/*        List<Identifier> identifiers = new ArrayList<Identifier>();
-
-        mRegion= new Region("myRegion", identifiers);*/
         mBeaconManager = BeaconManager.getInstanceForApplication(this);
         mBeaconManager.setAndroidLScanningDisabled(true);
-
-        //값이 중복된 총 3초에 작동 조금씩 줄여가면서 작동 시간 단축
-        mBeaconManager.setBackgroundScanPeriod(1000);
-        mBeaconManager.setBackgroundBetweenScanPeriod(1000);
-        //
-        mBeaconManager.setForegroundScanPeriod(1000);
-        mBeaconManager.setForegroundBetweenScanPeriod(1000);
-
+        mBeaconManager.setBackgroundBetweenScanPeriod(2500);
         mBeaconManager = BeaconManager.getInstanceForApplication(this);
         mBeaconManager.bind(this);
 
@@ -154,6 +145,8 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
                     }
 
                     ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+                    List<ActivityManager.RunningTaskInfo> taskInfos = activityManager.getRunningTasks(1);
+                    String runningActivityName = taskInfos.get(0).topActivity.getClassName();
 
                     List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
 
@@ -180,52 +173,67 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
                     String beaconMinor = tempBeaconList.get(0).getId3().toString();
 
                     if (beaconMajor.equalsIgnoreCase("52")) {
-                        //중복체크 추가
-                        //모델 해쉬맵 다르게 major기준
-                        //mTempBeaconID 다르게
-                        //callDialogFragment1을 Activity로 넘기고 아래 중복 체크 와 동일하게 콜백을 만들어서 모델 보내고 프레그먼트에 데이터 추가
-                        Log.i(CLASSNAME, "beacon major = 52");
-
                         callDialogFragment1();
-
                     } else if (beaconMajor.equalsIgnoreCase("51")) {
-
-                        Log.i(CLASSNAME, "beacon major = 51");
 
                         if (beaconRssi > mIgnore_Rssi) {
                             String beaconId = "m" + beaconMajor + "_" + beaconMinor;
-                            BeaconContentsModel beaconContentsModel = beaconContentsModelHashMap.get(beaconId);
+
                             if (mTempBeaconID == null) {
+                                mTempBeaconID = beaconId;
+                                BeaconContentsModel beaconContentsModel = beaconContentsModelHashMap.get(beaconId);
+
                                 if (beaconContentsModel != null) {
-                                    deliveryContents(beaconContentsModel);
-                                    mTempBeaconID = beaconId;
-                                    mIsProcessComplete = true;
+                                    if (beaconRssi > mIgnore_Rssi /*+ Integer.parseInt(beaconContentsModel.getBeaconRssi())*/) {
+                                        if (runningActivityName.contains("com.android.beaconyx.yesdexproject")) {
+                                            Log.i(CLASSNAME, "delivery");
+                                            mTempBeaconID2 = beaconId;
+
+
+                                            deliveryContents(beaconContentsModel);
+                                        } else {
+                                            mTempBeaconID2 = beaconId;
+                                        }
+                                    } else {
+                                        //mTempBeaconID = mTempBeaconID2;
+                                    }
                                 } else {
-                                    mIsProcessComplete = true;
-                                    return;
-                                }
-                            } else {
-                                if (beaconId.equalsIgnoreCase(mTempBeaconID) == true) {
-                                    mIsProcessComplete = true;
-                                    return;
-                                } else {
-                                    deliveryContents(beaconContentsModel);
-                                    mTempBeaconID = beaconId;
-                                    mIsProcessComplete = true;
+                                    mTempBeaconID = mTempBeaconID2;
                                 }
 
+                            } else {
+                                if (!mTempBeaconID.equalsIgnoreCase(beaconId)) {
+                                    mTempBeaconID = beaconId;
+
+                                    BeaconContentsModel beaconContentsModel = beaconContentsModelHashMap.get(beaconId);
+                                    if (beaconContentsModel != null) {
+                                        if (beaconRssi > mIgnore_Rssi /*+ Integer.parseInt(beaconContentsModel.getBeaconRssi())*/) {
+                                            mTempBeaconID2 = beaconId;
+                                            beaconContentsModel.setBeaconID(mTempBeaconID);
+                                            if (runningActivityName.contains("com.android.beaconyx.yesdexproject")) {
+                                                Log.i(CLASSNAME, "delivery");
+                                                deliveryContents(beaconContentsModel);
+                                            } else {
+                                                mTempBeaconID2 = beaconId;
+
+                                            }
+                                        } else {
+                                            // mTempBeaconID = mTempBeaconID2;
+                                        }
+                                    } else {
+                                        mTempBeaconID2 = beaconId;
+                                    }
+                                } else {
+                                    mIsProcessComplete = true;
+                                }
                             }
+
                             mIsProcessComplete = true;
-                            return;
                         } else {
                             mIsProcessComplete = true;
-                            return;
                         }
-
-                    } else {
-                        mIsProcessComplete = true;
                     }
-
+                    mIsProcessComplete = true;
                 }
 
             }
@@ -259,19 +267,15 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            try {
-                BeaconContentsModel beaconContentsModel = (BeaconContentsModel) msg.obj;
+            BeaconContentsModel beaconContentsModel = (BeaconContentsModel) msg.obj;
 
-                if (beaconContentsModel != null) {
-                    onBeaconEventCallBack.onBeaconEvent(beaconContentsModel);
-                } else {
-                    onBeaconEventCallBack.onBeaconEvent(null);
-                }
-            }catch (Exception e){
-
+            if (beaconContentsModel != null) {
+                onBeaconEventCallBack.onBeaconEvent(beaconContentsModel);
+            } else {
+                onBeaconEventCallBack.onBeaconEvent(null);
             }
 
-          //  mIsProcessComplete = true;
+            mIsProcessComplete = true;
         }
     };
 
@@ -401,7 +405,8 @@ public class ThisApplication extends Application implements BeaconConsumer, Boot
             mDialogFragment1.show(fragmentActivity.getFragmentManager(), "fragment1");
 
             fragmentDialogSign = false;
-        } else {
+        }
+        else{
             Log.i(CLASSNAME, "fragmentActivity is null");
         }
 

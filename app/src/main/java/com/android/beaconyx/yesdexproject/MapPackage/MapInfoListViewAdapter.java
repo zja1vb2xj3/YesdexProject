@@ -1,9 +1,6 @@
 package com.android.beaconyx.yesdexproject.MapPackage;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.android.beaconyx.yesdexproject.R;
+import com.bumptech.glide.Glide;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -32,17 +28,16 @@ class MapInfoListViewAdapter extends BaseAdapter {
 
     private ArrayList<String> titles;
     private ArrayList<String> subtitles;
-    private Handler handler;
-
-    MapInfoListViewAdapter() {
+    private Context context;
+    MapInfoListViewAdapter(Context context) {
         imageUrls = new ArrayList<>();
         titles = new ArrayList<>();
         subtitles = new ArrayList<>();
-        handler = new Handler();
+        this.context = context;
     }
 
-    void clearAdapter(){
-        if(imageUrls != null || titles != null || subtitles != null) {
+    void clearAdapter() {
+        if (imageUrls != null || titles != null || subtitles != null) {
             imageUrls.clear();
             titles.clear();
             subtitles.clear();
@@ -50,7 +45,7 @@ class MapInfoListViewAdapter extends BaseAdapter {
     }
 
 
-    void addItem(String imageUrl, String title, String subtitle){
+    void addItem(String imageUrl, String title, String subtitle) {
         try {
             if (imageUrl != null || title != null || subtitle != null) {
                 URL url = new URL(imageUrl);
@@ -58,62 +53,38 @@ class MapInfoListViewAdapter extends BaseAdapter {
                 titles.add(title);
                 subtitles.add(subtitle);
             }
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
-        final Context context = parent.getContext();
+
+
+        MapInfoListViewHolder mapInfoListViewHolder;
 
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.listview_row_mapinfo, parent, false);
+            mapInfoListViewHolder = new MapInfoListViewHolder();
+            mapInfoListViewHolder.circleImageView = view.findViewById(R.id.circleImageView);
+            mapInfoListViewHolder.title = view.findViewById(R.id.title);
+            mapInfoListViewHolder.subtitle = view.findViewById(R.id.subtitle);
+
+
+            view.setTag(mapInfoListViewHolder);
+        }
+        else{
+            mapInfoListViewHolder = (MapInfoListViewHolder) view.getTag();
         }
 
-        final CircleImageView circleImageView = view.findViewById(R.id.circleImageView);
-        final TextView title = view.findViewById(R.id.title);
-        final TextView subtitle = view.findViewById(R.id.subtitle);
+        final String titleStr = titles.get(position);
+        final String subtitleStr = subtitles.get(position);
 
-        Thread setListThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    InputStream inputStream = imageUrls.get(position).openStream();
-                    final Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                    final String titleStr = titles.get(position);
-                    final String subtitleStr = subtitles.get(position);
-
-
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            int bitmapWidth = bitmap.getWidth();
-                            int bitmapHeight = bitmap.getHeight();
-
-                            Bitmap resized = null;
-                            while (bitmapHeight > 118){
-                                resized = Bitmap.createScaledBitmap(bitmap, (bitmapWidth * 118) / bitmapHeight, 118 ,true);
-                                bitmapHeight = resized.getHeight();
-                                bitmapWidth = resized.getWidth();
-                            }
-
-                            circleImageView.setImageBitmap(resized);
-                            title.setText(titleStr);
-                            subtitle.setText(subtitleStr);
-                        }
-                    });//end handler
-                }//end try
-                catch (IOException e){
-
-                }
-            }
-        });
-
-        setListThread.start();
+        Glide.with(context).load(imageUrls.get(position)).into(mapInfoListViewHolder.circleImageView);
+        mapInfoListViewHolder.title.setText(titleStr);
+        mapInfoListViewHolder.subtitle.setText(subtitleStr);
 
         return view;
     }
@@ -133,4 +104,10 @@ class MapInfoListViewAdapter extends BaseAdapter {
         return position;
     }
 
+
+    private class MapInfoListViewHolder {
+        CircleImageView circleImageView;
+        TextView title;
+        TextView subtitle;
+    }
 }

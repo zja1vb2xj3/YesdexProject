@@ -78,6 +78,7 @@ public class MapView extends SubsamplingScaleImageView {
         mMapViewHeight = height;
     }
 
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -127,7 +128,16 @@ public class MapView extends SubsamplingScaleImageView {
 
                 mRectMarkerHashMap.put(mBeaconContentsModels.get(i).getBeaconID(), rect);
 
+                //이미지 보정 함수
+                //Bitmap bitmap = mMarkerBitmapList.get(i);
+                //Bitmap resizeOffBitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * reScaleWidth), (int) (bitmap.getHeight()*reScaleHeight), true);
+
+                //canvas.drawBitmap(resizeOffBitmap, pinX, pinY, paint);//이미지 , x,y
+                //이미지 보정 함수
+
+
                 canvas.drawBitmap(mMarkerBitmapList.get(i), pinX, pinY, paint);//이미지 , x,y
+
 
             }
         }
@@ -151,7 +161,7 @@ public class MapView extends SubsamplingScaleImageView {
                     bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.off_marker_img);
                 }
 
-                float markerWidth = (density / 50000f) * bitmap.getHeight();
+/*                float markerWidth = (density / 50000f) * bitmap.getHeight();
                 float markerHeight = (density / 50000f) * bitmap.getHeight();
 
                 if (markerWidth < 20) {
@@ -162,9 +172,11 @@ public class MapView extends SubsamplingScaleImageView {
                     markerHeight = 20;
                 }
 
-                Bitmap resizeOffBitmap = Bitmap.createScaledBitmap(bitmap, (int) markerWidth, (int) markerHeight, true);
+                Bitmap resizeOffBitmap = Bitmap.createScaledBitmap(bitmap, (int) markerWidth, (int) markerHeight, true);*/
 
-                mMarkerBitmapList.add(resizeOffBitmap);
+
+
+                mMarkerBitmapList.add(bitmap);
 
             }//end for
         }//end if

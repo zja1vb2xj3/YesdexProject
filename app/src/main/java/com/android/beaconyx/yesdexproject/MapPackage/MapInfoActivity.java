@@ -56,7 +56,7 @@ public class MapInfoActivity extends Activity {
         beaconParseController.setOnFindBeaconContentsCallBack(onFindBeaconContentsCallBack);
 
         mMarkerInfoListView = (ListView) findViewById(R.id.listview);
-        listViewAdapter = new MapInfoListViewAdapter();
+        listViewAdapter = new MapInfoListViewAdapter(getApplicationContext());
 
         mListHideImage = (ImageView) findViewById(R.id.listHideImage);
         mListHideImage.setOnClickListener(new View.OnClickListener() {
@@ -170,6 +170,11 @@ public class MapInfoActivity extends Activity {
 
     }//MapActivity화면 false 및 Thread stop
 
+    @Override
+    protected void onDestroy() {
+        mThisApplication.mTempBeaconID = null;
+        super.onDestroy();
+    }
 
     MapView.OnMarkerTouchListener onMarkerTouchListener = new MapView.OnMarkerTouchListener() {
         @Override

@@ -58,7 +58,7 @@ public class AttendDialogFragment1 extends DialogFragment {
         layout.setMinimumHeight((int) minHeight);
 
         Button inButton = (Button) dialogView.findViewById(R.id.in_button);
-        Button outButton = (Button) dialogView.findViewById(R.id.out_button);
+//        Button outButton = (Button) dialogView.findViewById(R.id.out_button);
 
         inButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,13 +71,13 @@ public class AttendDialogFragment1 extends DialogFragment {
             }
         });
 
-        outButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mThisApplication.setFragmentDialogSign(true);
-                onDialog1CancelListener.onCancel(getDialog());
-            }
-        });
+//        outButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mThisApplication.setFragmentDialogSign(true);
+//                onDialog1CancelListener.onCancel(getDialog());
+//            }
+//        });
 
 
         return builder.create();

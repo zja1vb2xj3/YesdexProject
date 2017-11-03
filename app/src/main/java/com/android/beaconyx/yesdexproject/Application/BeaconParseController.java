@@ -31,7 +31,7 @@ public class BeaconParseController {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery(TBCompanyKoConstantPool.TB_Company_Ko);
 
-        query.whereContains(TBCompanyKoConstantPool.CPY_BEACON_ID, beaconid);
+        query.whereContains(TBCompanyKoConstantPool.CPY_BEACON_ID, beaconid + ",");
 
         boolean isCache = query.hasCachedResult();
         if (isCache == true) {

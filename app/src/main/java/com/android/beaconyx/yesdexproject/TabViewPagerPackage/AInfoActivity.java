@@ -53,8 +53,6 @@ public class AInfoActivity extends FragmentActivity {
                 mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
                 mTabLayout.addTab(mTabLayout.newTab().setText("인사말"));
                 mTabLayout.addTab(mTabLayout.newTab().setText("행사개요"));
-                mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
                 ArrayList<Fragment> fragments = getFragment();
 
                 setViewPager(fragments);
@@ -65,10 +63,10 @@ public class AInfoActivity extends FragmentActivity {
     private ArrayList<Fragment> getFragment(){
         ArrayList<Fragment> fragments = new ArrayList<>();
 
-        PageFragment pageFragment = new PageFragment();
+        PageFragment pageFragment = new PageFragment(getApplicationContext());
         pageFragment.setmResId(R.mipmap.first_1);
 
-        PageFragment pageFragment1 = new PageFragment();
+        PageFragment pageFragment1 = new PageFragment(getApplicationContext());
         pageFragment1.setmResId(R.mipmap.first_2);
 
         fragments.add(pageFragment);
@@ -82,6 +80,12 @@ public class AInfoActivity extends FragmentActivity {
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), fragments);
 
         final CustomViewPager viewPager = (CustomViewPager) findViewById(R.id.viewPager);
+//
+//        View view= viewPager.getChildCount();
+//
+//        SubsamplingScaleImageView imageView = view.findViewById(R.id.pagerimg);
+//        imageView.setForegroundGravity(Gravity.TOP);
+
 
         viewPager.setAdapter(adapter);
 

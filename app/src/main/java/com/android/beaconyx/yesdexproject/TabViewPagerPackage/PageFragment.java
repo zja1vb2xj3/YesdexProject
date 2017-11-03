@@ -1,17 +1,18 @@
 package com.android.beaconyx.yesdexproject.TabViewPagerPackage;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.android.beaconyx.yesdexproject.R;
-import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.github.chrisbanes.photoview.PhotoView;
 
 /**
  * Created by beaconyx on 2017-10-09.
@@ -19,10 +20,11 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
 public class PageFragment extends Fragment {
 
-    private SubsamplingScaleImageView pageImageView;
     private int mResId;
+    private Context context;
 
-    public PageFragment() {
+    public PageFragment(Context context) {
+        this.context = context;
     }
 
     public void setmResId(int mResId) {
@@ -32,14 +34,14 @@ public class PageFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.page_fragment, container, false);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         view.setLayoutParams(params);
-//        view.setForegroundGravity(Gravity.TOP);
 
-        pageImageView = view.findViewById(R.id.pagerimg);
-        pageImageView.setImage(ImageSource.resource(mResId));
+        PhotoView pageImageView = view.findViewById(R.id.pagerimg);
+        pageImageView.setImageResource(mResId);
+        pageImageView.setScaleType(ImageView.ScaleType.FIT_START);
+        pageImageView.setMinimumScale(1f);
 
         return view;
     }
@@ -48,5 +50,6 @@ public class PageFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
     }
+
 
 }
